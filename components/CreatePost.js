@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { BsEye, BsEyeFill } from 'react-icons/bs';
+import { BsEyeFill } from 'react-icons/bs';
 import { FaImage, FaRegGrinAlt, FaVideo } from 'react-icons/fa';
 import { useGlobalContext } from '../context/GlobalContext';
 
@@ -21,8 +21,8 @@ const CreatePost = () => {
             </a>
           </Link>
           <button
-            className="bg-secondary flex-1 rounded-full p-2 text-left hover:bg-gray-100 focus:bg-gray-200 transition text-lg text-gray-500 active:outline-none"
-            onClick={() => setState({ ...state, showCreatePostModel: true })}
+            className="bg-secondary flex-1 rounded-full p-2 text-left hover:bg-gray-200 focus:bg-gray-300 transition text-lg text-gray-500 active:outline-none"
+            onClick={() => setState({ ...state, showCreatePostModel: true})}
           >
             What's on your mind, <span className="capitalize">mubarak</span>?
           </button>

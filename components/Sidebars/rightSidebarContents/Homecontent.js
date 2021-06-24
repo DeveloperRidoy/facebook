@@ -1,30 +1,36 @@
-import { BsPlus, BsSearch } from "react-icons/bs";
+import { BsPlus, BsSearch, BsThreeDots } from "react-icons/bs";
 import { FaVideo } from "react-icons/fa"
 import DotButton from "../../Buttons/DotButton";
 import Link from 'next/link';
 
 const Homecontent = () => {
     return (
-      <div className="py-3">
-        <div className="flex items-center font-semibold text-gray-600">
+      <div className="">
+        <div className="flex items-center font-semibold text-gray-500">
           <p className="capitalize text-lg">contacts</p>
           <div className="ml-16 flex items-center">
             <button
-              className="flex justify-center items-center h-8 w-8 hover:bg-gray-200 active:bg-gray-300 transition active:outline-none rounded-full"
-              tooltip="new room"
+              className="flex justify-center items-center h-8 w-8 hover:bg-gray-200 active:bg-gray-300 transition active:outline-none rounded-full text-lg"
+              tooltip="New Room"
             >
               <div className="relative">
-                <FaVideo />
+                <FaVideo className="text-sm"/>
                 <BsPlus className="absolute top-0 -left-px text-white text-sm font-bold" />
               </div>
             </button>
             <button
-              className="flex justify-center items-center h-8 w-8 hover:bg-gray-200 active:bg-gray-300 transition active:outline-none rounded-full"
-              tooltipright="search by name/group"
+              className="flex justify-center items-center h-8 w-8 hover:bg-gray-200 active:bg-gray-300 transition active:outline-none rounded-full z-10"
+              tooltipright="Search by name/group"
             >
               <BsSearch />
             </button>
-            <DotButton tooltipright="options" />
+            <button
+              className="flex justify-center items-center h-8 w-8 hover:bg-gray-200 active:bg-gray-300 transition active:outline-none rounded-full z-10"
+              tooltipright="Search by name/group"
+            >
+              <BsThreeDots />
+            </button>  
+           
           </div>
         </div>
         <div className="mt-3 px-1">

@@ -1,7 +1,7 @@
 const MarketPlaceContent = () => {
     return (
         <div>
-            marketplace
+            {/* marketplace */}
         </div>
     )
 }

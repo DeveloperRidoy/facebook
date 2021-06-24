@@ -1,18 +1,17 @@
-import { useState } from "react"
+
 import Link from 'next/link';
-import { FaAd, FaBusinessTime, FaCalendarAlt, FaClock, FaCreditCard, FaFacebookMessenger, FaFlag, FaGratipay, FaPaperPlane, FaPlaystation, FaRibbon, FaShoppingBag, FaSignal, FaStoreAlt, FaTint, FaUserAlt, FaUserAltSlash, FaUserFriends, FaUsers } from 'react-icons/fa';
+import { FaAd, FaBusinessTime, FaCalendarAlt, FaClock, FaCreditCard, FaFacebookMessenger, FaFlag, FaGratipay, FaPaperPlane, FaPlaystation, FaRibbon, FaSignal, FaStoreAlt, FaTint, FaUserAlt, FaUserAltSlash, FaUserFriends, FaUsers } from 'react-icons/fa';
 import { IoTv } from "react-icons/io5";
 
 const HomeContent = () => {
     
-    const [expand, setExpand] = useState(false);
     
     const Item = ({children, link="/"}) => {
         return (
           <Link href={link}>
             <a
               href={link}
-              className="p-2 transition hover:bg-gray-300 flex items-center rounded-md"
+              className="p-2 transition hover:bg-gray-200 active:bg-gray-300 flex items-center rounded-md"
             >
               {children}
             </a>

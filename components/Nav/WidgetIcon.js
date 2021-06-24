@@ -14,14 +14,15 @@ const WidgetIcon = ({
       <Link href={link}>
         <a
           href={link}
-          className={`${className} flex-1 flex justify-center items-center jusfity-center hover:bg-secondary transition ${
+          className={`${className} flex-1 flex justify-center items-center jusfity-center transition group ${
             active ? "border-b-4 border-blue-500 text-blue-500" : ""
           }`}
           tabIndex={tabIndex}
           tooltip={tooltip}
         >
-          <div className="relative">
-            {children}
+          <div className={` p-2 rounded w-full flex items-center justify-center transition ${active ? '' : "group-hover:bg-secondary dark:group-hover:bg-coolGray-600"}`}>
+            <div className="relative">
+              {children}
             {notifications > 0 && (
               <div
                 className={`absolute -top-1  rounded-full bg-red-500 flex justify-center items-center text-sm text-white h-4 ${
@@ -31,6 +32,7 @@ const WidgetIcon = ({
                 {notifications > 9 ? `9+` : notifications}
               </div>
             )}
+            </div>
           </div>
         </a>
       </Link>

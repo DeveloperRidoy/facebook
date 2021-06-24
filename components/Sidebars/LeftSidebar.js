@@ -7,7 +7,7 @@ const LeftSidebar = ({ className, route }) => {
   return (
     <div className={className}>
       <div className="h-full flex flex-col justify-between relative">
-        <div className="p-2 max-h-5/6 overflow-hidden hover:overflow-auto styled-scrollbar">
+        <div className="px-2 pt-[20px] max-h-5/6 overflow-hidden hover:overflow-auto styled-scrollbar">
           {route === '/' ? <HomeContent/>: route === '/marketplace' ? <MarketPlaceContent/>: '' } 
         </div>
         <div className="border-t-2 border-gray-300 text-capitalize p-5">

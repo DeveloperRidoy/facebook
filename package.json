@@ -6,7 +6,8 @@
     "dev": "node server/server.js",
     "build": "next build",
     "next-start": "next start",
-    "start": "node server/server.js"
+    "start": "node server/server.js",
+    "server": "nodemon server/server.js"
   },
   "dependencies": {
     "axios": "^0.21.1",
@@ -14,12 +15,15 @@
     "cookie-parser": "^1.4.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "express-mongo-sanitize": "^2.1.0",
     "farmhash": "^3.2.1",
     "helmet": "^4.6.0",
+    "hpp": "^0.2.3",
     "mongoose": "^5.12.14",
     "mongoose-unique-validator": "^2.0.3",
     "morgan": "^1.10.0",
     "next": "^11.0.0",
+    "nookies": "^2.5.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.2.0",
@@ -32,7 +36,7 @@
     "autoprefixer": "^10.0.4",
     "nodemon": "^2.0.7",
     "postcss": "^8.1.10",
-    "tailwindcss": "^2.1.1"
+    "tailwindcss": "^2.2.2"
   },
   "engines": {
     "node": "15.3.0"

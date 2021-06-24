@@ -1,9 +1,5 @@
 const marketplace = () => {
-    return (
-        <div>
-            marketplace
-        </div>
-    )
+    return <div className="bg-blue-100 h-full">marketplace</div>;
 }
 
 export default marketplace

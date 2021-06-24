@@ -1,5 +1,5 @@
 import PostButton from "../../Buttons/PostButton";
-import { BsChatQuoteFill, BsX } from "react-icons/bs";
+import { BsChatQuoteFill, BsThreeDots, BsX } from "react-icons/bs";
 import { FaCaretDown, FaGlobeAsia, FaImage, FaLock, FaUserFriends, FaUserTag, FaRegGrinAlt, FaMapMarkerAlt } from "react-icons/fa";
 import Link from "next/link";
 import { ADD_TO_POST, AUDIENCE, FRIENDS, HOST_QA, ONLY_ME, POST, PUBLIC, QA } from "../../../utils/variables";
@@ -105,32 +105,31 @@ const CreatePostForm = ({closeModel, setToggleModel, toggleModel, formData, setF
                 Add to Your Post
               </button>
               <div className="flex items-center gap-x-2 text-2xl z-10">
-                <button tooltiptop="photo/video">
+                <button tooltiptop="Photo/Video" className="active:outline-none ">
                   <FaImage className="text-emerald-500 transform -rotate-12" />
                 </button>
-                <button tooltiptop="tag people">
+                <button tooltiptop="Tag People" className="active:outline-none ">
                   <FaUserTag className="text-blue-500" />
                 </button>
-                <button tooltiptop="feeling/activity">
+                <button tooltiptop="Feeling/Activity" className="active:outline-none ">
                   <FaRegGrinAlt className="text-yellow-500" />
                 </button>
-                <button tooltiptop="check in">
+                <button tooltiptop="Check In" className="active:outline-none ">
                   <FaMapMarkerAlt className="text-red-500" />
                 </button>
                 <button
-                  tooltiptop="host a q&a"
+                  className="active:outline-none "
+                  tooltiptop="Host A Q&A"
                   onClick={() => setToggleModel(HOST_QA)}
                 >
                   <BsChatQuoteFill className="text-red-500" />
                 </button>
                 <button
-                  className="flex gap-x-[2px] h-7 w-7 rounded-full justify-center items-center active:outline-none active:bg-gray-200"
-                  tooltiptop="more"
+                  className="active:outline-none "
+                  tooltiptop="More"
                   onClick={() => setToggleModel(ADD_TO_POST)}
                 >
-                  <div className="h-[3px] w-[3px] bg-gray-700 rounded-full"></div>
-                  <div className="h-[3px] w-[3px] bg-gray-700 rounded-full"></div>
-                  <div className="h-[3px] w-[3px] bg-gray-700 rounded-full"></div>
+                  <BsThreeDots/>
                 </button>
               </div>
             </div>

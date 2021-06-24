@@ -5,8 +5,9 @@ const RightSidebar = ({className, route}) => {
       <div
         className={className}
       >
-        <div className="h-full overflow-hidden hover:overflow-auto styled-scrollbar ">
-          {route === '/' ? <Homecontent/>: ''}
+        <div className=" h-full pt-[12px] overflow-hidden hover:overflow-auto styled-scrollbar ">
+          {route === '/' ? <Homecontent /> : ''}
+          
         </div>
       </div>
     );

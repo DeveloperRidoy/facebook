@@ -1,23 +1,23 @@
 
-const MenuIcon = () => {
+const MenuIcon = ({className}) => {
     
     const Dot = () => (
-      <i className="h-[4px] w-[4px] rounded-full bg-black ml-0.5"></i>
+      <i className={`h-[5px] w-[5px] rounded-full bg-black dark:bg-white ${className}`}></i>
     );
     
     return (
       <div>
-        <div className="flex mb-0.5">
+        <div className="flex justify-center items-center gap-x-[2px] mb-0.5">
           <Dot/>
           <Dot/>
           <Dot />
         </div>
-        <div className="flex mb-0.5">
+        <div className="flex justify-center items-center gap-x-[2px] mb-0.5">
           <Dot/>
           <Dot/>
           <Dot/>
         </div>
-        <div className="flex">
+        <div className="flex justify-center gap-x-[2px] items-center">
           <Dot/>
           <Dot/>
           <Dot/>

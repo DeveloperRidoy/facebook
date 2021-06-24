@@ -1,9 +1,5 @@
 const gaming = () => {
-    return (
-        <div>
-            gaming
-        </div>
-    )
+    return <div className="bg-blue-100 h-full">gaming</div>;
 }
 
 export default gaming

@@ -10,8 +10,9 @@ const morgan = require("morgan");
 const helmet = require('helmet');
 const xss = require('xss-clean');
 const socket = require("./io/socket");
-const connectDb = require("./db/connectDb");
-
+const connectDb = require("./mongoDb/connectDb");
+const mongoSanitize = require('express-mongo-sanitize');
+const hpp = require('hpp');
 
 // environmental variables
 dotenv.config({ path: `${__dirname}/.env.local` });
@@ -25,11 +26,17 @@ nextApp
   .then(() => {
       
     // trust proxy
-    app.enable("trust proxy");
+    app.enable("trust proxy", 1);
 
     // http helmet 
     app.use(helmet())
     
+    // http parameter pollution 
+    app.use(hpp());
+
+    // mongo sanitize
+    app.use(mongoSanitize());
+
     // cross site scripting 
     app.use(xss());
       
@@ -51,6 +58,12 @@ nextApp
 
     // connect db 
     connectDb();
+
+    // api routes 
+    const routes = ['users']
+
+    // handle routes requests 
+    routes.forEach(route => app.use(`/api/v1/${route}`, require(`${__dirname}/api/v1/routes/${route}`)))
 
     // handle nextJs requests
     app.get("*", (req, res) => handle(req, res));

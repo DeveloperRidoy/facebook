@@ -17,7 +17,7 @@ const AddToYourPost = ({ setToggleModel, formData, setFormData, toggleModel }) =
         </div>
         <div className="p-4 grid grid-cols-2 text-lg">
           <Item text="photo/video">
-            <FaImage className="text-emerald-500 text-2xl transform -rotate-12" />
+            <FaImage className="text-emerald-500 text-2xl -rotate-12" />
           </Item>
           <Item text="tag people">
             <FaUserTag className="text-blue-500 text-2xl" />

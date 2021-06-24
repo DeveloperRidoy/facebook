@@ -1,6 +1,6 @@
 const watch = () => {
     return (
-        <div>
+        <div className="bg-blue-100 h-full">
             watch
         </div>
     )

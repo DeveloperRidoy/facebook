@@ -6,7 +6,6 @@ class MyDocument extends Document {
       <Html>
         <Head>
           <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
-          <title>Facebook-2.0</title>
         </Head>
         <body>
           <Main />
