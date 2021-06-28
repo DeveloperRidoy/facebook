@@ -4,9 +4,9 @@ import { FaArrowLeft, FaClipboardList, FaCog, FaGlobe, FaLock, FaNewspaper, FaUs
 const SettingsPrivacy = ({ setMode}) => {
     return (
       <div className={`w-full transition p-1`}>
-        <div className="flex gap-x-3">
+        <div className="flex gap-x-3 mb-2">
           <button
-            className="p-2 ml-2 rounded-full hover:bg-secondary active:bg-gray-300 active:outline-none"
+            className="p-2 ml-2 rounded-full hover:bg-secondary dark:hover:bg-dark-400 active:bg-gray-300 active:outline-none"
             onClick={() => setMode(null)}
           >
             <FaArrowLeft />
@@ -16,22 +16,22 @@ const SettingsPrivacy = ({ setMode}) => {
           </p>
         </div>
         <Item link="/settings" text="settings">
-            <FaCog/>
+          <FaCog />
         </Item>
         <Item link="/privacy-checkup" text="privacy checkup">
-            <FaUserLock/>
+          <FaUserLock />
         </Item>
         <Item link="/privacy-shortcuts" text="privacy shortcuts">
-            <FaLock/>
+          <FaLock />
         </Item>
         <Item link="/activity-lg" text="activity lg">
-            <FaClipboardList/>
+          <FaClipboardList />
         </Item>
         <Item link="/news-feed-preferences" text="news feed preferences">
-            <FaNewspaper/>
+          <FaNewspaper />
         </Item>
         <Item link="/language" text="language">
-            <FaGlobe/>
+          <FaGlobe />
         </Item>
       </div>
     );
@@ -40,11 +40,11 @@ const SettingsPrivacy = ({ setMode}) => {
 export default SettingsPrivacy
 
 
-const Item = ({children, link, text}) => (
+const Item = ({ children, link, text }) => (
   <Link href={link}>
     <a
       href={link}
-      className="w-full flex items-center justify-between p-2.5 rounded-lg hover:bg-secondary transition group active:outline-none"
+      className="w-full flex items-center justify-between p-2.5 rounded-lg hover:bg-secondary dark:hover:bg-dark-400 transition group active:outline-none"
     >
       <div className="flex gap-x-3 items-center">
         <div className="p-2 rounded-full bg-gray-400 bg-opacity-40 transition group-hover:bg-opacity-50 text-xl">

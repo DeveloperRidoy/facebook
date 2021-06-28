@@ -20,7 +20,7 @@ const WidgetIcon = ({
           tabIndex={tabIndex}
           tooltip={tooltip}
         >
-          <div className={` p-2 rounded w-full flex items-center justify-center transition ${active ? '' : "group-hover:bg-secondary dark:group-hover:bg-coolGray-600"}`}>
+          <div className={` p-2 rounded w-full flex items-center justify-center transition ${active ? '' : "group-hover:bg-secondary dark:group-hover:bg-dark-400"}`}>
             <div className="relative">
               {children}
             {notifications > 0 && (

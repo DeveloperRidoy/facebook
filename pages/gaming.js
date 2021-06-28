@@ -1,5 +1,10 @@
+import Authentication from "../utils/functions/authentication";
+
+
 const gaming = () => {
-    return <div className="bg-blue-100 h-full">gaming</div>;
+    return <div className=" h-full">gaming</div>;
 }
 
 export default gaming
+
+export const getServerSideProps = async ({ req }) => await Authentication(req);

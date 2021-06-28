@@ -33,7 +33,7 @@ const QADiv = ({ formData, setFormData, setToggleModel, locked, closeQA }) => (
       <div>
         <BackgroundSetter formData={formData} setFormData={setFormData} />
         <button
-          className="w-full mt-3 py-2 capitalize rounded-lg bg-white text-gray-700 disabled:text-gray-300 font-semibold hover:bg-gray-200 active:bg-gray-300 transform active:scale-[99%] active:outline-none transition disabled:pointer-events-none"
+          className="w-full mt-3 py-2 capitalize rounded-lg bg-white dark:bg-dark text-gray-700 dark:text-white  disabled:text-gray-300 dark:disabled:text-gray-500 font-semibold hover:bg-gray-200 active:bg-gray-300 transform active:scale-[99%] active:outline-none transition disabled:pointer-events-none"
           disabled={!formData.qaText}
           onClick={() => {
             setToggleModel(null);

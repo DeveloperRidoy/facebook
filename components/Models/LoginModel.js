@@ -1,43 +1,74 @@
 import Model from './Model';
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import { signIn, useSession } from 'next-auth/client';
+const LoginModel = ({ closeModel, csrfToken }) => {
 
-const LoginModel = ({ closeModel }) => {
-
+  const Router = useRouter();
+  const [session] = useSession();
   useEffect(() => {
     const closeOnEscape = (e) => e.key === "Escape" && closeModel();
     document.addEventListener("keyup", closeOnEscape);
     return () => document.removeEventListener("keyup", closeOnEscape);
   }, []);
 
+  const [loginData, setLoginData] = useState({
+    emailOrPhone: "",
+    password: null,
+    rememberPassword: false,
+    csrfToken
+  });
+
+  const inputChange = (e) =>
+    setLoginData({
+      ...loginData,
+      [e.target.name]:
+        e.target.type === "checkbox" ? e.target.checked : e.target.value,
+    });
+
+  const login = async (e) => {
+    try {
+      e.preventDefault();
+      signIn('credentials', {redirect: false, ...loginData})
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  console.log(session)
     return (
       <Model
-        className="rounded-sm"
+        className="rounded-sm dark:bg-white dark:text-black"
         showHeader
         closeModel={closeModel}
         title="Log in to Facebook"
         backdropClass="bg-black opacity-40"
       >
-        <form className="p-3">
+        <form className="p-3" onSubmit={login}>
           <input
             type="text"
             className="w-full p-2 my-2 bg-transparent border rounded focus:border-blue-500 focus:outline-none transition"
-            name="email_or_phone"
+            name="emailOrPhone"
             placeholder="Email address or phone number"
+            value={loginData.emailOrPhone}
+            onChange={inputChange}
           />
           <input
             type="password"
             name="password"
             className="w-full p-2 my-2 bg-transparent border rounded focus:border-blue-500 focus:outline-none transition"
             placeholder="Password"
-            autoComplete="current password"  
+            autoComplete="current password"
+            onChange={inputChange}
           />
           <div className="flex items-center gap-x-2 my-2">
             <input
               type="checkbox"
-              name="remember_password"
+              name="rememberPassword"
               id="remember_password"
               className="h-5 w-5 "
+              onChange={inputChange}
             />
             <label htmlFor="remember_password">Remember password</label>
           </div>

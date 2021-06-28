@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Spacer from '../Spacer';
 import HomeContent from './leftSidebarContents/HomeContent';
 import MarketPlaceContent from './leftSidebarContents/MarketPlaceContent';
 
@@ -10,7 +11,8 @@ const LeftSidebar = ({ className, route }) => {
         <div className="px-2 pt-[20px] max-h-5/6 overflow-hidden hover:overflow-auto styled-scrollbar">
           {route === '/' ? <HomeContent/>: route === '/marketplace' ? <MarketPlaceContent/>: '' } 
         </div>
-        <div className="border-t-2 border-gray-300 text-capitalize p-5">
+        <Spacer className="my-0 mt-auto"/>
+        <div className=" text-capitalize p-5">
           <div className="flex flex-wrap text-gray-500">
             <Link href="/privacy">
               <a href="/privacy" className="px-1 hover:underline">privacy</a>

@@ -21,7 +21,7 @@ const CreatePostModel = ({ closeModel }) => {
 
     return (
       <Model
-        className="w-[400px] md:w-[540px] overflow-hidden"
+        className="w-[400px] md:w-[540px] overflow-hidden dark:bg-dark dark:border-0"
         closeModel={closeModel}
       >
         <div

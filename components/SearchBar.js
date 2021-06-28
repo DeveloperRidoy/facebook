@@ -8,7 +8,7 @@ const SearchBar = ({tabIndex, tooltip}) => {
 
 
     return (
-      <form className="flex items-center bg-secondary rounded-3xl p-2 ml-3 text-gray-500 relative">
+      <form className="flex items-center bg-secondary dark:bg-dark-400 rounded-3xl p-2 ml-3 text-gray-500 relative">
         <label htmlFor="searchInput">
           <IoSearch fontSize="1.3em" className="hidden xl:block" />
         </label>
@@ -27,7 +27,7 @@ const SearchBar = ({tabIndex, tooltip}) => {
           <input
             id="searchInput"
             type="text"
-            className={`bg-secondary focus:outline-none ml-2 pr-2 absolute z-10`}
+            className={`bg-transparent dark:text-white dark:placeholder-gray-400 focus:outline-none ml-2 pr-2 absolute z-10`}
             placeholder="Search Facebook"
             tabIndex={tabIndex}
             // onBlur={() => setExpand(false)}
@@ -36,7 +36,7 @@ const SearchBar = ({tabIndex, tooltip}) => {
             <input
               id="searchInput"
               type="text"
-              className="bg-secondary focus:outline-none ml-2 pr-2 hidden xl:block"
+              className="bg-transparent dark:text-white dark:placeholder-gray-400 focus:outline-none ml-2 pr-2 hidden xl:block"
               placeholder="Search Facebook"
               tabIndex={tabIndex}
           />

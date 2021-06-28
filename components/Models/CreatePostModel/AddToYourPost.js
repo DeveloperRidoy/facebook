@@ -6,10 +6,10 @@ const AddToYourPost = ({ setToggleModel, formData, setFormData, toggleModel }) =
 
     return (
       <div className={`flex-1 ${toggleModel !== ADD_TO_POST ? 'h-0 opacity-0': ''}`}>
-        <div className="p-4 min-w-[250px] text-center text-xl font-semibold relative border-b-2">
+        <div className="p-4 min-w-[250px] text-center text-xl font-semibold relative border-b-2 dark:border-b dark:border-gray-500">
           Add to Your Post
           <button
-            className="absolute top-2.5 left-4 text-3xl text-gray-600 bg-gray-200 rounded-full p-1 transition hover:bg-gray-300 active:outline-none transform hover:active:scale-95"
+            className="absolute top-2.5 left-4 text-3xl text-gray-600 dark:text-white bg-gray-200 dark:bg-dark-400 rounded-full p-1 transition hover:bg-gray-300 dark:hover:bg-dark-300 active:outline-none transform hover:active:scale-95"
             onClick={() => setToggleModel(null)}
           >
             <BsArrowLeft />
@@ -46,7 +46,7 @@ export default AddToYourPost
 
 const Item = ({children, text, onClick}) => (
   <button
-    className="flex items-center gap-x-2 font-semibold capitalize rounded-lg transition hover:bg-secondary active:outline-none active:bg-gray-200 focus:bg-secondary p-2"
+    className="flex items-center gap-x-2 font-semibold capitalize rounded-lg transition hover:bg-secondary hover:bg-dark-400 active:outline-none active:bg-gray-200 dark:focus:bg-dark-300 focus:bg-secondary p-2"
     onClick={onClick}
   >
     {children}

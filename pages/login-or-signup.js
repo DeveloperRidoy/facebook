@@ -6,18 +6,46 @@ import { useState } from 'react';
 import LoginModel from '../components/Models/LoginModel';
 import CreateAccountModel from '../components/Models/CreateAccountModel';
 import Head from 'next/head';
-
+import { getSession, signIn } from 'next-auth/client';
+import { useRouter } from 'next/router';
+import { useGlobalContext } from '../context/GlobalContext';
+     
 const LoginOrSignup = () => {
-
+  const [state, setState] = useGlobalContext();
+  const Router = useRouter();
   const [showLoginModel, setShowLoginModel] = useState(false);
   const [showCreateAccountModel, setShowCreateAccountModel] = useState(false);
 
-    const login = async (e) => {
-        e.preventDefault();
-    }
+    const [loginData, setLoginData] = useState({
+      emailOrPhone: "",
+      password: "",
+    });
 
+  const login = async (e) => {
+    try {
+      e.preventDefault();
+      const response = await signIn('credentials', { redirect: false, ...loginData });
+      if (response.status === 200) {
+        setState({ ...state, alert: {...state.alert, show: true, text: "Logged In", type: 'success' } });
+      } else {
+        setState({ ...state, alert: {...state.alert, show: true, text: "Invalid credentials", type: 'danger' } });
+      }
+      if (response.status === 200) Router.replace('/');
+    } catch (error) {
+      setState({ ...state, alert: {show: true, text: error.message, type: 'danger' } });
+    }
+  };
+  
+    const inputChange = (e) =>
+      setLoginData({
+        ...loginData,
+        [e.target.name]:
+          e.target.type === "checkbox" ? e.target.checked : e.target.value,
+      });
+  
+  
     return (
-      <div className="mt-[-57px] relative">
+      <div className="mt-[-57px] relative ">
         {showLoginModel && (
           <LoginModel closeModel={() => setShowLoginModel(false)} />
         )}
@@ -30,26 +58,36 @@ const LoginOrSignup = () => {
           <title>Facebook - Login or Sign up</title>
         </Head>
         <div
-          className={`min-h-screen flex flex-col md:flex-row justify-around gap-y-5 items-center text-lg ${
-            showLoginModel || showCreateAccountModel ? "fixed inset-0 overflow-hidden" : ""
+          className={`min-h-screen bg-secondary flex flex-col md:flex-row justify-around gap-y-5 items-center text-lg ${
+            showLoginModel || showCreateAccountModel
+              ? "fixed inset-0 overflow-hidden"
+              : ""
           }`}
         >
           <div className="text-center md:text-left">
-            <h1 className="text-blue-500 text-5xl font-bold mb-3 mt-5 md:mt-0">facebook</h1>
-            <h3 className="text-3xl font-semibold">Recent logins</h3>
+            <h1 className="text-blue-500 text-5xl font-bold mb-3 mt-5 md:mt-0">
+              facebook
+            </h1>
+            <h3 className="text-3xl text-gray-700 font-semibold">
+              Recent logins
+            </h3>
             <p className="text-gray-500 text-sm mb-5 mt-1">
               Click your picture or add an account.
             </p>
             <div className="flex gap-x-3 w-72 h-44 ">
-              <div className="flex-1 rounded-lg border relative group transition hover:shadow-lg">
+              <div className="flex-1 rounded-lg border bg-white relative group transition hover:shadow-lg">
                 <Link href="/">
-                  <a href="/" className="flex h-full flex-col justify-stretch">
+                  <a
+                    href="/"
+                    className="flex h-full flex-col justify-stretch"
+                    onClick={signIn}
+                  >
                     <img
                       src="img/users/default/user.jpeg"
                       alt="user"
                       className="w-full h-32 object-cover rounded-t-lg"
                     />
-                    <div className="flex-1 flex justify-center items-center capitalize">
+                    <div className="flex-1 flex text-gray-700 justify-center items-center capitalize">
                       mubarak
                     </div>
                   </a>
@@ -83,13 +121,16 @@ const LoginOrSignup = () => {
             </div>
           </div>
           <div className="text-center w-[400px]">
-            <div className="p-3 rounded-lg bg-white shadow-lg border">
+            <div className="p-3 rounded-lg bg-white text-black shadow-lg border">
               <form onSubmit={login}>
                 <input
                   type="text"
-                  name="name"
+                  name="emailOrPhone"
                   className="w-full border my-2 p-2 rounded focus:outline-none focus:border-blue-500"
                   placeholder="Email address or phone number"
+                  value={loginData.emailOrPhone}
+                  onChange={inputChange}
+                  required
                 />
                 <input
                   type="password"
@@ -97,8 +138,14 @@ const LoginOrSignup = () => {
                   className="w-full border my-2 p-2 rounded focus:outline-none focus:border-blue-500"
                   placeholder="Password"
                   autoComplete="current password"
+                  value={loginData.password}
+                  onChange={inputChange}
+                  required
                 />
-                <Button className="w-full bg-blue-500 py-2 text-white rounded-md my-2 focus:outline-none focus:ring hover:bg-blue-600 active:bg-blue-700 transition">
+                <Button
+                  type="submit"
+                  className="w-full bg-blue-500 py-2 text-white rounded-md my-2 focus:outline-none focus:ring hover:bg-blue-600 active:bg-blue-700 transition"
+                >
                   Log In
                 </Button>
               </form>
@@ -133,3 +180,11 @@ const LoginOrSignup = () => {
 }
 
 export default LoginOrSignup
+
+export const getServerSideProps = async ({ req }) => {
+  const session = await getSession({ req });
+  if (session) {
+    return { redirect: { destination: "/", permanent: false } };
+  };
+  return {props: {}}
+}

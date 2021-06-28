@@ -10,11 +10,11 @@ const Box = ({  closeBox, children, className }) => {
   }, [])
 
   return (
-    <div 
-      className={`absolute top-full right-3 p-3 bg-white dark:bg-dark shadow-lg  overflow-auto rounded-b-lg max-h-[calc(100vh-5rem)] ${className}`}
+    <div
+      className={`absolute top-full right-3  bg-white dark:bg-dark shadow-lg  overflow-hidden rounded-b-lg rounded-r-lg  ${className}`}
       onClick={(e) => e.stopPropagation()}
     >
-      {children}
+      <div className="max-h-[calc(100vh-5rem)] overflow-auto p-3">{children}</div>
     </div>
   );
 };

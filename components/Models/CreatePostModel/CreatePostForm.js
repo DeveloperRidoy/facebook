@@ -20,10 +20,10 @@ const CreatePostForm = ({closeModel, setToggleModel, toggleModel, formData, setF
     <div
       className={`flex-1 flex flex-col ${toggleModel ? "h-0 opacity-0" : ""}`}
     >
-      <div className="p-4 min-w-[250px] text-center text-xl font-semibold capitalize relative border-b-2">
+      <div className="p-4 min-w-[250px] text-center text-xl font-semibold capitalize relative border-b-2 dark:border-b dark:border-gray-500">
         create post
         <button
-          className="absolute top-2.5 right-4 text-3xl text-gray-600 bg-gray-200 rounded-full p-1 transition hover:bg-gray-300 active:outline-none transform hover:active:scale-95"
+          className="absolute top-2.5 right-4 text-3xl text-gray-600 dark:text-white bg-gray-200 dark:bg-dark-400 rounded-full p-1 transition hover:bg-gray-300 dark:hover:bg-dark-300 active:outline-none transform hover:active:scale-95"
           onClick={closeModel}
         >
           <BsX />
@@ -45,7 +45,7 @@ const CreatePostForm = ({closeModel, setToggleModel, toggleModel, formData, setF
               mubarak hussain ridoy
             </p>
             <button
-              className="bg-gray-200 p-1 rounded-lg font-semibold flex items-center text-sm gap-x-1 active:outline-none"
+              className="bg-gray-200 dark:bg-dark-400 p-1 rounded-lg font-semibold flex items-center text-sm gap-x-1 active:outline-none"
               onClick={() => setToggleModel(AUDIENCE)}
             >
               {formData.audience === PUBLIC ? (
@@ -78,7 +78,7 @@ const CreatePostForm = ({closeModel, setToggleModel, toggleModel, formData, setF
               cols="30"
               rows="4"
               placeholder="What's on your mind, Mubarak?"
-              className="focus:outline-none mt-2  text-xl w-full resize-none"
+              className="focus:outline-none mt-2 dark:bg-dark text-xl w-full resize-none"
               onChange={(e) =>
                 setFormData({ ...formData, text: e.target.value })
               }
@@ -91,33 +91,51 @@ const CreatePostForm = ({closeModel, setToggleModel, toggleModel, formData, setF
                   setFormData={setFormData}
                   setToggleModel={setToggleModel}
                   locked
-                  closeQA={() => setFormData({...formData, postType: POST})}
+                  closeQA={() => setFormData({ ...formData, postType: POST })}
                 />
               </div>
             )
           )}
           <div>
-            <div className="flex justify-between items-center rounded-lg p-3 border border-gray-300 mb-3">
+            <div className="flex justify-between items-center rounded-lg p-3 border border-gray-300 dark:border-gray-500 mb-3">
               <button
+                type="button"
                 className="font-semibold active:outline-none"
                 onClick={() => setToggleModel(ADD_TO_POST)}
               >
                 Add to Your Post
               </button>
               <div className="flex items-center gap-x-2 text-2xl z-10">
-                <button tooltiptop="Photo/Video" className="active:outline-none ">
+                <button
+                  type="button"
+                  tooltiptop="Photo/Video"
+                  className="active:outline-none "
+                >
                   <FaImage className="text-emerald-500 transform -rotate-12" />
                 </button>
-                <button tooltiptop="Tag People" className="active:outline-none ">
+                <button
+                  type="button"
+                  tooltiptop="Tag People"
+                  className="active:outline-none "
+                >
                   <FaUserTag className="text-blue-500" />
                 </button>
-                <button tooltiptop="Feeling/Activity" className="active:outline-none ">
+                <button
+                  type="button"
+                  tooltiptop="Feeling/Activity"
+                  className="active:outline-none "
+                >
                   <FaRegGrinAlt className="text-yellow-500" />
                 </button>
-                <button tooltiptop="Check In" className="active:outline-none ">
+                <button
+                  type="button"
+                  tooltiptop="Check In"
+                  className="active:outline-none "
+                >
                   <FaMapMarkerAlt className="text-red-500" />
                 </button>
                 <button
+                  type="button"
                   className="active:outline-none "
                   tooltiptop="Host A Q&A"
                   onClick={() => setToggleModel(HOST_QA)}
@@ -125,11 +143,12 @@ const CreatePostForm = ({closeModel, setToggleModel, toggleModel, formData, setF
                   <BsChatQuoteFill className="text-red-500" />
                 </button>
                 <button
+                  type="button"
                   className="active:outline-none "
                   tooltiptop="More"
                   onClick={() => setToggleModel(ADD_TO_POST)}
                 >
-                  <BsThreeDots/>
+                  <BsThreeDots />
                 </button>
               </div>
             </div>

@@ -1,67 +1,62 @@
 import { BsPlus, BsSearch, BsThreeDots } from "react-icons/bs";
 import { FaVideo } from "react-icons/fa"
-import DotButton from "../../Buttons/DotButton";
 import Link from 'next/link';
 
 const Homecontent = () => {
     return (
       <div className="">
-        <div className="flex items-center font-semibold text-gray-500">
+        <div className="flex items-center font-semibold text-gray-500 dark:text-gray-300">
           <p className="capitalize text-lg">contacts</p>
-          <div className="ml-16 flex items-center">
+          <div className="ml-16 flex items-center z-10">
             <button
-              className="flex justify-center items-center h-8 w-8 hover:bg-gray-200 active:bg-gray-300 transition active:outline-none rounded-full text-lg"
-              tooltip="New Room"
+              className="flex justify-center items-center h-8 w-8 hover:bg-gray-200 dark:hover:bg-dark-400 active:bg-gray-300 dark:active:bg-dark-300 transition active:outline-none rounded-full"
+              tooltipright="Search by name/group"
             >
-              <div className="relative">
-                <FaVideo className="text-sm"/>
-                <BsPlus className="absolute top-0 -left-px text-white text-sm font-bold" />
-              </div>
+              <FaVideo />
             </button>
             <button
-              className="flex justify-center items-center h-8 w-8 hover:bg-gray-200 active:bg-gray-300 transition active:outline-none rounded-full z-10"
+              className="flex justify-center items-center h-8 w-8 hover:bg-gray-200 dark:hover:bg-dark-400 active:bg-gray-300 dark:active:bg-dark-300 transition active:outline-none rounded-full"
               tooltipright="Search by name/group"
             >
               <BsSearch />
             </button>
             <button
-              className="flex justify-center items-center h-8 w-8 hover:bg-gray-200 active:bg-gray-300 transition active:outline-none rounded-full z-10"
+              className="flex justify-center items-center h-8 w-8 hover:bg-gray-200 dark:hover:bg-dark-400 active:bg-gray-300 dark:active:bg-dark-300 transition active:outline-none rounded-full"
               tooltipright="Search by name/group"
             >
               <BsThreeDots />
-            </button>  
-           
+            </button>
           </div>
         </div>
         <div className="mt-3 px-1">
-          <Contact/>
-          <Contact/>
-          <Contact/>
-          <Contact/>
-          <Contact/>
-          <Contact/>
-          <Contact/>
-          <Contact/>
-          <Contact/>
-          <Contact/>
-          <Contact/>
-          <Contact/>
-          <Contact/>
-          <Contact/>
-          <Contact/>
-          <Contact/>
-          <Contact/>
-          <Contact/>
-          <Contact/>
-          <Contact/>
-          <Contact/>
-          <Contact/>
-          <Contact/>
-          <Contact/>
-          <Contact/>
-          <Contact/>
-          <Contact/>
-          <Contact/>
+          <Contact />
+          <Contact />
+          <Contact />
+          <Contact />
+          <Contact />
+          <Contact />
+          <Contact />
+          <Contact />
+          <Contact />
+          <Contact />
+          <Contact />
+          <Contact />
+          <Contact />
+          <Contact />
+          <Contact />
+          <Contact />
+          <Contact />
+          <Contact />
+          <Contact />
+          <Contact />
+          <Contact />
+          <Contact />
+          <Contact />
+          <Contact />
+          <Contact />
+          <Contact />
+          <Contact />
+          <Contact />
         </div>
       </div>
     );
@@ -77,13 +72,13 @@ const Contact = ({
   <Link href={link}>
     <a
       href={link}
-      className="flex flex-nowrap gap-x-2 items-center p-2 relative hover:bg-gray-200 active:bg-gray-300 active:outline-none transition rounded w-full"
+      className="flex flex-nowrap gap-x-2 items-center p-2 relative hover:bg-gray-200 dark:hover:bg-dark-400 active:bg-gray-300 dark:active:bg-dark-300 active:outline-none transition rounded-md w-full"
     >
       <div className="rounded-full overflow-hidden relative">
         <img src={photo} alt={name} className="h-7 w-7" />
-        <div className="absolute inset-0 bg-white bg-opacity-50"></div>
+        <div className="absolute inset-0 bg-black bg-opacity-30"></div>
       </div>
-      <p className="font-semibold capitalize text-gray-400">{name}</p>
+      <p className="font-semibold capitalize text-gray-400 dark:text-gray-600">{name}</p>
     </a>
   </Link>
 );

@@ -11,7 +11,7 @@ const HomeContent = () => {
           <Link href={link}>
             <a
               href={link}
-              className="p-2 transition hover:bg-gray-200 active:bg-gray-300 flex items-center rounded-md"
+              className="p-2 transition hover:bg-gray-200 dark:hover:bg-dark-400 active:bg-gray-300 dark:active:bg-dark-300 flex items-center rounded-md"
             >
               {children}
             </a>

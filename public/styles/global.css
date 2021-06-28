@@ -3,6 +3,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .bg-transparent {
+    background-color: transparent;
+  }
+}
+
 html {
     scroll-behavior: smooth;
 }
@@ -18,14 +24,14 @@ html {
  
 /* Handle */
 .styled-scrollbar::-webkit-scrollbar-thumb {
-  background: #BCC0C4; 
+  background: rgb(90, 89, 89); 
   border-radius: 10px;
   width: 5px;
 }
 
 /* Handle on hover */
 .styled-scrollbar::-webkit-scrollbar-thumb:hover {
-  background:rgb(133, 126, 126)
+  background:rgb(148, 146, 146)
 }
 
 
@@ -122,3 +128,11 @@ html {
     to {transform: rotate(360deg)}
 }
 
+.animate-fade-in {
+  animation: fade-in 1s;
+}
+
+@keyframes fade-in {
+  from{ opacity: 0;}
+  to { opacity: 1;}
+}

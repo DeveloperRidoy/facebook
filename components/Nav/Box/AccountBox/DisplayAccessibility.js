@@ -10,7 +10,7 @@ const DisplayAccessibility = ({ setMode }) => {
       <div className={`w-full transition p-1`}>
         <div className="flex gap-x-3">
           <button
-            className="p-2 ml-2 rounded-full hover:bg-secondary active:bg-gray-300 active:outline-none"
+            className="p-2 ml-2 rounded-full hover:bg-secondary dark:hover:bg-dark-400 active:bg-gray-300 active:outline-none transition"
             onClick={() => setMode(null)}
           >
             <FaArrowLeft />
@@ -20,40 +20,57 @@ const DisplayAccessibility = ({ setMode }) => {
           </p>
         </div>
         <div className="p-2 ">
-            <div className="flex gap-x-3 items-start">
-                <div className="p-2 rounded-full bg-gray-400 bg-opacity-40 transition text-xl">
-                    <FaMoon />
-                </div>
-                <div className="leading-5">
-                    <p className="font-semibold capitalize">dark mode</p>
-                    <p className="text-gray-500 text-sm">
-                        Adjust the appearance of Facebook to reduce glare and give your eyes a break.
-                    </p>
-                </div>
+          <div className="flex gap-x-3 items-start mb-2">
+            <div className="p-2 rounded-full bg-gray-400 bg-opacity-40 transition text-xl">
+              <FaMoon />
             </div>
-                <div className="flex flex-col pl-5">
+            <div className="leading-5">
+              <p className="font-semibold capitalize">dark mode</p>
+              <p className="text-gray-500 text-sm">
+                Adjust the appearance of Facebook to reduce glare and give your
+                eyes a break.
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-col pl-5">
             <button
-                className="w-full rounded-lg my-1 p-2 flex items-center justify-between hover:bg-secondary transition focus:outline-none focus:ring active:bg-gray-200 font-semibold"
-                onClick={() =>  setState({ ...state, darkMode: false })}
+              className="w-full rounded-lg my-1 p-2 flex items-center justify-between hover:bg-secondary dark:hover:bg-dark-400 transition focus:outline-none focus:ring active:bg-gray-200 dark:active:bg-dark-300 font-semibold"
+              onClick={() => setState({ ...state, darkMode: false })}
             >
-                <p>off</p> 
-                <div className={`h-5 w-5 flex justify-center items-center rounded-full border-2 ${!state.darkMode ? 'border-blue-500': 'border-gray-500'}`}>
-                   <div className={`h-2.5 w-2.5 transition transform rounded-full bg-blue-500 ${!state.darkMode ? '': 'scale-0'}`}></div>
-                </div>
+              <p>off</p>
+              <div
+                className={`h-5 w-5 flex justify-center items-center rounded-full border-2 ${
+                  !state.darkMode ? "border-blue-500" : "border-gray-500"
+                }`}
+              >
+                <div
+                  className={`h-2.5 w-2.5 transition transform rounded-full bg-blue-500 ${
+                    !state.darkMode ? "" : "scale-0"
+                  }`}
+                ></div>
+              </div>
             </button>
             <button
-                className="w-full rounded-lg my-1 p-2 flex items-center justify-between hover:bg-secondary transition focus:outline-none focus:ring active:bg-gray-200 font-semibold"
-                onClick={() =>  setState({ ...state, darkMode: true })}
+              className="w-full rounded-lg my-1 p-2 flex items-center justify-between hover:bg-secondary dark:hover:bg-dark-400 transition focus:outline-none focus:ring active:bg-gray-200 dark:active:bg-dark-300 font-semibold"
+              onClick={() => setState({ ...state, darkMode: true })}
             >
-                <p>on</p> 
-                <div className={`h-5 w-5 flex justify-center items-center rounded-full border-2 ${state.darkMode ? 'border-blue-500': 'border-gray-500'}`}>
-                    <div className={`h-2.5 w-2.5 transition transform rounded-full bg-blue-500 ${state.darkMode ? '': 'scale-0'}`}></div>
-                </div>
+              <p>on</p>
+              <div
+                className={`h-5 w-5 flex justify-center items-center rounded-full border-2 ${
+                  state.darkMode ? "border-blue-500" : "border-gray-500"
+                }`}
+              >
+                <div
+                  className={`h-2.5 w-2.5 transition transform rounded-full bg-blue-500 ${
+                    state.darkMode ? "" : "scale-0"
+                  }`}
+                ></div>
+              </div>
             </button>
-            </div>
+          </div>
         </div>
         <Item link="/keyboard" text="keyboard">
-            <FaKeyboard/>
+          <FaKeyboard />
         </Item>
       </div>
     );
@@ -62,11 +79,11 @@ const DisplayAccessibility = ({ setMode }) => {
 export default DisplayAccessibility
 
 
-const Item = ({children, link, text}) => (
+const Item = ({ children, link, text }) => (
   <Link href={link}>
     <a
       href={link}
-      className="w-full flex items-center justify-between p-2.5 rounded-lg hover:bg-secondary transition group active:outline-none"
+      className="w-full flex items-center justify-between p-2.5 rounded-lg hover:bg-secondary dark:hover:bg-dark-400 transition group active:outline-none"
     >
       <div className="flex gap-x-3 items-center">
         <div className="p-2 rounded-full bg-gray-400 bg-opacity-40 transition group-hover:bg-opacity-50 text-xl">

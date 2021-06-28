@@ -65,8 +65,11 @@ nextApp
     // handle routes requests 
     routes.forEach(route => app.use(`/api/v1/${route}`, require(`${__dirname}/api/v1/routes/${route}`)))
 
-    // handle nextJs requests
+    // handle GET requests nextJs
     app.get("*", (req, res) => handle(req, res));
+
+    // handle POST request nextJs
+    app.post('/api/auth/*', (req, res) => handle(req, res));
 
     // define port
     const PORT = process.env.PORT || 3000;
