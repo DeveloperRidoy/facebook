@@ -16,7 +16,7 @@ const Model = ({
         onClick={closeModel}
       >
         <div
-          className={`rounded-xl shadow-xl border  bg-white  z-10 ${className}`}
+          className={`rounded-xl shadow-xl border  bg-white ${className}`}
           onClick={(e) => e.stopPropagation()}
         >
           {showHeader && (
@@ -34,7 +34,7 @@ const Model = ({
         </div>
       </div>
       <div
-        className={`fixed inset-0 bg-white/70 dark:bg-black/70 z-20 ${backdropClass}`}
+        className={`fixed inset-0 bg-white/70 dark:bg-darker-600/70 z-20 ${backdropClass}`}
         onClick={() => {
           if (!disableCloseByBackDrop) closeModel();
         }}

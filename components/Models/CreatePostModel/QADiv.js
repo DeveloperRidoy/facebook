@@ -28,7 +28,7 @@ const QADiv = ({ formData, setFormData, setToggleModel, locked, closeQA }) => (
       }}
     ></textarea>
     {locked ? (
-      <button className="absolute -top-5 -right-5 bg-white rounded-full border p-1 text-3xl" onClick={closeQA}><BsX/></button>
+      <button className="absolute -top-5 -right-5 bg-white dark:bg-dark-400 rounded-full border dark:border-0 p-1 text-3xl transition active:outline-none active:scale-95 dark:hover:bg-dark-300" onClick={closeQA}><BsX/></button>
     ) : (
       <div>
         <BackgroundSetter formData={formData} setFormData={setFormData} />

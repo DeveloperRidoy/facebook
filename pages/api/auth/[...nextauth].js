@@ -11,13 +11,12 @@ export default NextAuth({
       },
       authorize: async (credentials, req) => {
         const { emailOrPhone, password } = credentials;
-        console.log(credentials);
         const user = { name: 'ridoy', age: 21 };
         if (
           emailOrPhone === "freelancerridoy247@gmail.com" &&
           password === "12345678"
-        )
-          return user;
+        ) { return user}
+          
         return null;
       }
     }),
@@ -36,5 +35,10 @@ export default NextAuth({
   pages: {
     signIn: '/login-or-signup'
   },
-
+  callbacks: {
+    session: async (session) => {
+      session.user = {...session.user, age: 21}
+      return session;
+    }
+  }
 });

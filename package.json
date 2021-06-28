@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node server/server.js",
+    "dev": "next dev",
     "build": "next build",
     "next-start": "next start",
     "start": "node server/server.js",
@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.0.4",
+    "cors": "^2.8.5",
     "nodemon": "^2.0.7",
     "postcss": "^8.1.10",
     "tailwindcss": "^2.2.2"

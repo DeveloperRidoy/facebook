@@ -1,4 +1,3 @@
-import { useGlobalContext } from "../../context/GlobalContext";
 import LeftSidebar from "./LeftSidebar";
 import RightSidebar from "./RightSidebar";
 
