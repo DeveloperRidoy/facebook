@@ -7,3 +7,6 @@ export const ADD_TO_POST = "ADD_TO_POST";
 export const HOST_QA = "HOST_QA";
 export const POST = 'POST';
 export const QA = 'QA';
+export const MALE = 'MALE';
+export const FEMALE = 'FEMALE';
+export const CUSTOM = 'CUSTOM';

@@ -1,4 +1,4 @@
-import Authentication from "../utils/functions/authentication";
+
 
 
 const gaming = () => {
@@ -7,4 +7,3 @@ const gaming = () => {
 
 export default gaming
 
-export const getServerSideProps = async ({ req }) => await Authentication(req);

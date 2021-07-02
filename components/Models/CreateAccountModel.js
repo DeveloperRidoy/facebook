@@ -2,6 +2,14 @@ import { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa"
 import Model from "./Model"
 import Link from 'next/link';
+import catchAsync from "../../utils/functions/catchAsync";
+import { useGlobalContext } from "../../context/GlobalContext";
+import Button from "../Buttons/Button";
+import axios from "axios";
+import { CUSTOM, FEMALE, MALE } from "../../utils/variables";
+import februaryDays from "../../utils/functions/februaryDays";
+import { cloneDeep } from 'lodash';
+import { useRouter } from 'next/router';
 
 const birthDates = [];
 const birthMonths = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
@@ -11,45 +19,48 @@ for (let i = 1905; i <= 2021; i++) birthYears.unshift(i);
 for (let i = 1; i <= 31; i++) birthDates.push(i);
 
 const CreateAccountModel = ({ closeModel }) => {
+  const Router = useRouter();
+  const [state, setState] = useGlobalContext();
     const [formData, setFormData] = useState({
         firstName: '',
         surName: '',
         email: '',
         phone: '',
         password: '',
+        confirmPassword: '',
         birthDates,
         birthDate: '',
-        birthMonth: birthMonths[0],
-        birthYear: birthYears[birthYears.length - 1], 
+        birthMonth: '',
+        birthYear: '', 
         gender: ''
     })
-  
+  const [loading, setLoading] = useState(false);
   const inputChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   // adjust february days depending on month and leap year
     useEffect(() => {
-        const newDates = [];
-        let limit = 31;
-        const monthNumber = birthMonths.indexOf(formData.birthMonth) + 1;
-          
-      if (monthNumber <= 7 && monthNumber % 2 === 0) {
-        if (monthNumber === 2) {
-          if (formData.birthYear % 4 === 0 && formData.birthYear % 100 !== 0 || formData.birthYear % 400 === 0) {
-            limit = 29;
-          } else { limit = 28 };
-        } else { limit = 30 };
-        }
-        if (monthNumber > 7 && monthNumber % 2 !== 0) {
-            limit = 30
-        }
-      for (let i = 1; i <= limit; i++) newDates.push(i);
-      setFormData({...formData, birthDates: newDates})
+      const newDates = [];
+      const month = birthMonths.indexOf(formData.birthMonth) + 1;
+      const days = februaryDays(month, formData.birthYear);
+      for (let i = 1; i <= days; i++) newDates.push(i);
+      setFormData({ ...formData, birthDates: newDates });
     }, [formData.birthMonth, formData.birthYear])
 
-    const createAccount = (e) => {
-      e.preventDefault();
-  };
-  
+  const createAccount = (e) => catchAsync(async () => {
+    e.preventDefault();
+    setLoading(true);
+    const data = cloneDeep(formData);
+    // set birthday from data
+    data.birthDay = new Date(data.birthYear, data.birthMonth, data.birthDate);
+    // delete unnecessary data 
+    Object.keys(data).forEach(key => data[key] === '' && delete data[key]);
+
+    const res = await axios.post(`${process.env.NEXT_PUBLIC_API || 'api'}/v1/users/auth/signup`, data, {withCredentials: true});
+    setState({ ...state, alert: { show: true, text: res.data.message } });
+    setLoading(false);
+    console.log(res.data)
+  }, setState, () => setLoading(false));
+       
     return (
       <Model
         className="rounded-sm w-[90vw] sm:w-[450px]"
@@ -73,6 +84,7 @@ const CreateAccountModel = ({ closeModel }) => {
               placeholder="First name"
               onChange={inputChange}
               value={formData.firstName}
+              required
             />
             <input
               type="text"
@@ -90,6 +102,7 @@ const CreateAccountModel = ({ closeModel }) => {
             placeholder="Email Address"
             onChange={inputChange}
             value={formData.email}
+            required
           />
           <input
             type="number"
@@ -98,6 +111,8 @@ const CreateAccountModel = ({ closeModel }) => {
             placeholder="Phone Number"
             onChange={inputChange}
             value={formData.phone}
+            minLength="6"
+            maxLength="11"
           />
           <input
             type="password"
@@ -107,6 +122,17 @@ const CreateAccountModel = ({ closeModel }) => {
             autoComplete="new password"
             onChange={inputChange}
             value={formData.password}
+            required
+          />
+          <input
+            type="password"
+            name="confirmPassword"
+            className="block w-full border border-gray-300 p-2 my-2 rounded bg-secondary focus:outline-none focus:ring-1"
+            placeholder="Confirm Password"
+            autoComplete="confirm password"
+            onChange={inputChange}
+            value={formData.confirmPassword}
+            required
           />
           <div className="mt-3 mb-2 ">
             <p className="text-sm">Date of birth</p>
@@ -116,8 +142,9 @@ const CreateAccountModel = ({ closeModel }) => {
                 name="birthDate"
                 onChange={inputChange}
                 value={formData.birthDate}
+                required
               >
-                <option>day</option>
+                <option value="">day</option>
                 {formData.birthDates.map((date) => (
                   <option value={date} key={date}>
                     {date}
@@ -129,8 +156,9 @@ const CreateAccountModel = ({ closeModel }) => {
                 name="birthMonth"
                 onChange={inputChange}
                 value={formData.birthMonth}
+                required
               >
-                <option>month</option>
+                <option value="">month</option>
                 {birthMonths.map((month) => (
                   <option value={month} key={month}>
                     {month}
@@ -142,8 +170,9 @@ const CreateAccountModel = ({ closeModel }) => {
                 name="birthYear"
                 onChange={inputChange}
                 value={formData.birthYear}
+                required
               >
-                <option>year</option>
+                <option value="">year</option>
                 {birthYears.map((year) => (
                   <option value={year} key={year}>
                     {year}
@@ -160,8 +189,9 @@ const CreateAccountModel = ({ closeModel }) => {
                 <input
                   type="radio"
                   name="gender"
-                  value="female"
+                  value={FEMALE}
                   onChange={inputChange}
+                  required
                 />
               </label>
               <label className="w-full flex justify-between items-center border border-gray-300 p-2 rounded capitalize">
@@ -169,8 +199,9 @@ const CreateAccountModel = ({ closeModel }) => {
                 <input
                   type="radio"
                   name="gender"
-                  value="male"
+                  value={MALE}
                   onChange={inputChange}
+                  required
                 />
               </label>
               <label className="w-full flex justify-between items-center border border-gray-300 p-2 rounded capitalize">
@@ -178,8 +209,9 @@ const CreateAccountModel = ({ closeModel }) => {
                 <input
                   type="radio"
                   name="gender"
-                  value="custom"
+                  value={CUSTOM}
                   onChange={inputChange}
+                  required
                 />
               </label>
             </div>
@@ -211,6 +243,13 @@ const CreateAccountModel = ({ closeModel }) => {
               at any time.
             </span>
           </p>
+          <Button
+            type="submit"
+            loading={loading}
+            className="px-3 py-1 rounded mx-auto block bg-green-500 capitalize text-white focus:outline-none focus:ring-green-400 focus:ring-2"
+          >
+            Sign Up
+          </Button>
         </form>
       </Model>
     );

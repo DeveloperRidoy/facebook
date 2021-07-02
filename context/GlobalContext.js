@@ -1,27 +1,45 @@
+import { useRouter } from "next/router";
 import { createContext, useContext, useEffect, useState } from "react"
+import toggleTheme from "../utils/functions/toggleTheme";
+import { useAuthContext } from "./AuthContext";
 
-import toggleDarkMode from "../utils/functions/toggleDarkMode";
 
 export const useGlobalContext = () => useContext(Context);
 
 const Context = createContext();
 
 const GlobalContext = ({ children }) => {
-
+  const Router = useRouter();
+  const [authState] = useAuthContext();
   const [state, setState] = useState({
     showCreatePostModel: false,
-    darkMode: typeof document !== 'undefined' && localStorage.theme === 'dark',
-    alert: {show: false, text: null, type: 'success', time: 3000}
+    theme: authState.user?.preferredTheme || null,
+    alert: { show: false, text: null, type: '', time: null },
+    renderChildren: false
   })
-  
+
   useEffect(() => {
-    // function to toggle darkMode 
-    toggleDarkMode(state.darkMode)
-  }, [state.darkMode])
-  
+    // toggle theme 
+    toggleTheme(state.theme)
+  }, [state.theme])
+
+  useEffect(() => {
+    const renderChildren =
+      (!authState.loading &&
+        !authState.user &&
+        Router.route === "/login-or-signup" &&
+        !document.documentElement.classList.contains("dark")) ||
+      (!authState.loading &&
+        authState.user &&
+        Router.route !== "/login-or-signup" &&
+        document.documentElement.classList.contains("dark"));
+    renderChildren && setState({...state, renderChildren})
+
+  }, [authState.user, Router.route])
+
     return (
       <Context.Provider value={[state, setState]}>
-        {children}
+        {state.renderChildren && children}
       </Context.Provider>
     );
 }

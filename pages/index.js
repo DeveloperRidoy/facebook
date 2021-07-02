@@ -1,7 +1,6 @@
 import CreatePost from "../components/CreatePost";
 import StoriesPreview from "../components/StoriesPreview/StoriesPreview";
 import Head from 'next/head';
-import Authentication from "../utils/functions/authentication";
 
 export default function Home ({session}) {
 
@@ -94,7 +93,4 @@ export default function Home ({session}) {
     </div>
   );
 }
-
-
-export const getServerSideProps = async ({ req }) => await Authentication(req);
 

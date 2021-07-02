@@ -1,4 +1,4 @@
-import Authentication from "../utils/functions/authentication";
+
 
 
 const groups = () => {
@@ -7,5 +7,3 @@ const groups = () => {
 
 export default groups
 
-
-export const getServerSideProps = async ({ req }) => await Authentication(req);

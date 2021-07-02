@@ -1,4 +1,4 @@
-import Authentication from "../utils/functions/authentication";
+
 
 
 const marketplace = () => {
@@ -8,4 +8,3 @@ const marketplace = () => {
 export default marketplace
 
 
-export const getServerSideProps = async ({ req }) => await Authentication(req);

@@ -1,13 +1,16 @@
 import Model from './Model';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import catchAsync from '../../utils/functions/catchAsync';
+import { useGlobalContext } from '../../context/GlobalContext';
+import Button from '../Buttons/Button';
 import { useRouter } from 'next/router';
-import { signIn, useSession } from 'next-auth/client';
-const LoginModel = ({ closeModel, csrfToken }) => {
 
+const LoginModel = ({ closeModel }) => {
   const Router = useRouter();
-  const [session] = useSession();
+  const [state, setState] = useGlobalContext();
+  const [loading, setLoading] = useState(false);
+ 
   useEffect(() => {
     const closeOnEscape = (e) => e.key === "Escape" && closeModel();
     document.addEventListener("keyup", closeOnEscape);
@@ -18,7 +21,6 @@ const LoginModel = ({ closeModel, csrfToken }) => {
     emailOrPhone: "",
     password: null,
     rememberPassword: false,
-    csrfToken
   });
 
   const inputChange = (e) =>
@@ -28,15 +30,21 @@ const LoginModel = ({ closeModel, csrfToken }) => {
         e.target.type === "checkbox" ? e.target.checked : e.target.value,
     });
 
-  const login = async (e) => {
-    try {
-      e.preventDefault();
-      signIn('credentials', {redirect: false, ...loginData})
-    } catch (error) {
-      console.log(error)
+  const login = (e) => catchAsync(async () => {
+    e.preventDefault();
+    setLoading(true);
+    const res = await signIn('credentials', { redirect: false, ...loginData });
+    if (res.status === 200) {
+      setState({
+        ...state,
+        alert: { show: true, text: "Logged in", type: 'success' },
+      });
+      Router.replace('/')
+      return;
     }
-  }
-  console.log(session)
+    setState({...state, alert: { show: true, text: 'Invalid credentials', type: 'danger'}})
+  }, setState, () => setLoading(false));
+ 
     return (
       <Model
         className="rounded-sm dark:bg-white dark:text-black"
@@ -44,7 +52,7 @@ const LoginModel = ({ closeModel, csrfToken }) => {
         closeModel={closeModel}
         title="Log in to Facebook"
         backdropClass="bg-black opacity-40"
-      >
+      >   
         <form className="p-3" onSubmit={login}>
           <input
             type="text"
@@ -72,9 +80,13 @@ const LoginModel = ({ closeModel, csrfToken }) => {
             />
             <label htmlFor="remember_password">Remember password</label>
           </div>
-          <button className="p-2 w-full text-white rounded bg-blue-500 text-center font-semibold my-2 focus:outline-none transition focus:ring">
+          <Button
+            type="submit"
+            className="p-2 w-full text-white rounded bg-blue-500 text-center font-semibold my-2 focus:outline-none transition focus:ring"
+            loading={loading}
+          >
             Log In
-          </button>
+          </Button>
         </form>
         <div className="text-center pb-5">
           <Link href="/forgot-password">

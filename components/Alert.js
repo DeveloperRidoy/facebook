@@ -5,7 +5,7 @@ const Alert = () => {
     const [state, setState] = useGlobalContext();
     
   useEffect(() => {
-    const timeOut = setTimeout(() => setState({ ...state, alert: { ...state.alert, show: false } }), [state.alert.time]);
+    const timeOut = setTimeout(() => setState({ ...state, alert: { show: false } }), [state.alert.time || 3000]);
     return () => clearTimeout(timeOut);
     }, [])
   
@@ -17,7 +17,7 @@ const Alert = () => {
           className={`text-white text-lg rounded-md min-w-max px-3 py-1.5 animate-fade-in ${
             state.alert.type === "success"
               ? "bg-green-600"
-              : state.alert.type === "danger" && "bg-red-500"
+              : state.alert.type === "danger" ? "bg-red-500" : "bg-green-600"
           }`}
         >
           {state.alert.text}

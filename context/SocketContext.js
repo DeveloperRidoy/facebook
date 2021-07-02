@@ -10,8 +10,7 @@ const SocketContext = ({children}) => {
     const [socket, setSocket] = useState(null);
 
     useEffect(() => {
-        if (typeof window === 'undefined') return;
-        const newSocket = io(window.location.origin);
+        const newSocket = io(process.env.NEXT_PUBLIC_SITE || window.location.origin);
         setSocket(newSocket);
         return () => newSocket.disconnect();
     }, [])

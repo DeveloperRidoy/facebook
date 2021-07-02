@@ -2,11 +2,11 @@ import '../public/styles/global.css';
 import SocketContext from '../context/SocketContext'
 import GlobalContext from '../context/GlobalContext';
 import Container from '../components/Container';
-import { Provider } from 'next-auth/client';
+import AuthContext from '../context/AuthContext';
 
-function MyApp({ Component, pageProps }) {
+function MyApp ({ Component, pageProps }) {
   return (
-    <Provider session={pageProps.session}>
+    <AuthContext>
       <GlobalContext>
         <SocketContext>
           <Container>
@@ -14,7 +14,7 @@ function MyApp({ Component, pageProps }) {
           </Container>
         </SocketContext>
       </GlobalContext>
-    </Provider>
+    </AuthContext>
   );
 }
 

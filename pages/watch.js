@@ -1,5 +1,3 @@
-import Authentication from "../utils/functions/authentication";
-
 
 const watch = () => {
     return (
@@ -11,5 +9,3 @@ const watch = () => {
 
 export default watch
 
-
-export const getServerSideProps = async ({ req }) => await Authentication(req);

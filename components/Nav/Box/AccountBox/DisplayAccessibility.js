@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { FaArrowLeft, FaKeyboard, FaMoon } from "react-icons/fa";
 import { useGlobalContext } from '../../../../context/GlobalContext';
+import { DARK, LIGHT } from '../../../../server/utils/variables';
 
 const DisplayAccessibility = ({ setMode }) => {
 
@@ -35,34 +36,34 @@ const DisplayAccessibility = ({ setMode }) => {
           <div className="flex flex-col pl-5">
             <button
               className="w-full rounded-lg my-1 p-2 flex items-center justify-between hover:bg-secondary dark:hover:bg-dark-400 transition focus:outline-none focus:ring active:bg-gray-200 dark:active:bg-dark-300 font-semibold"
-              onClick={() => setState({ ...state, darkMode: false })}
+              onClick={() => setState({ ...state, theme: LIGHT})}
             >
               <p>off</p>
               <div
                 className={`h-5 w-5 flex justify-center items-center rounded-full border-2 ${
-                  !state.darkMode ? "border-blue-500" : "border-gray-500"
+                  state.theme === LIGHT ? "border-blue-500" : "border-gray-500"
                 }`}
               >
                 <div
                   className={`h-2.5 w-2.5 transition transform rounded-full bg-blue-500 ${
-                    !state.darkMode ? "" : "scale-0"
+                    state.theme === LIGHT ? "" : "scale-0"
                   }`}
                 ></div>
               </div>
             </button>
             <button
               className="w-full rounded-lg my-1 p-2 flex items-center justify-between hover:bg-secondary dark:hover:bg-dark-400 transition focus:outline-none focus:ring active:bg-gray-200 dark:active:bg-dark-300 font-semibold"
-              onClick={() => setState({ ...state, darkMode: true })}
+              onClick={() => setState({ ...state, theme: DARK })}
             >
               <p>on</p>
               <div
                 className={`h-5 w-5 flex justify-center items-center rounded-full border-2 ${
-                  state.darkMode ? "border-blue-500" : "border-gray-500"
+                  state.theme === DARK ? "border-blue-500" : "border-gray-500"
                 }`}
               >
                 <div
                   className={`h-2.5 w-2.5 transition transform rounded-full bg-blue-500 ${
-                    state.darkMode ? "" : "scale-0"
+                    state.theme === DARK ? "" : "scale-0"
                   }`}
                 ></div>
               </div>

@@ -2,39 +2,37 @@ import Link from 'next/link';
 import Button from '../components/Buttons/Button';
 import { BsX } from 'react-icons/bs';
 import { FaPlus } from 'react-icons/fa';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LoginModel from '../components/Models/LoginModel';
 import CreateAccountModel from '../components/Models/CreateAccountModel';
 import Head from 'next/head';
-import { getSession, signIn } from 'next-auth/client';
-import { useRouter } from 'next/router';
 import { useGlobalContext } from '../context/GlobalContext';
+import catchAsync from '../utils/functions/catchAsync';
+import axios from 'axios';
+import { useAuthContext } from '../context/AuthContext';
+import { useRouter } from 'next/router';
      
 const LoginOrSignup = () => {
-  const [state, setState] = useGlobalContext();
   const Router = useRouter();
+  const [state, setState] = useGlobalContext();
+  const [auth, setAuth] = useAuthContext();
   const [showLoginModel, setShowLoginModel] = useState(false);
   const [showCreateAccountModel, setShowCreateAccountModel] = useState(false);
-
+  const [loading, setLoading] = useState(false);
     const [loginData, setLoginData] = useState({
-      emailOrPhone: "",
+      email: "",
       password: "",
     });
+  
 
-  const login = async (e) => {
-    try {
-      e.preventDefault();
-      const response = await signIn('credentials', { redirect: false, ...loginData });
-      if (response.status === 200) {
-        setState({ ...state, alert: {...state.alert, show: true, text: "Logged In", type: 'success' } });
-      } else {
-        setState({ ...state, alert: {...state.alert, show: true, text: "Invalid credentials", type: 'danger' } });
-      }
-      if (response.status === 200) Router.replace('/');
-    } catch (error) {
-      setState({ ...state, alert: {show: true, text: error.message, type: 'danger' } });
-    }
-  };
+  const login = (e) => catchAsync(async () => {
+    e.preventDefault();
+    const res = await axios.post(`${process.env.NEXT_PUBLIC_API || 'api'}/v1/users/auth/login`, loginData, { withCredentials: true });
+    setState({ ...state, alert: { show: true, text: res.data.message, type: 'success' } });
+    setAuth({ ...auth, user: res.data.data.user});
+    setLoading(false);
+    Router.replace('/');
+  }, setState, () => setLoading(false))
   
     const inputChange = (e) =>
       setLoginData({
@@ -43,6 +41,10 @@ const LoginOrSignup = () => {
           e.target.type === "checkbox" ? e.target.checked : e.target.value,
       });
   
+  useEffect(() => {
+    // cleanup
+    return () => { };
+  }, [] )
   
     return (
       <div className="mt-[-57px] relative ">
@@ -78,9 +80,8 @@ const LoginOrSignup = () => {
               <div className="flex-1 rounded-lg border bg-white relative group transition hover:shadow-lg">
                 <Link href="/">
                   <a
-                    href="/"
+                    href="/"      
                     className="flex h-full flex-col justify-stretch"
-                    onClick={signIn}
                   >
                     <img
                       src="img/users/default/user.jpeg"
@@ -125,10 +126,10 @@ const LoginOrSignup = () => {
               <form onSubmit={login}>
                 <input
                   type="text"
-                  name="emailOrPhone"
+                  name="email"
                   className="w-full border my-2 p-2 rounded focus:outline-none focus:border-blue-500"
                   placeholder="Email address or phone number"
-                  value={loginData.emailOrPhone}
+                  value={loginData.email}
                   onChange={inputChange}
                   required
                 />
@@ -145,6 +146,7 @@ const LoginOrSignup = () => {
                 <Button
                   type="submit"
                   className="w-full bg-blue-500 py-2 text-white rounded-md my-2 focus:outline-none focus:ring hover:bg-blue-600 active:bg-blue-700 transition"
+                  loading={loading}
                 >
                   Log In
                 </Button>
@@ -181,10 +183,4 @@ const LoginOrSignup = () => {
 
 export default LoginOrSignup
 
-export const getServerSideProps = async ({ req }) => {
-  const session = await getSession({ req });
-  if (session) {
-    return { redirect: { destination: "/", permanent: false } };
-  };
-  return {props: {}}
-}
+

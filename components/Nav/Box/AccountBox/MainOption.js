@@ -13,20 +13,20 @@ import {
   HELP_SUPPORT,
   SETTINGS_PRIVACY,
 } from "./AccountBox";
-import {  signOut } from 'next-auth/client'
-import { useRouter } from "next/router";
+import catchAsync from "../../../../utils/functions/catchAsync";
+import { useGlobalContext } from "../../../../context/GlobalContext";
+import { useAuthContext } from "../../../../context/AuthContext";
+import axios from "axios";
 
 
 const MainOption = ({ setMode }) => {
-  const Router = useRouter();
-  const logOut = async () => {
-    try {
-      await signOut({ redirect: false });
-      Router.push('/login-or-signup');
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  const [state, setState] = useGlobalContext();
+  const [authState, setAuthState] = useAuthContext();
+  const logOut = () => catchAsync(async () => {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API || 'api'}/v1/users/auth/logout`, {withCredentials: true});
+    setState({ ...state, alert: { show: true, text: res.data.message } });
+    setAuthState({ ...authState, user: null });
+  }, setState)
 
   return (
     <div className={`w-full transition`}>

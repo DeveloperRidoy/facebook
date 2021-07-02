@@ -3,11 +3,10 @@ import CreatePostModel from "../components/Models/CreatePostModel/CreatePostMode
 import Sidebars from "../components/Sidebars/Sidebars";
 import { useRouter } from "next/router";
 import { useGlobalContext } from "../context/GlobalContext";
-import { useEffect, useState } from "react";
 import Alert from "./Alert";
+import { useEffect, useState } from "react";
 
 const Container = ({ children }) => {
-    
   const [state, setState] = useGlobalContext();
   const route = useRouter().route;
   const showRightSidebar =
@@ -56,7 +55,6 @@ const MainPage = ({ children, showRightSidebar, showLeftSidebar, state }) => (
         ? "fixed left-1/2 -translate-x-1/2 h-screen w-screen overflow-hidden "
         : "min-h-screen"
       }`}
-    onClick={() => console.log('clicked on mainpage')}
   >
     {state.alert.show && <Alert />}
     {showLeftSidebar && <div className="w-[254px] hidden lg:block"></div>}
