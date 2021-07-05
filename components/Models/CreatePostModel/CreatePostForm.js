@@ -2,9 +2,9 @@ import PostButton from "../../Buttons/PostButton";
 import { BsChatQuoteFill, BsThreeDots, BsX } from "react-icons/bs";
 import { FaCaretDown, FaGlobeAsia, FaImage, FaLock, FaUserFriends, FaUserTag, FaRegGrinAlt, FaMapMarkerAlt } from "react-icons/fa";
 import Link from "next/link";
-import { ADD_TO_POST, AUDIENCE, FRIENDS, HOST_QA, ONLY_ME, POST, PUBLIC, QA } from "../../../utils/variables";
+import { ADD_TO_POST, AUDIENCE, FRIENDS, HOST_QA, ONLY_ME, POST, PUBLIC, QA } from "../../../utils/client/variables";
 import { useState } from "react";
-import QADiv from "./QADiv";
+import QADiv, { BackgroundSetter } from "./QADiv";
 
 const CreatePostForm = ({closeModel, setToggleModel, toggleModel, formData, setFormData}) => {
   
@@ -78,7 +78,7 @@ const CreatePostForm = ({closeModel, setToggleModel, toggleModel, formData, setF
               cols="30"
               rows="4"
               placeholder="What's on your mind, Mubarak?"
-              className="focus:outline-none mt-2 dark:bg-dark text-xl w-full resize-none"
+              className={`focus:outline-none mt-2 dark:bg-dark text-xl w-full rounded-lg p-1 mb-3 ${formData.postBackground}`}
               onChange={(e) =>
                 setFormData({ ...formData, text: e.target.value })
               }
@@ -97,7 +97,12 @@ const CreatePostForm = ({closeModel, setToggleModel, toggleModel, formData, setF
             )
           )}
           <div>
-            <div className="flex justify-between items-center rounded-lg p-3 border border-gray-300 dark:border-gray-500 mb-3">
+            <BackgroundSetter
+              formData={formData}
+              setFormData={setFormData}
+              postBackground
+            />
+            <div className="flex justify-between items-center rounded-lg p-3 border border-gray-300 dark:border-gray-500 my-3">
               <button
                 type="button"
                 className="font-semibold active:outline-none"

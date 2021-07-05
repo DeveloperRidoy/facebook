@@ -15,7 +15,7 @@ const expressApp = (app, server, dev) => {
   // implement cors in development
   if (dev) {
     app.use(cors({ origin: "http://localhost:3000", credentials: true }));
-
+ 
     // cors for prefilght request of complex request like delete, patch etc
     app.options("*", cors({ origin: "http://localhost:3000", credentials: true }));
   }
@@ -61,7 +61,7 @@ const expressApp = (app, server, dev) => {
 
   // handle 404 requests
   app.all(/^\/api\/v1/, notFound);
-
+  
   
 
   // handle error

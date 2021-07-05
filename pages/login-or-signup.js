@@ -7,31 +7,26 @@ import LoginModel from '../components/Models/LoginModel';
 import CreateAccountModel from '../components/Models/CreateAccountModel';
 import Head from 'next/head';
 import { useGlobalContext } from '../context/GlobalContext';
-import catchAsync from '../utils/functions/catchAsync';
+import catchAsync from '../utils/client/functions/catchAsync';
 import axios from 'axios';
-import { useAuthContext } from '../context/AuthContext';
-import { useRouter } from 'next/router';
      
 const LoginOrSignup = () => {
-  const Router = useRouter();
   const [state, setState] = useGlobalContext();
-  const [auth, setAuth] = useAuthContext();
   const [showLoginModel, setShowLoginModel] = useState(false);
   const [showCreateAccountModel, setShowCreateAccountModel] = useState(false);
   const [loading, setLoading] = useState(false);
     const [loginData, setLoginData] = useState({
       email: "",
       password: "",
-    });
+    }); 
   
 
   const login = (e) => catchAsync(async () => {
     e.preventDefault();
+    setLoading(true);
     const res = await axios.post(`${process.env.NEXT_PUBLIC_API || 'api'}/v1/users/auth/login`, loginData, { withCredentials: true });
-    setState({ ...state, alert: { show: true, text: res.data.message, type: 'success' } });
-    setAuth({ ...auth, user: res.data.data.user});
+    setState({ ...state, user: res.data.data?.user, alert: { show: true, text: res.data.message, type: 'success' } });
     setLoading(false);
-    Router.replace('/');
   }, setState, () => setLoading(false))
   
     const inputChange = (e) =>

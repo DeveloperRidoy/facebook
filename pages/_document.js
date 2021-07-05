@@ -6,8 +6,15 @@ class MyDocument extends Document {
       <Html>
         <Head>
           <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+          <link
+            rel="preload"
+            href="/fonts/Segoe ui historic.ttf"
+            as="font"
+            type="font/ttf"
+            crossOrigin="anonymous"
+          />
         </Head>
-        <body>
+        <body style={{ minHeight: "100vh", position: "relative" }}>
           <Main />
         </body>
         <NextScript />

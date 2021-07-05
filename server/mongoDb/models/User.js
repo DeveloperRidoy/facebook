@@ -1,8 +1,8 @@
-const { ADMIN, DARK, LIGHT, USER } = require("../../utils/variables");
+const { ADMIN, USER } = require("../../../utils/server/variables");
 const uniqueValidator = require("mongoose-unique-validator");
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
-
+const bcrypt = require('bcrypt')      
+ 
 const UserSchema = new mongoose.Schema({
   firstName: {
     type: String,
@@ -59,15 +59,7 @@ const UserSchema = new mongoose.Schema({
       values: [USER, ADMIN],
       message: `Users may only have one of these roles ['${USER}', '${ADMIN}']`,
     },
-  },
-  preferredTheme: {
-    type: String,
-    default: LIGHT,
-    enum: {
-      values: [LIGHT, DARK],
-      message: `preferred theme may only be one of these modes ['${LIGHT}', '${DARK}']`,
-    },
-  },
+  }
 }, { toObject: { virtuals: true }, toJSON: { virtuals: true } });
 
 // unique fields error
@@ -103,13 +95,12 @@ UserSchema.pre('save', async function (next) {
   }
 })
 
-// instance method to compare password 
+// instance method to compare password
 UserSchema.methods.comparePassword = async function (password) {
   const passwordsMatch = await bcrypt.compare(password, this.password);
   return passwordsMatch;
 }
 
+const User = mongoose.model("user", UserSchema); 
 
-const User = mongoose.model('user', UserSchema);
-
-module.exports = User;
+module.exports = User;           

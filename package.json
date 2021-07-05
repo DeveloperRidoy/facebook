@@ -7,7 +7,7 @@
     "build": "next build",
     "next-start": "next start",
     "start": "node server/server.js",
-    "server": "nodemon server/server.js"
+    "server": "nodemon --watch app --watch server/server.js"
   },
   "dependencies": {
     "axios": "^0.21.1",

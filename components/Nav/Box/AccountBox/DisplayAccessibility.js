@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import { FaArrowLeft, FaKeyboard, FaMoon } from "react-icons/fa";
 import { useGlobalContext } from '../../../../context/GlobalContext';
-import { DARK, LIGHT } from '../../../../server/utils/variables';
+import { DARK, LIGHT } from '../../../../utils/global/variables';
 
 const DisplayAccessibility = ({ setMode }) => {
 
     const [state, setState] = useGlobalContext();
-
+    console.log(state.theme)
     return (
       <div className={`w-full transition p-1`}>
         <div className="flex gap-x-3">
@@ -41,12 +41,12 @@ const DisplayAccessibility = ({ setMode }) => {
               <p>off</p>
               <div
                 className={`h-5 w-5 flex justify-center items-center rounded-full border-2 ${
-                  state.theme === LIGHT ? "border-blue-500" : "border-gray-500"
+                  state.theme === LIGHT || !state.theme ? "border-blue-500" : "border-gray-500"
                 }`}
               >
                 <div
                   className={`h-2.5 w-2.5 transition transform rounded-full bg-blue-500 ${
-                    state.theme === LIGHT ? "" : "scale-0"
+                    state.theme === LIGHT || !state.theme ? "" : "scale-0"
                   }`}
                 ></div>
               </div>

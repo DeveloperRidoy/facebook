@@ -137,7 +137,7 @@ const Nav = ({ route }) => {
                 alt="user"
                 className="h-8 w-8 rounded-full mr-1"
               />
-              <p className="capitalize text-sm font-bold">Mubarak</p>
+              <p className="capitalize text-sm font-bold">{state.user?.firstName.split(' ')[0]}</p>
             </a>
           </Link>
           <Button

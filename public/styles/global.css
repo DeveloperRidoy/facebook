@@ -13,6 +13,8 @@ html {
     scroll-behavior: smooth;
 }
 
+
+
 .styled-scrollbar::-webkit-scrollbar {
   width: 8px;
 }

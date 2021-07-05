@@ -2,14 +2,13 @@ import { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa"
 import Model from "./Model"
 import Link from 'next/link';
-import catchAsync from "../../utils/functions/catchAsync";
+import catchAsync from "../../utils/client/functions/catchAsync";
 import { useGlobalContext } from "../../context/GlobalContext";
 import Button from "../Buttons/Button";
 import axios from "axios";
-import { CUSTOM, FEMALE, MALE } from "../../utils/variables";
-import februaryDays from "../../utils/functions/februaryDays";
+import { CUSTOM, FEMALE, MALE } from "../../utils/client/variables";
+import februaryDays from "../../utils/client/functions/februaryDays";
 import { cloneDeep } from 'lodash';
-import { useRouter } from 'next/router';
 
 const birthDates = [];
 const birthMonths = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
@@ -19,7 +18,6 @@ for (let i = 1905; i <= 2021; i++) birthYears.unshift(i);
 for (let i = 1; i <= 31; i++) birthDates.push(i);
 
 const CreateAccountModel = ({ closeModel }) => {
-  const Router = useRouter();
   const [state, setState] = useGlobalContext();
     const [formData, setFormData] = useState({
         firstName: '',
@@ -56,9 +54,11 @@ const CreateAccountModel = ({ closeModel }) => {
     Object.keys(data).forEach(key => data[key] === '' && delete data[key]);
 
     const res = await axios.post(`${process.env.NEXT_PUBLIC_API || 'api'}/v1/users/auth/signup`, data, {withCredentials: true});
-    setState({ ...state, alert: { show: true, text: res.data.message } });
+    
+    // update state
+    setState({ ...state, user: res.data.data?.user, alert: { show: true, text: res.data.message } });
     setLoading(false);
-    console.log(res.data)
+    
   }, setState, () => setLoading(false));
        
     return (

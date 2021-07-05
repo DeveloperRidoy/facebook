@@ -1,6 +1,6 @@
 import { BsArrowLeft, BsToggleOff } from "react-icons/bs";
 import { FaGlobeAsia, FaLock, FaUserFriends } from "react-icons/fa";
-import { AUDIENCE, FRIENDS, ONLY_ME, PUBLIC } from "../../../utils/variables";
+import { AUDIENCE, FRIENDS, ONLY_ME, PUBLIC } from "../../../utils/client/variables";
 
 
 

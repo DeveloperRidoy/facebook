@@ -1,7 +1,7 @@
 import Model from "../Model"
 import CreatePostForm from "./CreatePostForm";
 import SelectAudience from "./SelectAudience";
-import { ADD_TO_POST, AUDIENCE, HOST_QA, POST, PUBLIC } from "../../../utils/variables";
+import { ADD_TO_POST, AUDIENCE, HOST_QA, POST, PUBLIC } from "../../../utils/client/variables";
 import AddToYourPost from "./AddToYourPost";
 import HostQA from "./HostQA";
 import { useState } from "react";
@@ -17,6 +17,7 @@ const CreatePostModel = ({ closeModel }) => {
     postType: POST,
     qaText: "Hi, I am answering questions. Ask me about...",
     qaBackground: "bg-gradient-to-br from-pink-500 to-blue-500",
+    postBackground: "transparent"
   });
 
     return (

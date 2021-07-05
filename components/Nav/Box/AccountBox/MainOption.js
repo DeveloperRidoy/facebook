@@ -13,19 +13,17 @@ import {
   HELP_SUPPORT,
   SETTINGS_PRIVACY,
 } from "./AccountBox";
-import catchAsync from "../../../../utils/functions/catchAsync";
+import catchAsync from "../../../../utils/client/functions/catchAsync";
 import { useGlobalContext } from "../../../../context/GlobalContext";
-import { useAuthContext } from "../../../../context/AuthContext";
 import axios from "axios";
 
 
 const MainOption = ({ setMode }) => {
   const [state, setState] = useGlobalContext();
-  const [authState, setAuthState] = useAuthContext();
   const logOut = () => catchAsync(async () => {
+    setState({ ...state, loading: true });
     const res = await axios.get(`${process.env.NEXT_PUBLIC_API || 'api'}/v1/users/auth/logout`, {withCredentials: true});
-    setState({ ...state, alert: { show: true, text: res.data.message } });
-    setAuthState({ ...authState, user: null });
+    setState({ ...state, user: null, loading: false, alert: { show: true, text: res.data.message } });
   }, setState)
 
   return (
@@ -36,13 +34,13 @@ const MainOption = ({ setMode }) => {
           className="flex gap-x-3 items-center p-2 rounded-lg hover:bg-secondary dark:hover:bg-dark-400 transition"
         >
           <img
-            src="img/users/default/user.jpeg"
+            src={state.user?.photo ? `img/users/user/${state.user.photo}` : "img/users/default/user.jpeg"}
             alt="user"
             className="h-16 w-16 rounded-full"
           />
           <div className="leading-5">
             <p className="font-semibold text-lg capitalize">
-              mubarak hussain ridoy
+              {state.user?.fullName}
             </p>
             <p className="text-gray-500 dark:text-gray-300">See your profile</p>
           </div>

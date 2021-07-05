@@ -1,13 +1,11 @@
 import Model from './Model';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import catchAsync from '../../utils/functions/catchAsync';
+import catchAsync from '../../utils/client/functions/catchAsync';
 import { useGlobalContext } from '../../context/GlobalContext';
 import Button from '../Buttons/Button';
-import { useRouter } from 'next/router';
 
 const LoginModel = ({ closeModel }) => {
-  const Router = useRouter();
   const [state, setState] = useGlobalContext();
   const [loading, setLoading] = useState(false);
  
@@ -37,9 +35,9 @@ const LoginModel = ({ closeModel }) => {
     if (res.status === 200) {
       setState({
         ...state,
+        user: res.data.data?.user,
         alert: { show: true, text: "Logged in", type: 'success' },
       });
-      Router.replace('/')
       return;
     }
     setState({...state, alert: { show: true, text: 'Invalid credentials', type: 'danger'}})

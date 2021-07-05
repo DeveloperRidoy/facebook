@@ -1,8 +1,10 @@
 import CreatePost from "../components/CreatePost";
 import StoriesPreview from "../components/StoriesPreview/StoriesPreview";
 import Head from 'next/head';
+import Post from "../components/Post/Post";
+import CreateRoom from "../components/CreateRoom/CreateRoom";
 
-export default function Home ({session}) {
+export default function Home () {
 
   return (
     <div
@@ -14,81 +16,8 @@ export default function Home ({session}) {
       <StoriesPreview />
       <div className="w-full max-w-lg mx-auto mt-8">
         <CreatePost />
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
-        <p>home</p>
+        <CreateRoom/>
+        <Post/>
       </div>
     </div>
   );

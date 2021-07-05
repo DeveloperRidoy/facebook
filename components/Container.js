@@ -3,8 +3,6 @@ import CreatePostModel from "../components/Models/CreatePostModel/CreatePostMode
 import Sidebars from "../components/Sidebars/Sidebars";
 import { useRouter } from "next/router";
 import { useGlobalContext } from "../context/GlobalContext";
-import Alert from "./Alert";
-import { useEffect, useState } from "react";
 
 const Container = ({ children }) => {
   const [state, setState] = useGlobalContext();
@@ -17,9 +15,9 @@ const Container = ({ children }) => {
   const showLeftSidebar = route !== "/login-or-signup";
 
   return (
-    <div>
+    <div className="min-h-screen dark:text-white">
       <div className="fixed h-screen w-screen bg-secondary dark:bg-darker"></div>
-      <div className="dark:text-white min-h-screen">
+      <div className="min-h-screen">
         {state.showCreatePostModel && (
           <CreatePostModel
             closeModel={() =>
@@ -56,7 +54,6 @@ const MainPage = ({ children, showRightSidebar, showLeftSidebar, state }) => (
         : "min-h-screen"
       }`}
   >
-    {state.alert.show && <Alert />}
     {showLeftSidebar && <div className="w-[254px] hidden lg:block"></div>}
     <div className="flex-1 pt-[57px] relative">{children}</div>
     {showRightSidebar && <div className="w-[254px] hidden lmd:block"></div>}

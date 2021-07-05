@@ -9,7 +9,7 @@ const connectDb = async () => {
         console.log('db connection failed...shutting down server');
         process.exit(1);
     }
-}
+}             
 
 
 module.exports = connectDb;

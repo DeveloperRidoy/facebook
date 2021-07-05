@@ -11,7 +11,7 @@ dotenv.config({ path: `${__dirname}/../.env.local` });
 
 // determine environment 
 const dev = process.env.NODE_ENV !== "production";
-
+  
 // socket.io
 socket(io(server, {cors: dev && {origin: 'http://localhost:3000'}})); 
 
@@ -41,10 +41,11 @@ nextApp
     if (err) throw err;
     console.log(`app running on PORT ${PORT}`);
   });
-    
+           
   })
   .catch((err) => {
     console.log(`shutting down app on error`);
     console.log(err);
     process.exit(1);
-  });
+  });   
+         

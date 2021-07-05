@@ -1,4 +1,4 @@
-import { HOST_QA } from "../../../utils/variables"
+import { HOST_QA } from "../../../utils/client/variables"
 import { BsArrowLeft } from 'react-icons/bs';
 import QADiv from "./QADiv";
 

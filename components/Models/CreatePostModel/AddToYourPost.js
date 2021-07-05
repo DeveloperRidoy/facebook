@@ -1,7 +1,7 @@
 import { BsArrowLeft, BsChatQuoteFill } from "react-icons/bs";
 import { FaImage, FaMapMarkerAlt, FaRegGrinAlt, FaUserTag, FaVideo } from "react-icons/fa";
-import { ADD_TO_POST, HOST_QA } from "../../../utils/variables";
-
+import { ADD_TO_POST, HOST_QA } from "../../../utils/client/variables";
+ 
 const AddToYourPost = ({ setToggleModel, formData, setFormData, toggleModel }) => {
 
     return (

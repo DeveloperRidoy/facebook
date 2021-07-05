@@ -51,6 +51,12 @@ module.exports = {
       screens: {
         lmd: "865px",
       },
+      textColor: {
+        transparent: "rgba(0, 0, 0, 0)",
+      },
+      fontFamily: {
+        segoe: ["Segoe ui historic", "sans-serif"],
+      },
     },
   },
   variants: {

@@ -7,7 +7,7 @@ const Router = require('express').Router();
 
 Router.route('/')
     .get(getAllUsers())
-    .delete(deleteAllUsers())
+    .delete(protect(), deleteAllUsers())
     .patch(protect(), updateMe())
 
 Router.route("/auth")

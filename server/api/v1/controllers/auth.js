@@ -1,16 +1,16 @@
 const User = require("../../../mongoDb/models/User");
-const catchAsync = require("../../../utils/functions/catchAsync");
+const catchAsync = require("../../../../utils/server/functions/catchAsync");
 const AppError = require("../middlewares/AppError");
 const jwt = require('jsonwebtoken');
-const jwtCookieToken = require("../../../utils/functions/jwtCookieToken");
+const jwtCookieToken = require("../../../../utils/server/functions/jwtCookieToken");
 
 // @route           GET api/v1/users/auth
 // @description     authenticate user from cookie
-// @accessibllity   public
+// @accessibllity   public    
 exports.authenticate = () => catchAsync(async (req, res, next) => {
   
   const authToken = req.signedCookies['user-auth-token'] || req.headers.authorization?.split(' ')[1];
- 
+                 
   // check if authToken is provided
   if (!authToken) return res.json({ status: 'fail', message: 'not logged in' });
 

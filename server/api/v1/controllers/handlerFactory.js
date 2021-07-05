@@ -1,5 +1,5 @@
-const docName = require("../../../../utils/functions/docName");
-const catchAsync = require("../../../utils/functions/catchAsync");
+const docName = require("../../../../utils/server/functions/docName");
+const catchAsync = require("../../../../utils/server/functions/catchAsync");
 
 
 // get all docs 

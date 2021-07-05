@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken');
-
+ 
 const jwtCookieToken = (user, req, res) => {
   const token = jwt.sign({ id: user._id}, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE_TIME,
   });
-
+   
   // attach token with response cookies
   res.cookie("user-auth-token", token, {
     expires: new Date(
@@ -12,7 +12,7 @@ const jwtCookieToken = (user, req, res) => {
     ),
     secure: req.secure || req.headers["x-forwarded-proto"] === "https",
     httpOnly: true,
-    signed: true
+    signed: true 
   });
   return token;
 };

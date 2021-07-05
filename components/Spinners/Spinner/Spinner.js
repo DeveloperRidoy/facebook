@@ -7,3 +7,4 @@ const Spinner = ({ className }) => {
 }
 
 export default Spinner
+ 

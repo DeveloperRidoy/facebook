@@ -1,5 +1,5 @@
 const User = require("../../../mongoDb/models/User");
-const catchAsync = require("../../../utils/functions/catchAsync");
+const catchAsync = require("../../../../utils/server/functions/catchAsync");
 const AppError = require("../middlewares/AppError");
 const { getDocs, deleteDocs } = require("./handlerFactory");
 
