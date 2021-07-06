@@ -1,3 +1,4 @@
+const { ADMIN } = require('../../../../utils/server/variables');
 const { authenticate, registerUser, loginUser, logoutUser } = require('../controllers/auth');
 const { getAllUsers, deleteAllUsers, updateMe } = require('../controllers/users');
 const protect = require('../middlewares/protect');
@@ -7,7 +8,7 @@ const Router = require('express').Router();
 
 Router.route('/')
     .get(getAllUsers())
-    .delete(protect(), deleteAllUsers())
+    .delete(protect(ADMIN), deleteAllUsers())
     .patch(protect(), updateMe())
 
 Router.route("/auth")

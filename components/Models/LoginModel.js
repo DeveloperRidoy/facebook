@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import catchAsync from '../../utils/client/functions/catchAsync';
 import { useGlobalContext } from '../../context/GlobalContext';
 import Button from '../Buttons/Button';
+import axios from 'axios';
 
 const LoginModel = ({ closeModel }) => {
   const [state, setState] = useGlobalContext();
@@ -16,7 +17,7 @@ const LoginModel = ({ closeModel }) => {
   }, []);
 
   const [loginData, setLoginData] = useState({
-    emailOrPhone: "",
+    email: "",
     password: null,
     rememberPassword: false,
   });
@@ -31,16 +32,8 @@ const LoginModel = ({ closeModel }) => {
   const login = (e) => catchAsync(async () => {
     e.preventDefault();
     setLoading(true);
-    const res = await signIn('credentials', { redirect: false, ...loginData });
-    if (res.status === 200) {
-      setState({
-        ...state,
-        user: res.data.data?.user,
-        alert: { show: true, text: "Logged in", type: 'success' },
-      });
-      return;
-    }
-    setState({...state, alert: { show: true, text: 'Invalid credentials', type: 'danger'}})
+    const res = await axios.post(`${process.env.NEXT_PUBLIC_API || 'api'}/v1/users/auth/login`, loginData,{ withCredentials: true})
+    setState({...state, user: res.data.data?.user, alert: {show: true, text: res.data.message, type: "success"}})
   }, setState, () => setLoading(false));
  
     return (
@@ -55,9 +48,9 @@ const LoginModel = ({ closeModel }) => {
           <input
             type="text"
             className="w-full p-2 my-2 bg-transparent border rounded focus:border-blue-500 focus:outline-none transition"
-            name="emailOrPhone"
+            name="email"
             placeholder="Email address or phone number"
-            value={loginData.emailOrPhone}
+            value={loginData.email}
             onChange={inputChange}
           />
           <input

@@ -60,7 +60,7 @@ exports.registerUser = () => catchAsync(async (req, res, next) => {
 // @description     login user
 // @accessibllity   public
 exports.loginUser = () => catchAsync(async (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password, rememberPassword } = req.body;
 
   // check if email and password is provided 
   if (!email || !password) return next(new AppError(400, 'Please provide your email and password'));
@@ -72,6 +72,11 @@ exports.loginUser = () => catchAsync(async (req, res, next) => {
   // check is passwords match
   const passwordsMatch = await user.comparePassword(password);
   if (!passwordsMatch) return next(new AppError(400, 'Password incorrect'));
+
+  // check if user wants to rememberPassword  
+  if (rememberPassword) {
+    console.log('user want to remember password')
+  } 
 
   // return jsonwebtoken and user-auth-cookie
   const token = jwtCookieToken(user, req, res);

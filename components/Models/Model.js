@@ -20,10 +20,10 @@ const Model = ({
           onClick={(e) => e.stopPropagation()}
         >
           {showHeader && (
-            <div className="flex items-center justify-center p-4 min-w-[250px] text-center text-xl font-semibold relative border-b-2">
+            <div className="flex items-center justify-between px-4 py-2 min-w-[250px] text-center text-xl font-semibold border-b-2">
               <p> {title}</p>
               <button
-                className="absolute top-3 right-3 text-3xl text-gray-600  bg-gray-200  rounded-full p-1 transition hover:bg-gray-300  active:outline-none transform hover:active:scale-95"
+                className=" text-3xl text-gray-600  bg-gray-200  rounded-full p-1 transition hover:bg-gray-300  active:outline-none transform hover:active:scale-95"
                 onClick={closeModel}
               >
                 <BsX />

@@ -52,8 +52,8 @@ const expressApp = (app, server, dev) => {
   connectDb();
 
   // api routes
-  const routes = ["users"];
-
+  const routes = ["users", "posts"];
+ 
   // handle routes requests
   routes.forEach((route) =>
     app.use(`/api/v1/${route}`, require(`${__dirname}/api/v1/routes/${route}`))

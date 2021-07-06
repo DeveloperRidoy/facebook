@@ -9,7 +9,7 @@ const CreatePost = () => {
   const [state, setState] = useGlobalContext();
 
     return (
-      <div className="bg-white dark:bg-dark rounded-xl shadow p-3 ">
+      <div className="bg-white dark:bg-dark rounded-xl shadow p-3">
         <div className="flex items-center gap-x-3 ">
           <Link href="/user">
             <a href="/user">
@@ -27,8 +27,8 @@ const CreatePost = () => {
             What's on your mind, <span className="capitalize">mubarak</span>?
           </button>
         </div>
-        <Spacer />
-        <div className="flex justify-around pt-3 text-gray-600 dark:text-gray-300 font-semibold">
+        <Spacer className="mt-3" />
+        <div className="flex flex-wrap whitespace-nowrap justify-around pt-3 text-gray-600 dark:text-gray-300 font-semibold">
           <Link href="/">
             <a
               href="/"

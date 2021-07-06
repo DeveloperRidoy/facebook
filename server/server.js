@@ -8,7 +8,7 @@ const socket = require("./io/socket");
 
 // environmental variables
 dotenv.config({ path: `${__dirname}/../.env.local` });
-
+ 
 // determine environment 
 const dev = process.env.NODE_ENV !== "production";
   

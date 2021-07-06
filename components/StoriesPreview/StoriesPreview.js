@@ -11,11 +11,11 @@ const StoriesPreview = () => {
         <CreateStory />
         <StoryItem userName="tazwar" />
         <StoryItem userName="tazwar" />
-        <div className="relative flex-1">
+        <div className="h-full w-full relative flex-1">
           <StoryItem userName="tazwar" className="h-full w-full" />
           <SeeAllStories className="xl:hidden" />
         </div>
-        <div className="hidden xl:block relative flex-1">
+        <div className="hidden h-full w-full xl:block relative flex-1">
           <StoryItem userName="tazwar" className="h-full w-full" />
           <SeeAllStories />
         </div>

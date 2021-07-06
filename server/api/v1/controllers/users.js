@@ -9,9 +9,9 @@ const { getDocs, deleteDocs } = require("./handlerFactory");
 exports.getAllUsers = () => getDocs(User);
 
 
-// @route           POST api/v1/users/signup
-// @description     signup user
-// @accessibllity   public
+// @route           DELETE api/v1/users
+// @description     delete all users
+// @accessibllity   admin
 exports.deleteAllUsers = () => deleteDocs(User);
 
 

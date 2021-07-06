@@ -12,7 +12,7 @@ const RIGHT = 'RIGHT';
 const CreateRoom = () => {
 
   const users = [];
-  for (let i = 0; i <= 39; i++) users.push(i);
+  for (let i = 0; i <= 50; i++) users.push(i);
 
   const scrollableDiv = createRef();
 
@@ -50,10 +50,10 @@ const CreateRoom = () => {
         </button>
         <div
           ref={scrollableDiv}
-          className="grid grid-flow-col gap-x-3 py-3 pl-3 items-center overflow-hidden "
+          className="grid grid-flow-col max-w-[calc(100vw-25px)] gap-x-3 py-3 pl-3 items-center overflow-hidden"
           onScroll={(e) => toggleScrollButtons(e, state, setState)}
         >
-          <button className="dark:border-blue-500 border transition hover:bg-gray-200 dark:hover:bg-gray-700 active:bg-gray-300 rounded-full py-2 px-3 dark:text-blue-500 whitespace-nowrap font-semibold flex items-center gap-x-2">
+          <button className="dark:border-blue-500 border transition hover:bg-gray-200 dark:hover:bg-gray-700 active:bg-gray-300 rounded-full py-2 px-3 dark:text-blue-500 whitespace-nowrap font-semibold flex items-center gap-x-2 min-h-0 min-w-max">
             <FaVideo className="text-pink-500" />
             <p>Create Room</p>
           </button>

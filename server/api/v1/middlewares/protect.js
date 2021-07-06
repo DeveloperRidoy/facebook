@@ -29,7 +29,6 @@ const protect = (...roles) => catchAsync(async (req, res, next) => {
   
     // attach user to the request to use in the next middleware 
     req.user = user;
-
     // go to next middleware 
     return next();
 })
