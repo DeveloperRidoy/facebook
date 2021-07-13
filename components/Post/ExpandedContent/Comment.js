@@ -8,7 +8,7 @@ const REPLY = 'REPLY';
 
 const Comment = () => {
     return (
-      <div className="text-gray-400 mb-5">
+      <div className="dark:text-gray-400  mb-5">
         <CommentBody type={MAIN} comment="this is a comment"/>
         {[1, 2].map((_, i) => <CommentBody type={REPLY} key={i} i={i} comment="this is a reply"/>)}
       </div>
@@ -35,8 +35,8 @@ const CommentBody = ({ type, comment, i }) => (
       alt="user"
       className="h-8 w-8 rounded-full mt-2"
     />
-    <div className="text-gray-300">
-      <div className="bg-dark-400 px-3 py-2 rounded-2xl leading-5">
+    <div className="dark:text-gray-300">
+      <div className="bg-secondary dark:bg-dark-400 shadow px-3 py-2 rounded-2xl leading-5">
         <p className="font-semibold">User</p>
         <p>{comment}</p>
       </div>
@@ -48,7 +48,7 @@ const CommentBody = ({ type, comment, i }) => (
         <span>2h</span>
       </div>
     </div>
-    <button className="hidden group-hover:block p-1 rounded-full transition dark:hover:bg-dark-400 mt-3 ml-[-10px] text-sm">
+    <button className="hidden group-hover:block p-1 rounded-full transition hover:bg-gray-300 dark:hover:bg-dark-400 mt-3 ml-[-10px] text-sm">
       <FaEllipsisH />
     </button>
   </div>

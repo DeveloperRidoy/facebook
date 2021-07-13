@@ -1,4 +1,3 @@
-
 import { useRouter } from "next/router";
 import { createContext, useContext, useEffect, useState } from "react"
 import RoundSpinner from "../components/Spinners/RoundSpinner";
@@ -18,8 +17,9 @@ const GlobalContext = ({ children }) => {
     theme: typeof document !== 'undefined' && localStorage.theme || null,
     themeUpdated: false,
     user: null,
+    quickLogins: null,
     loading: true,
-    alert: { show: false, text: null, type: '', time: null },
+    alert: { show: false, text: null, type: '', time: null }, 
     renderChildren: false
   })
   
@@ -31,7 +31,7 @@ const GlobalContext = ({ children }) => {
   useEffect(() => {
     // decide wehether to redirect user
     !state.loading
-      ? state.user && route === "/login-or-signup"
+      ? state.user !== null && state.user && route === "/login-or-signup"
         ? Router.replace("/")
         : !state.user && route !== "/login-or-signup"
         ? Router.replace("/login-or-signup")
@@ -41,15 +41,16 @@ const GlobalContext = ({ children }) => {
     // decide whether to render children
     const renderChildren =
       (!state.loading && state.user && route !== "/login-or-signup" && state.themeUpdated) ||
-      (!state.loading && !state.user && route === "/login-or-signup");
+      (!state.loading && !state.user && route === "/login-or-signup"); 
      
     if (renderChildren && !state.renderChildren) setState({ ...state, renderChildren });
+    if (!renderChildren && state.renderChildren) setState({ ...state, renderChildren: false });
   }, [state.user, state.loading, route, state.themeUpdated])
 
   return (
     <Context.Provider value={[state, setState]}>
       <div className="font-segoe min-h-screen relative">
-        {state.loading && <RoundSpinner />}
+        {state.loading && !state.alert.show && <RoundSpinner />}
         {state.alert.show && <Alert />}
         {state.renderChildren && children}
       </div>

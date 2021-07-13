@@ -11,8 +11,10 @@ const Container = ({ children }) => {
     route !== "/watch" &&
     route !== "/marketplace" &&
     route !== "/gaming" &&
-    route !== "/login-or-signup";
-  const showLeftSidebar = route !== "/login-or-signup";
+    route !== "/login-or-signup" &&
+    !/^\/profile/.test(route);
+  const showLeftSidebar =
+    route !== "/login-or-signup" && !/^\/profile/.test(route);
 
   return (
     <div className="min-h-screen dark:text-white">

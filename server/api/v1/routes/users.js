@@ -1,7 +1,14 @@
 const { ADMIN } = require('../../../../utils/server/variables');
 const { authenticate, registerUser, loginUser, logoutUser } = require('../controllers/auth');
-const { getAllUsers, deleteAllUsers, updateMe } = require('../controllers/users');
+const {
+  getAllUsers,
+  deleteAllUsers,
+  updateMe,
+  getUserById,
+  deleteUserById,
+} = require("../controllers/users");
 const protect = require('../middlewares/protect');
+const checkId = require('../middlewares/checkId');
 
 const Router = require('express').Router();
 
@@ -24,6 +31,10 @@ Router.route('/auth/logout')
     .get(protect(), logoutUser())
 
 
-
+Router.route('/:id')
+    .all(checkId())
+    .get(getUserById())
+    .delete(deleteUserById())
+  
 
 module.exports = Router;

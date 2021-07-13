@@ -17,7 +17,7 @@ const birthYears = [];
 for (let i = 1905; i <= 2021; i++) birthYears.unshift(i);
 for (let i = 1; i <= 31; i++) birthDates.push(i);
 
-const CreateAccountModel = ({ closeModel }) => {
+const CreateAccountModel = ({ closeModel, backdropClass }) => {
   const [state, setState] = useGlobalContext();
     const [formData, setFormData] = useState({
         firstName: '',
@@ -65,6 +65,7 @@ const CreateAccountModel = ({ closeModel }) => {
       <Model
         className="rounded-sm w-[90vw] sm:w-[450px]"
         disableCloseByBackDrop
+        backdropClass={backdropClass}
       >
         <div className="p-3 border-b-2 flex justify-between items-start text-gray-600">
           <div>

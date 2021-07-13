@@ -7,9 +7,10 @@
     "build": "next build",
     "next-start": "next start",
     "start": "node server/server.js",
-    "server": "nodemon --watch server server/server.js"
+    "server": "nodemon --watch server --watch utils/server server/server.js"
   },
   "dependencies": {
+    "@tailwindcss/aspect-ratio": "^0.2.1",
     "axios": "^0.21.1",
     "bcrypt": "^5.0.1",
     "compression": "^1.7.4",

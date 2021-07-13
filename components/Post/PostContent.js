@@ -5,7 +5,7 @@ import {
   FaCommentDots,
   FaHeart,
   FaThumbsUp,
-  FaUsers,
+  FaGlobeEurope
 } from "react-icons/fa";
 import Spacer from "../../components/Spacer";
 
@@ -51,19 +51,19 @@ const PostContent = ({post, setExpand}) => {
               <span className="capitalize font-semibold">
                 {user?.name || "user"}{" "}
               </span>
-              <span className="text-gray-400">
+              {/* <span className="text-gray-400">
                 {type === "question" ? "asked a question " : "posted in "}
               </span>
               <span className="capitalize font-semibold">
                 {group?.name || "this group"}
-              </span>
+              </span> */}
             </p>
             <div className="flex items-center text-gray-400 text-sm gap-x-1">
               <span>{createdAt || "25m"}</span>
               <span className="text-[5px]">
                 <FaCircle />
               </span>
-              <FaUsers className="bg-gray-400 text-gray-800 rounded-full" />
+              <FaGlobeEurope className="bg-gray-400 text-gray-800 rounded-full" />
             </div>
           </div>
         </div>
@@ -73,9 +73,10 @@ const PostContent = ({post, setExpand}) => {
       </div>
       <div className="flex flex-col gap-y-3">
         <p className="px-3">
-          Naruto er moto ar kono anime ki ase?? One piece , one punch man ,
-          attack on titan try korsilam kntu ekta o valo lage nai shob gular 10
-          20ta episode dekhsi
+          Naruto is a Japanese manga series written and illustrated by Masashi
+          Kishimoto. It tells the story of Naruto Uzumaki, a young ninja who
+          seeks recognition from his peers and dreams of becoming the Hokage,
+          the leader of his village
         </p>
         <div className="grid grid-cols-2">
           {postImages.map(
@@ -105,7 +106,7 @@ const PostContent = ({post, setExpand}) => {
         </div>
       </div>
       <div className="px-3 mt-2">
-        <div className="flex justify-between items-center text-gray-400">
+        <div className="flex justify-between items-center dark:text-gray-400">
           <div className="flex items-center gap-x-[2px]">
             <button>
               <FaThumbsUp className="text-xs text-white bg-blue-500 p-[2px] h-4 w-4 rounded-full" />
@@ -115,17 +116,26 @@ const PostContent = ({post, setExpand}) => {
             </button>
             <button className="ml-2 hover:underline">5</button>
           </div>
-          <button className="hover:underline" onClick={() => setExpand(expand => !expand)}>4 Answers</button>
+          <button
+            className="hover:underline"
+            onClick={() => setExpand((expand) => !expand)}
+          >
+            4 Comments
+          </button>
         </div>
         <Spacer />
-        <div className="flex items-center gap-x-1 text-gray-400">
-          <button className="flex-1 flex justify-center p-1 rounded items-center gap-x-2 transition hover:bg-dark-400">
+        <div className="flex items-center gap-x-1 dark:text-gray-400">
+          <button
+            className="flex-1 flex justify-center p-1 rounded items-center gap-x-2 transition 
+          hover:bg-gray-200 dark:hover:bg-dark-400"
+          >
             <FaThumbsUp />
             <span>Like</span>
           </button>
           <button
-            className="flex-1 flex justify-center p-1 rounded items-center gap-x-2 transition hover:bg-dark-400"
-            onClick={() => setExpand(expand => !expand)}
+            className="flex-1 flex justify-center p-1 rounded items-center gap-x-2 transition 
+            hover:bg-gray-200 dark:hover:bg-dark-400"
+            onClick={() => setExpand((expand) => !expand)}
           >
             <FaCommentDots />
             <span>Comment</span>

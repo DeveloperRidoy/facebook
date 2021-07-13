@@ -3,6 +3,7 @@ const catchAsync = (fn, setState, cb) => {
     
     setState((state) => ({
       ...state,
+      loading: false,
       alert: {
         show: true,
         text: err.response?.data?.message || err.message || 'Network Error',

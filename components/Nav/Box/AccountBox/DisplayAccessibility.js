@@ -6,7 +6,7 @@ import { DARK, LIGHT } from '../../../../utils/global/variables';
 const DisplayAccessibility = ({ setMode }) => {
 
     const [state, setState] = useGlobalContext();
-    console.log(state.theme)
+
     return (
       <div className={`w-full transition p-1`}>
         <div className="flex gap-x-3">

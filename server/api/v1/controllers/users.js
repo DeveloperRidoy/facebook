@@ -1,7 +1,7 @@
 const User = require("../../../mongoDb/models/User");
 const catchAsync = require("../../../../utils/server/functions/catchAsync");
 const AppError = require("../middlewares/AppError");
-const { getDocs, deleteDocs } = require("./handlerFactory");
+const { getDocs, deleteDocs, deleteDocById,  getDocById } = require("./handlerFactory");
 
 // @route           GET api/v1/users
 // @description     get all users
@@ -9,11 +9,20 @@ const { getDocs, deleteDocs } = require("./handlerFactory");
 exports.getAllUsers = () => getDocs(User);
 
 
+// @route           GET api/v1/users/:id
+// @description     get user by id 
+// @accessibllity   public
+exports.getUserById = () => getDocById(User)
+
 // @route           DELETE api/v1/users
 // @description     delete all users
 // @accessibllity   admin
 exports.deleteAllUsers = () => deleteDocs(User);
 
+// @route           DELETE api/v1/users/:id 
+// @description     delete user by id
+// @accessibllity   admin
+exports.deleteUserById = () => deleteDocById(User);
 
 // @route           PATCH api/v1/users
 // @description     update user

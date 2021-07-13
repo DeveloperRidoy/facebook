@@ -19,7 +19,6 @@ import MessengerBox from "./Box/MessengerBox";
 import NotificationsBox from "./Box/NotificationsBox";
 import AccountBox from "./Box/AccountBox/AccountBox";
 import Logo from "../Logo";
-import Image from 'next/image';
 
 // variables
 const MENU = "MENU";
@@ -35,7 +34,9 @@ const Nav = ({ route }) => {
   return (
     <div
       className={`fixed top-0 inset-x-0 px-3 items-center h-[57px] mb-52 bg-white dark:text-white z-20  ${
-        state.showCreatePostModel ? "dark:bg-darker-600" : "dark:bg-dark dark:bg-dark shadow-md"
+        state.showCreatePostModel
+          ? "dark:bg-darker-600"
+          : "dark:bg-dark dark:bg-dark shadow-md"
       }`}
     >
       {box.show && (
@@ -126,18 +127,24 @@ const Nav = ({ route }) => {
           )}
         </section>
         <section className="flex-1 grid grid-flow-col justify-end gap-x-2 items-center text-lg">
-          <Link href="/me">
+          <Link href="/profile">
             <a
-              href="/me"
-              className="hidden xl:flex items-center pr-2 h-10 rounded-xl rounded hover:bg-secondary dark:hover:bg-dark-300 transition"
+              href="/profile"
+              className={`hidden xl:flex items-center pr-2 rounded-xl rounded transition active:scale-95 ${
+                /^\/profile/.test(route)
+                  ? "dark:bg-blue-500/20 text-blue-500"
+                  : "hover:bg-secondary dark:hover:bg-dark-300"
+              }`}
               tabIndex="13"
             >
               <img
-                src="img/users/default/user.jpeg"
+                src="/img/users/default/user.jpeg"
                 alt="user"
-                className="h-8 w-8 rounded-full mr-1"
+                className="h-9 w-9 rounded-full mr-1"
               />
-              <p className="capitalize text-sm font-bold">{state.user?.firstName.split(' ')[0]}</p>
+              <p className="capitalize text-sm font-bold">
+                {state.user?.firstName.split(" ")[0]}
+              </p>
             </a>
           </Link>
           <Button

@@ -16,6 +16,7 @@ import {
 import catchAsync from "../../../../utils/client/functions/catchAsync";
 import { useGlobalContext } from "../../../../context/GlobalContext";
 import axios from "axios";
+import { useEffect } from "react";
 
 
 const MainOption = ({ setMode }) => {
@@ -26,11 +27,15 @@ const MainOption = ({ setMode }) => {
     setState({ ...state, user: null, loading: false, alert: { show: true, text: res.data.message } });
   }, setState)
 
+  useEffect(() => {
+    return () => { };
+  }, [])
+
   return (
     <div className={`w-full transition`}>
-      <Link href="/account">
+      <Link href="/profile">
         <a
-          href="/account"
+          href="/profile"
           className="flex gap-x-3 items-center p-2 rounded-lg hover:bg-secondary dark:hover:bg-dark-400 transition"
         >
           <img
