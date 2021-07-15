@@ -4,7 +4,7 @@ const error = (err, req, res, next) => {
   console.log(err);
 
   // catch syntax error
-  if (err instanceof SyntaxError && err.status === 400 && "body" in err) {
+  if (err instanceof SyntaxError) {
     return res.status(400).json({
       status: "fail",
       message: err.message,

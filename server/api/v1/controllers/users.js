@@ -24,6 +24,9 @@ exports.deleteAllUsers = () => deleteDocs(User);
 // @accessibllity   admin
 exports.deleteUserById = () => deleteDocById(User);
 
+
+
+
 // @route           PATCH api/v1/users
 // @description     update user
 // @accessibllity   user (expecting req.user from the previous middleware)
@@ -49,14 +52,11 @@ exports.updateMe = () => catchAsync(async (req, res, next) => {
     // save user 
     const updatedUser = await req.user.save();             
 
-    // remove sensitive information 
-    updatedUser.passwordChangedAt = undefined;
-
     // return response 
     return res.json({
-        status: 'success',
-        message: 'user updated successfully',
-        user: updatedUser
-    })
+      status: "success",
+      message: "user updated successfully",
+      data: { user: updatedUser },
+    });
 })
 

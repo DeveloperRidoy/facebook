@@ -9,7 +9,7 @@ export const SETTINGS_PRIVACY = "SETTINGS_PRIVACY";
 export const HELP_SUPPORT = "HELP_SUPPORT";
 export const DISPLAY_ACCESSIBILITY = "DISPLAY_ACCESSIBILITY";
 
-const AccountBox = () => {
+const AccountBox = ({setBox}) => {
 
   const [mode, setMode] = useState(null);
 
@@ -21,7 +21,7 @@ const AccountBox = () => {
           }`}
         >
           <div className="w-full">
-            {!mode && <MainOption setMode={setMode}/>}
+            {!mode && <MainOption setMode={setMode} setBox={setBox}/>}
           </div>
           {mode === SETTINGS_PRIVACY ? (
             <SettingsPrivacy setMode={setMode} />

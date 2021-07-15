@@ -36,7 +36,7 @@ const LoginModel = ({ closeModel, backdropClass, quickLogin, children, email}) =
     e.preventDefault();
     setLoading(true);
     const res = await axios.post(`${process.env.NEXT_PUBLIC_API || 'api'}/v1/users/auth/login`, loginData, { withCredentials: true });
-    setState({...state, user: res.data.data?.user,quickLogins: res.data.data?.quickLogins?.logins || null, alert: {show: true, text: res.data.message, type: "success"}})
+    setState({...state, user: res.data.data?.user,quickLogins: res.data.data?.quickLogins, alert: {show: true, text: res.data.message, type: "success"}})
   }, setState, () => setLoading(false));
  
     return (

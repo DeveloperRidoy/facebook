@@ -1,11 +1,11 @@
 const { ADMIN } = require('../../../../utils/server/variables');
-const { authenticate, registerUser, loginUser, logoutUser } = require('../controllers/auth');
+const { authenticate, registerUser, loginUser, logoutUser, quickLogin } = require('../controllers/auth');
 const {
   getAllUsers,
   deleteAllUsers,
   updateMe,
   getUserById,
-  deleteUserById,
+  deleteUserById
 } = require("../controllers/users");
 const protect = require('../middlewares/protect');
 const checkId = require('../middlewares/checkId');
@@ -30,6 +30,8 @@ Router.route('/auth/login')
 Router.route('/auth/logout')
     .get(protect(), logoutUser())
 
+Router.route('/auth/quick-login/:id')
+    .get(checkId(), quickLogin())
 
 Router.route('/:id')
     .all(checkId())

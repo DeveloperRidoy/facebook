@@ -9,7 +9,7 @@ const Photos = () => {
           <Link href={`/${state.user?.firstName}/photos`}>
             <a
               href={`/${state.user?.firstName}/photos`}
-              className="text-lg font-semibold"
+              className="text-lg font-semibold hover:underline"
             >
               Photos
             </a>

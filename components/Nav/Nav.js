@@ -34,7 +34,7 @@ const Nav = ({ route }) => {
   return (
     <div
       className={`fixed top-0 inset-x-0 px-3 items-center h-[57px] mb-52 bg-white dark:text-white z-20  ${
-        state.showCreatePostModel
+        state.model?.show
           ? "dark:bg-darker-600"
           : "dark:bg-dark dark:bg-dark shadow-md"
       }`}
@@ -51,7 +51,7 @@ const Nav = ({ route }) => {
           ) : box.mode === NOTIFICATIONS ? (
             <NotificationsBox />
           ) : (
-            box.mode === ACCOUNT && <AccountBox />
+            box.mode === ACCOUNT && <AccountBox setBox={setBox}/>
           )}
         </Box>
       )}
@@ -122,7 +122,7 @@ const Nav = ({ route }) => {
           >
             <FaBars />
           </button>
-          {state.showCreatePostModel && (
+          {state.model?.show && (
             <div className="absolute inset-0 bg-white/70 dark:bg-darker-600/70 z-10 "></div>
           )}
         </section>

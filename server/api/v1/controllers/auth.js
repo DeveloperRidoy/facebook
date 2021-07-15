@@ -4,7 +4,7 @@ const AppError = require("../middlewares/AppError");
 const jwt = require("jsonwebtoken");
 const jwtCookieToken = require("../../../../utils/server/functions/jwtCookieToken");
 const addOrUpdateQuickLogins = require("../../../../utils/server/functions/addOrUpdateQuickLoginsToken");
-const QuickLogin = require("../../../mongoDb/models/QuickLogin");
+const {USER_AUTH_TOKEN, QUICK_LOGINS_TOKEN } = require('../../../../utils/server/variables');
 
 // @route           GET api/v1/users/auth
 // @description     authenticate user from cookie
@@ -12,19 +12,9 @@ const QuickLogin = require("../../../mongoDb/models/QuickLogin");
 exports.authenticate = () =>
   catchAsync(async (req, res, next) => {
     // tokens
-    const userAuthToken = req.signedCookies["user-auth-token"];
-    const quickLoginsToken = req.signedCookies["quick-logins-token"];
-    // verify quickLoginsToken if provided
-    let quickLogins;
-    if (quickLoginsToken) {
-      const validToken = jwt.verify(quickLoginsToken, process.env.JWT_SECRET);
-      if (validToken) {
-        const logins = await QuickLogin.findById(validToken.id);
-        if (logins) {
-          quickLogins = logins;
-        }
-      }
-    }
+    const userAuthToken = req.signedCookies[USER_AUTH_TOKEN];
+   
+    const { quickLogins } = await addOrUpdateQuickLogins(req, res, next);
 
     // check if userAuthToken is provided
     if (!userAuthToken)
@@ -84,11 +74,10 @@ exports.registerUser = () =>
     const user = await User.create(data);
     
     // return quick-logins-token 
-    const quickLogins = await addOrUpdateQuickLogins(req, user);
-    const quickLoginsToken = jwtCookieToken({ id: quickLogins._id }, 'quick-logins-token', req, res);
+    const {quickLogins, quickLoginsToken} = await addOrUpdateQuickLogins(req, res, next, user);
 
     // return user-auth-token
-    const userAuthToken = jwtCookieToken({id: user._id}, 'user-auth-token', req, res);
+    const userAuthToken = jwtCookieToken({id: user._id}, USER_AUTH_TOKEN, req, res);
 
     // remove password before passing data
     user.password = undefined;
@@ -110,8 +99,7 @@ exports.loginUser = () =>
     const { email, password, rememberPassword } = req.body;
 
     // check if email is provided
-    if (!email)
-      return next(new AppError(400, "Please provide your email"));
+    if (!email) return next(new AppError(400, "Please provide your email"));
 
     // check if password is provided
     if (!password)
@@ -121,33 +109,27 @@ exports.loginUser = () =>
     const user = await User.findOne({ email }).select("+password");
     if (!user) return next(new AppError(404, "User not found"));
 
+    // add or update quick-logins
+    const { quickLogins, quickLoginsToken } = await addOrUpdateQuickLogins(
+      req,
+      res,
+      next,
+      user,
+      rememberPassword
+    );
+
     // check is passwords match
     const passwordsMatch = await user.comparePassword(password);
     if (!passwordsMatch) return next(new AppError(400, "Password incorrect"));
 
-    // // add or update quick-logins
-    const quickLogins = await addOrUpdateQuickLogins(
-      req,
-      user,
-      rememberPassword,
-    );
-
-    // return signed cookie named quick-logins-token
-    const quickLoginsToken = jwtCookieToken(
-      { id: quickLogins._id },
-      "quick-logins-token",
-      req,
-      res
-    );
-
     // return signed cookie named user-auth-token
     const userAuthToken = jwtCookieToken(
       { id: user._id },
-      "user-auth-token",
+      USER_AUTH_TOKEN,
       req,
       res
     );
- 
+
     return res.json({
       status: "success",
       message: "login successful",
@@ -163,7 +145,7 @@ exports.loginUser = () =>
 exports.logoutUser = () =>
   catchAsync(async (req, res, next) => {
     // expire the cookie
-    res.cookie("user-auth-token", "logged out", {
+    res.cookie(USER_AUTH_TOKEN, "logged out", {
       expires: new Date(Date.now()),
     });
 
@@ -173,3 +155,44 @@ exports.logoutUser = () =>
       message: "logged out",
     });
   });
+
+
+// @route           GET api/v1/users/auth/quick-login/:id 
+// @description     quick login user 
+// @accessibllity   public
+exports.quickLogin = () => catchAsync(async (req, res, next) => {
+  const id = req.params.id;
+ 
+  // check if token exists
+  const quickLoginsToken = req.signedCookies[QUICK_LOGINS_TOKEN];
+  if (!quickLoginsToken) return next(new AppError(401, "not authorized"));
+
+  // check if token is valid 
+  const validToken = jwt.verify(quickLoginsToken, process.env.JWT_SECRET);
+  if (!validToken) return next(new AppError(401, 'not authorized')); 
+
+  // parse data
+  const tokenData = JSON.parse(validToken.data);
+
+  // check if login wiht id exists
+  const login = tokenData.find((login) => String(login.user) === String(id));
+  if (!login || !login.rememberPassword)
+    return next(new AppError(401, "not authorized"));
+
+  // check if user exists
+  const user = await User.findById(id).select("+passwordChangedAt");
+  if (!user) return next(new AppError(404, "User not found"));
+  
+  // user-auth-token 
+  const userAuthToken = jwtCookieToken({ id: user._id }, USER_AUTH_TOKEN, req, res);
+  
+  // return response 
+  return res.json({
+    status: 'success',
+    message: 'logged in',
+    userAuthToken,
+    quickLoginsToken,
+    data: {user, quickLogins: tokenData}
+  })
+
+})  

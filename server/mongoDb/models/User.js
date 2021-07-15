@@ -74,7 +74,9 @@ const UserSchema = new mongoose.Schema(
     slug: {
       type: String,
       default: function(){return setSlug(this)}
-    }
+    },
+    bio: String,
+    details: [String]
   },
   { toObject: { virtuals: true }, toJSON: { virtuals: true } }
 );

@@ -2,9 +2,13 @@ const catchAsync = require("../../../../utils/server/functions/catchAsync");
 const jwt = require('jsonwebtoken');
 const User = require("../../../mongoDb/models/User");
 const AppError = require("./AppError");
+const {USER_AUTH_TOKEN } = require('../../../../utils/server/variables');
 
 const protect = (...roles) => catchAsync(async (req, res, next) => {
-    const authToken = req.signedCookies['user-auth-token'] || req.headers.authorization?.split(' ')[1] || null;
+    const authToken =
+      req.signedCookies[USER_AUTH_TOKEN] ||
+      req.headers.authorization?.split(" ")[1] ||
+      null;
  
   // check if authToken is provided
   if (!authToken) return next(new AppError(400, 'not logged in',));

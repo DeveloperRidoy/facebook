@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { FaImage, FaRegGrinAlt, FaVideo } from 'react-icons/fa';
 import { useGlobalContext } from '../context/GlobalContext';
+import { CREATE_POST } from '../utils/client/variables';
 import Spacer from './Spacer';
 
 
@@ -22,7 +23,7 @@ const CreatePost = () => {
           </Link>
           <button
             className="bg-secondary dark:bg-dark-400 dark:hover:bg-dark-300 flex-1 rounded-full py-2 px-3 text-left hover:bg-gray-200 focus:bg-gray-300 transition text-lg text-gray-500 dark:text-gray-300 active:outline-none"
-            onClick={() => setState({ ...state, showCreatePostModel: true })}
+            onClick={() => setState({ ...state, model: {show: true, type: CREATE_POST} })}
           >
             What's on your mind, <span className="capitalize">mubarak</span>?
           </button>

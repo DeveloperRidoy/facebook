@@ -56,7 +56,7 @@ const CreateAccountModel = ({ closeModel, backdropClass }) => {
     const res = await axios.post(`${process.env.NEXT_PUBLIC_API || 'api'}/v1/users/auth/signup`, data, {withCredentials: true});
     
     // update state
-    setState({ ...state, user: res.data.data?.user, alert: { show: true, text: res.data.message } });
+    setState({ ...state, user: res.data.data?.user, quickLogins: res.data.data?.quickLogins, alert: { show: true, text: res.data.message } });
     setLoading(false);
     
   }, setState, () => setLoading(false));

@@ -11,7 +11,7 @@ const authenticateUser = (setState) => catchAsync(async () => {
     setState((state) => ({
       ...state,
       user: res.data.data?.user || null,
-      quickLogins: res.data.data?.quickLogins?.logins || null,
+      quickLogins: res.data.data?.quickLogins,
       loading: false,
     }));
   return res.data.data?.user;

@@ -10,3 +10,7 @@ export const QA = 'QA';
 export const MALE = 'MALE';
 export const FEMALE = 'FEMALE';
 export const CUSTOM = 'CUSTOM';
+export const CREATE_POST = 'CREATE_POST';
+export const CREATE_ACCOUNT = "CREATE_ACCOUNT";
+export const DETAILS = "DETAILS";
+export const LOGIN = "LOGIN";

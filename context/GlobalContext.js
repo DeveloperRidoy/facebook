@@ -14,6 +14,7 @@ const GlobalContext = ({ children }) => {
   const route = Router.route;
   const [state, setState] = useState({
     showCreatePostModel: false,
+    model: {show: false, type: null},
     theme: typeof document !== 'undefined' && localStorage.theme || null,
     themeUpdated: false,
     user: null,
@@ -50,8 +51,8 @@ const GlobalContext = ({ children }) => {
   return (
     <Context.Provider value={[state, setState]}>
       <div className="font-segoe min-h-screen relative">
-        {state.loading && !state.alert.show && <RoundSpinner />}
-        {state.alert.show && <Alert />}
+        {state.loading && !state.alert?.show && <RoundSpinner />}
+        {state.alert?.show && <Alert />}
         {state.renderChildren && children}
       </div>
     </Context.Provider>

@@ -1,9 +1,13 @@
+import { useGlobalContext } from "../../../context/GlobalContext";
+import Bio from "./Bio";
+import Detail from "./Detail";
+
 const Intro = () => {
     return (
         <div className="dark:bg-dark shadow p-2 rounded-lg grid gap-y-3">
             <p className="text-lg font-semibold">Intro</p>
-            <Button>add bio</Button>
-            <Button>edit details</Button>
+            <Bio/>
+            <Detail/>
             <Button>add hobbies</Button>
             <Button>add features</Button>
         </div>

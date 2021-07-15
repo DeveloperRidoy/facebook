@@ -34,6 +34,7 @@
     "socket.io": "^4.1.2",
     "socket.io-client": "^4.1.2",
     "socket.io-redis": "^6.1.1",
+    "uuid": "^8.3.2",
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {

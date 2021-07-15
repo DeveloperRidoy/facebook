@@ -37,7 +37,7 @@ const LoginOrSignup = () => {
       },
       { withCredentials: true }
     );
-    setState({ ...state, user: res.data.data?.user, quickLogins: res.data.data?.quickLogins?.logins || null, alert: { show: true, text: res.data.message, type: 'success' } });
+    setState({ ...state, user: res.data.data?.user, quickLogins: res.data.data?.quickLogins, alert: { show: true, text: res.data.message, type: 'success' } });
     setLoading(false);
   }, setState, () => setLoading(false))
   
@@ -94,7 +94,7 @@ const LoginOrSignup = () => {
                   <div className="flex flex-wrap items-center gap-x-3 h-60 overflow-auto gap-3">
                     {state.quickLogins?.map((login) => login.user && (
                       <QuickLoginAccount
-                        key={login._id}
+                        key={login.user._id}
                         login={login}
                         setModel={setModel}
                       />

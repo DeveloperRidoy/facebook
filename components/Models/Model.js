@@ -1,4 +1,5 @@
 import { BsX } from "react-icons/bs"
+import Spacer from "../Spacer";
 
 const Model = ({
   children,
@@ -16,19 +17,22 @@ const Model = ({
         onClick={closeModel}
       >
         <div
-          className={`rounded-xl shadow-xl border  bg-white ${className}`}
+          className={`rounded-xl shadow-xl border dark:border-0 bg-white w-[400px] md:w-[540px] overflow-hidden dark:bg-dark ${className}`}
           onClick={(e) => e.stopPropagation()}
         >
           {showHeader && (
-            <div className="flex items-center justify-between px-4 py-3 min-w-[250px] text-center text-xl font-semibold border-b-2">
-              <p> {title}</p>
-              <button
-                className=" text-3xl text-gray-600  bg-gray-200  rounded-full p-1 transition hover:bg-gray-300  active:outline-none transform hover:active:scale-95"
-                onClick={closeModel}
-              >
-                <BsX />
-              </button>
-            </div>
+            <>
+              <div className="flex items-center justify-between px-4 py-3 min-w-[250px] text-center text-xl font-semibold">
+                <p> {title}</p>
+                <button
+                  className=" text-3xl text-gray-600 dark:text-white bg-gray-200 dark:bg-dark-400 rounded-full p-1 transition hover:bg-gray-300 dark:hover:bg-dark-300 active:outline-none transform hover:active:scale-95"
+                  onClick={closeModel}
+                >
+                  <BsX />
+                </button>
+              </div>
+              <Spacer className="my-0" />
+            </>
           )}
           {children}
         </div>

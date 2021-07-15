@@ -46,10 +46,10 @@ exports.updateDoc = (Model) => catchAsync(async (req, res, next) => {
     if(!updatedData) return next(new AppError(404, 'document not found'))
 
     return res.json({
-        status: 'success',
-        message: `${docName(Model)} updated`,
-        [docName(Model)]: updatedData
-    })
+      status: "success",
+      message: `${docName(Model)} updated`,
+      data: { [docName(Model)]: updatedData },
+    });
 })
 
 // delete all docs 

@@ -14,8 +14,7 @@ const QuickLoginAccount = ({ login, setModel }) => {
   const quickLogin = () => catchAsync(async () => {
     setLoading(true);
     const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_API || "api"}/v1/quick-logins/${login.user._id
-      }`,
+      `${process.env.NEXT_PUBLIC_API || "api"}/v1/users/auth/quick-login/${login.user._id}`,
       { withCredentials: true }
     );
     setState({ ...state, user: res.data.data?.user, alert: { show: true, text: res.data.message, type: 'success' } });

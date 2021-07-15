@@ -4,7 +4,6 @@ class AppError extends Error {
         super(Error),
         this.code = code, 
         this.message = message
-
         // enable stack tracing
         Error.captureStackTrace(this, this.constructor);
     }
