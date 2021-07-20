@@ -14,8 +14,8 @@ const CreatePostModel = ({ closeModel }) => {
   const [formData, setFormData] = useState({
     text: null,
     audience: PUBLIC,
-    postType: POST,
-    qaText: "Hi, I am answering questions. Ask me about...",
+    type: POST,
+    qaText: "",
     qaBackground: "bg-gradient-to-br from-pink-500 to-blue-500",
     postBackground: "transparent"
   });

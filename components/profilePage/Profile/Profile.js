@@ -2,6 +2,7 @@ import { FaCamera, FaPen, FaPlusCircle } from "react-icons/fa";
 import { useGlobalContext } from "../../../context/GlobalContext";
 import ProfilePicButton from "./ProfilePic";
 import Image from 'next/image';
+import CoverPhotoButton from "./CoverPhotoButton";
 
 const Profile = () => {
   const [state] = useGlobalContext();
@@ -12,16 +13,13 @@ const Profile = () => {
       <div className="rounded-b-xl relative overflow-hidden">
         <div className="aspect-w-16 aspect-h-6">
           <Image
-            src={`/img/users/${state.user?.photo || "cover/cover.jpg"}`}
+            src={`/img/users/${state.user?.coverPhoto || "default/cover.jpg"}`}
             className=" object-cover"
             layout="fill"
           ></Image>
         </div>
         <div className="absolute bottom-0 inset-x-0 py-5 bg-gradient-to-t from-darker rounded-lg">
-          <button className="py-1.5 px-2.5 capitalize bg-white text-black font-semibold rounded-lg flex items-center gap-x-2 ml-auto mr-3 active:scale-95 transition">
-            <FaCamera />
-            <span className="hidden sm:block">add cover photo</span>
-          </button>
+          <CoverPhotoButton/>
         </div>
       </div>
       <div className="flex flex-wrap gap-y-3 py-5 px-3 md:px-10 items-end justify-center md:justify-between -mt-24">

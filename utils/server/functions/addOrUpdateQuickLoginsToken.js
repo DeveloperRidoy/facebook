@@ -9,30 +9,44 @@ const addOrUpdateQuickLoginsToken = (req, res, next, user, rememberPassword = fa
         try {
           // function to create token
           const createToken = async (data) => {
-            const jsonData = JSON.stringify(data);
+            const responseData = [];
+            const tokenData = [];
+
+            //   populate data
+            if (typeof data === "object" && data.length > 0) {
+              const users = await User.find({
+                $or: data.map((login) => ({ _id: login.user })),
+              }).select("firstName surName fullName email photo");
+
+              users.forEach((user) => {
+                const loginIndex = data.findIndex(
+                  (login) => String(login.user) === String(user?._id)
+                );
+                if (loginIndex === -1) return;
+
+                // populate responseData
+                responseData.push({
+                  user,
+                  rememberPassword: data[loginIndex].rememberPassword || false,
+                });
+
+                // populate tokneData
+                tokenData.push({
+                  user: user._id,
+                  rememberPassword: data[loginIndex].rememberPassword || false
+                })
+              });
+            }
+
             const quickLoginsToken = jwtCookieToken(
-              { data: jsonData },
+              { data: JSON.stringify(tokenData) },
               QUICK_LOGINS_TOKEN,
               req,
               res
             );
 
-            //   populate user info
-            if (typeof data === 'object' && data.length > 0) {
-                const users = await User.find({
-                  $or: data.map((login) => ({ _id: login.user })),
-                });
-
-                users.forEach((user) => {
-                  const loginIndex = data.findIndex(
-                    (login) => String(login.user) === String(user?._id)
-                  );
-                  if (loginIndex === -1) return;
-                  data[loginIndex].user = user;
-                });
-              }
-            resolve({ quickLogins: data, quickLoginsToken });
-            };
+            resolve({ quickLogins: responseData, quickLoginsToken });
+          };
             
           // check if token exists
           const token = req.signedCookies[QUICK_LOGINS_TOKEN];

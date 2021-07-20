@@ -1,15 +1,19 @@
 import { useState } from "react";
 import {  QA } from "../../../utils//client/variables";
 import {  BsChevronLeft, BsX } from "react-icons/bs";
+import Image from 'next/image';
 
 const QADiv = ({ formData, setFormData, setToggleModel, locked, closeQA }) => (
   <div className="py-3 md:px-10">
     <div className={`rounded-xl p-3 relative ${formData.qaBackground}`}>
-      <img
-        src="img/users/default/user.jpeg"
-        alt="user"
-        className="h-25 w-25 rounded-full mx-auto"
-      />
+      <div className="h-10 w-10 relative">
+        <Image
+          src="/img/users/default/user.jpeg"
+          alt="user"
+          layout="fill"
+          className="rounded-full"
+        />
+      </div>
       <textarea
         name="text"
         cols="30"
@@ -43,7 +47,7 @@ const QADiv = ({ formData, setFormData, setToggleModel, locked, closeQA }) => (
             disabled={!formData.qaText}
             onClick={() => {
               setToggleModel(null);
-              setFormData({ ...formData, postType: QA });
+              setFormData({ ...formData, type: QA });
             }}
           >
             next

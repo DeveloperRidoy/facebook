@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useGlobalContext } from "../../context/GlobalContext";
+import Image from 'next/image';
 
 const Friends = () => {
   const [state] = useGlobalContext();
@@ -36,8 +37,15 @@ export default Friends;
 
 const Friend = ({ link = "#", name = "user", img = "default/user.jpeg" }) => (
   <Link href={link}>
-    <a href={link} className="col-span-">
-      <img src={`/img/users/${img}`} alt={name} className="w-full object-cover rounded-lg" />
+    <a href={link} className="">
+      <div className="w-full h-20 relative">
+        <Image
+          src={`/img/users/${img}`}
+          alt={name}
+          layout="fill"
+          className="object-cover rounded-lg"
+        />
+      </div>
       <p>{name}</p>
     </a>
   </Link>

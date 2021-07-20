@@ -2,6 +2,8 @@
 import Link from 'next/link';
 import { FaAd, FaBusinessTime, FaCalendarAlt, FaClock, FaCreditCard, FaFacebookMessenger, FaFlag, FaGratipay, FaPaperPlane, FaPlaystation, FaRibbon, FaSignal, FaStoreAlt, FaTint, FaUserAlt, FaUserAltSlash, FaUserFriends, FaUsers } from 'react-icons/fa';
 import { IoTv } from "react-icons/io5";
+import Image from 'next/image';
+
 
 const HomeContent = () => {
     
@@ -22,11 +24,14 @@ const HomeContent = () => {
     return (
       <div className="grid gap-y-1  font-semibold capitalize">
         <Item link="/user">
-          <img
-            src="img/users/default/user.jpeg"
-            alt="user"
-            className="h-7 w-7 rounded-full"
-          />
+          <div className="h-7 w-7 relative rounded-full">
+            <Image
+              layout="fill"
+              src="/img/users/default/user.jpeg"
+              alt="user"
+              className="rounded-full"
+            />
+          </div>
           <p className="ml-2">mubarak hussain ridoy</p>
         </Item>
         <Item link="/covid-19-information-center">

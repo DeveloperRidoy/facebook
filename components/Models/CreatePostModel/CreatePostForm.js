@@ -5,16 +5,31 @@ import Link from "next/link";
 import { ADD_TO_POST, AUDIENCE, FRIENDS, HOST_QA, ONLY_ME, POST, PUBLIC, QA } from "../../../utils/client/variables";
 import { useState } from "react";
 import QADiv, { BackgroundSetter } from "./QADiv";
+import Image from 'next/image';
+import axios from "axios";
+import { useGlobalContext } from "../../../context/GlobalContext";
+import catchAsync from "../../../utils/client/functions/catchAsync";
 
 const CreatePostForm = ({closeModel, setToggleModel, toggleModel, formData, setFormData}) => {
   
-  
+  const [state, setState] = useGlobalContext();
   const [loading, setLoading] = useState(false);
   
-  const SubmitPost = async (e) => {
+  const submitPost = (e) => catchAsync(async () => {
     e.preventDefault();
     setLoading(true);
-  };
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_API || "api"}/v1/posts`,
+      formData,
+      { withCredentials: true }
+    );
+    setState((state) => ({
+      ...state,
+      posts: [...state.posts, res.data.data?.post],
+      alert: { show: true, text: res.data.message },
+      model: {...state.model, show: false}
+    }));
+  }, setState, () => setLoading(false));
 
   return (
     <div
@@ -32,11 +47,16 @@ const CreatePostForm = ({closeModel, setToggleModel, toggleModel, formData, setF
       <div className="flex-1 flex flex-col p-4">
         <div className="flex">
           <Link href="/user">
-            <a href="/user" className="capitalize font-semibold" tabIndex="-1">
-              <img
-                src="img/users/default/user.jpeg"
+            <a
+              href="/user"
+              className="capitalize font-semibold h-10 w-10 relative"
+              tabIndex="-1"
+            >
+              <Image
+                src="/img/users/default/user.jpeg"
                 alt="user"
-                className="h-10 w-10 rounded-full"
+                layout="fill"
+                className="rounded-full"
               />
             </a>
           </Link>
@@ -69,10 +89,10 @@ const CreatePostForm = ({closeModel, setToggleModel, toggleModel, formData, setF
           </div>
         </div>
         <form
-          onSubmit={SubmitPost}
+          onSubmit={submitPost}
           className="flex-1 flex flex-col justify-between"
         >
-          {formData.postType === POST ? (
+          {formData.type === POST ? (
             <textarea
               name="text"
               cols="30"
@@ -84,14 +104,14 @@ const CreatePostForm = ({closeModel, setToggleModel, toggleModel, formData, setF
               }
             ></textarea>
           ) : (
-            formData.postType === QA && (
+            formData.type === QA && (
               <div className="overflow-auto h-52 mt-2 px-16 py-5">
                 <QADiv
                   formData={formData}
                   setFormData={setFormData}
                   setToggleModel={setToggleModel}
                   locked
-                  closeQA={() => setFormData({ ...formData, postType: POST })}
+                  closeQA={() => setFormData({ ...formData, type: POST })}
                 />
               </div>
             )

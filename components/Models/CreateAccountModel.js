@@ -63,7 +63,7 @@ const CreateAccountModel = ({ closeModel, backdropClass }) => {
        
     return (
       <Model
-        className="rounded-sm w-[90vw] sm:w-[450px]"
+        className="rounded-sm w-[90vw] sm:w-[450px] dark:bg-white"
         disableCloseByBackDrop
         backdropClass={backdropClass}
       >

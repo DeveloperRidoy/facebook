@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { createContext, useContext, useEffect, useState } from "react"
 import RoundSpinner from "../components/Spinners/RoundSpinner";
-import authenticateUser from "../utils/client/functions/authenticateUser";
+import initialRequests from "../utils/client/functions/initialRequests";
 import toggleTheme from "../utils/client/functions/toggleTheme";
 import Alert from '../components/Alert';
 
@@ -18,6 +18,7 @@ const GlobalContext = ({ children }) => {
     theme: typeof document !== 'undefined' && localStorage.theme || null,
     themeUpdated: false,
     user: null,
+    posts: [],
     quickLogins: null,
     loading: true,
     alert: { show: false, text: null, type: '', time: null }, 
@@ -26,8 +27,8 @@ const GlobalContext = ({ children }) => {
   
   useEffect(() => toggleTheme(state.theme, setState), [state.theme]);
   
-  // authenticate user and update state on first load
-  useEffect(  () =>  authenticateUser(setState), [])
+  // make initial requests on first load
+  useEffect(  () =>  initialRequests(setState), [])
      
   useEffect(() => {
     // decide wehether to redirect user

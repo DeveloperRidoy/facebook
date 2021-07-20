@@ -4,6 +4,7 @@ import Spacer from "../Spacer";
 const Model = ({
   children,
   title,
+  closeBtnClass,
   closeModel,
   showHeader,
   className,
@@ -25,7 +26,7 @@ const Model = ({
               <div className="flex items-center justify-between px-4 py-3 min-w-[250px] text-center text-xl font-semibold">
                 <p> {title}</p>
                 <button
-                  className=" text-3xl text-gray-600 dark:text-white bg-gray-200 dark:bg-dark-400 rounded-full p-1 transition hover:bg-gray-300 dark:hover:bg-dark-300 active:outline-none transform hover:active:scale-95"
+                  className={`text-3xl text-gray-600 dark:text-white bg-gray-200 dark:bg-dark-400 rounded-full p-1 transition hover:bg-gray-300 dark:hover:bg-dark-300 active:outline-none transform hover:active:scale-95 ${closeBtnClass}`}
                   onClick={closeModel}
                 >
                   <BsX />

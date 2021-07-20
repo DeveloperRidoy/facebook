@@ -33,7 +33,6 @@ exports.deleteUserById = () => deleteDocById(User);
 exports.updateMe = () => catchAsync(async (req, res, next) => {
     let error = false;
     Object.keys(req.body).forEach(key => {
-
         // check for unauthorized inputs
         if (key === 'passwordChangedAt' || key === 'password' || key === 'confirmPassword' || key === '_id') {
             error = true;
@@ -41,16 +40,17 @@ exports.updateMe = () => catchAsync(async (req, res, next) => {
               new AppError(401, `you do not have permission to update ${key}`)
             );
         }
-
-        // update user 
-        req.user[key] = req.body[key];
     })
 
     // do not proceed if error 
     if (error) return;
-
-    // save user 
-    const updatedUser = await req.user.save();             
+  
+    // update user 
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user._id,
+      {$set: req.body},
+      { new: true, runValidators: true }
+    );          
 
     // return response 
     return res.json({

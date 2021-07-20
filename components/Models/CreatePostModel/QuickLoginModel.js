@@ -1,5 +1,6 @@
 import LoginModel from "../LoginModel"
 import { BsX } from "react-icons/bs";
+import Image from 'next/image';
 
 const QuickLoginModel = ({user, closeModel}) => {
   return (
@@ -13,11 +14,14 @@ const QuickLoginModel = ({user, closeModel}) => {
         </button>
       </div>
       <div className="flex justify-center">
-        <img
-          src={`img/users/${user.photo || "default/user.jpeg"}`}
-          alt={user.fullName || "user"}
-          className="w-40 h-40 rounded-full"
-        />
+        <div className="w-40 h-40 relative">
+          <Image
+            src={`/img/users/${user.photo || "default/user.jpeg"}`}
+            alt={user.fullName || "user"}
+            layout="fill"
+            className=" rounded-full"
+          />
+        </div>
       </div>
     </LoginModel>
   );

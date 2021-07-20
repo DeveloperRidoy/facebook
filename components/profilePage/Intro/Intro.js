@@ -4,7 +4,7 @@ import Detail from "./Detail";
 
 const Intro = () => {
     return (
-        <div className="dark:bg-dark shadow p-2 rounded-lg grid gap-y-3">
+        <div className="dark:bg-dark shadow p-2 rounded-lg grid gap-y-4">
             <p className="text-lg font-semibold">Intro</p>
             <Bio/>
             <Detail/>

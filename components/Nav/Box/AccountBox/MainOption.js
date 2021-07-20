@@ -17,7 +17,7 @@ import catchAsync from "../../../../utils/client/functions/catchAsync";
 import { useGlobalContext } from "../../../../context/GlobalContext";
 import axios from "axios";
 import { useEffect } from "react";
-
+import Image from 'next/image';
 
 const MainOption = ({ setMode, setBox }) => {
   const [state, setState] = useGlobalContext();
@@ -37,13 +37,20 @@ const MainOption = ({ setMode, setBox }) => {
         <a
           href="/profile"
           className="flex gap-x-3 items-center p-2 rounded-lg hover:bg-secondary dark:hover:bg-dark-400 transition"
-          onClick={() => setBox({show: false, mode: null})}
+          onClick={() => setBox({ show: false, mode: null })}
         >
-          <img
-            src={state.user?.photo ? `img/users/user/${state.user.photo}` : "img/users/default/user.jpeg"}
-            alt="user"
-            className="h-16 w-16 rounded-full"
-          />
+          <div className="h-16 w-16 relative">
+            <Image
+              src={
+                
+                  `/img/users/${state.user?.photo || 'default/user.jpeg'}`
+                  
+              }
+              alt="user"
+              layout="fill"
+              className="rounded-full"
+            />
+          </div>
           <div className="leading-5">
             <p className="font-semibold text-lg capitalize">
               {state.user?.fullName}

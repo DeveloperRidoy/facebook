@@ -11,7 +11,7 @@ const Bio = () => {
     const [state, setState] = useGlobalContext();
     const [expand, setExpand] = useState(false);
     const [loading, setLoading] = useState(false); 
-    const [data, setData] = useState({ text: state.user?.bio || '', charactersLeft: limit - state.user?.bio.length });  
+    const [data, setData] = useState({ text: state.user?.bio || '', charactersLeft: limit - state.user?.bio?.length });  
     
     const updateBio = (e) => catchAsync(async () => {
         e.preventDefault()

@@ -41,7 +41,8 @@ const LoginModel = ({ closeModel, backdropClass, quickLogin, children, email}) =
  
     return (
       <Model
-        className="rounded-sm dark:bg-white dark:text-black sm:min-w-[350px] bg-blue-500"
+        className="rounded-sm dark:bg-white dark:text-black sm:min-w-[350px] max-w-[400px]"
+        closeBtnClass="dark:bg-gray-200 dark:text-black dark:hover:bg-gray-300 "
         showHeader={!quickLogin}
         closeModel={closeModel}
         title={"Log in to Facebook"}

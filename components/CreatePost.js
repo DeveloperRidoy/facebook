@@ -3,7 +3,7 @@ import { FaImage, FaRegGrinAlt, FaVideo } from 'react-icons/fa';
 import { useGlobalContext } from '../context/GlobalContext';
 import { CREATE_POST } from '../utils/client/variables';
 import Spacer from './Spacer';
-
+import Image from 'next/image';
 
 const CreatePost = () => {
 
@@ -12,18 +12,21 @@ const CreatePost = () => {
     return (
       <div className="bg-white dark:bg-dark rounded-xl shadow p-3">
         <div className="flex items-center gap-x-3 ">
-          <Link href="/user">
-            <a href="/user">
-              <img
-                src="img/users/default/user.jpeg"
+          <Link href="/profile">
+            <a href="/profile" className="h-10 w-10 relative">
+              <Image
+                src={`/img/users/${state.user?.photo || "default/user.jpeg"}`}
                 alt="user"
-                className="h-9 w-9 rounded-full"
+                layout="fill"
+                className="object-cover rounded-full"
               />
             </a>
           </Link>
           <button
             className="bg-secondary dark:bg-dark-400 dark:hover:bg-dark-300 flex-1 rounded-full py-2 px-3 text-left hover:bg-gray-200 focus:bg-gray-300 transition text-lg text-gray-500 dark:text-gray-300 active:outline-none"
-            onClick={() => setState({ ...state, model: {show: true, type: CREATE_POST} })}
+            onClick={() =>
+              setState({ ...state, model: { show: true, type: CREATE_POST } })
+            }
           >
             What's on your mind, <span className="capitalize">mubarak</span>?
           </button>

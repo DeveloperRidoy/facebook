@@ -1,10 +1,18 @@
 const { ADMIN, USER } = require("../../../utils/server/variables");
 const uniqueValidator = require("mongoose-unique-validator");
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt')      
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+const {
+  SINGLE,
+  IN_A_RELATIONSHIP,
+  ENGAGED,
+  MARRIED,
+  SEPARATED,
+  COMPLICATED,
+  DIVORCED,
+} = require("../../../utils/global/variables");
 
-
-// function to set slug 
+// function to set slug
 const setSlug = function (doc) {
   return doc.surName
     ? (doc.firstName + " " + doc.surName).split(" ").join("-")
@@ -34,6 +42,7 @@ const UserSchema = new mongoose.Schema(
       },
     },
     photo: String,
+    coverPhoto: String,
     phone: {
       type: Number,
       validate: {
@@ -73,54 +82,113 @@ const UserSchema = new mongoose.Schema(
     },
     slug: {
       type: String,
-      default: function(){return setSlug(this)}
+      default: function () {
+        return setSlug(this);
+      },
     },
     bio: String,
-    details: [String]
+
+    work: [
+      {
+        active: {
+          type: Boolean,
+          detault: true,
+          enum: {
+            values: [true, false],
+            message: "active can only be true of false",
+          },
+        },
+        text: {
+          type: String,
+          required: [true, "must provide text for work"],
+        },
+        current: {
+          type: Boolean,
+          default: true,
+        },
+      },
+    ],
+    education: [
+      {
+        active: {
+          type: Boolean,
+          detault: true,
+          enum: {
+            values: [true, false],
+            message: "active can only be true of false",
+          },
+        },
+        text: {
+          type: String,
+          required: [true, "must provide text for education"],
+        },
+        current: {
+          type: Boolean,
+          default: true,
+        },
+      },
+    ],
+    currentCity: String,
+    homeTown: String,
+    relationShipStatus: {
+      type: String,
+      default: SINGLE,
+      enum: {
+        values: [
+          SINGLE,
+          IN_A_RELATIONSHIP,
+          ENGAGED,
+          MARRIED,
+          COMPLICATED,
+          SEPARATED,
+          DIVORCED,
+        ],
+        message: `relationShipStatus must be one of these values ['${SINGLE}', '${IN_A_RELATIONSHIP}', '${ENGAGED}', '${MARRIED}', '${COMPLICATED}', '${SEPARATED}', '${DIVORCED}']`,
+      },
+    },
   },
   { toObject: { virtuals: true }, toJSON: { virtuals: true } }
 );
 
 // unique fields error
 UserSchema.plugin(uniqueValidator, {
-  message: 'User with same {PATH} already exists'
-})
+  message: "User with same {PATH} already exists",
+});
 
-// virtual fullName 
-UserSchema.virtual('fullName').get(function () {
-  return `${this.firstName}${this.surName ? ` ${this.surName}`: ''}`
-})
+// virtual fullName
+UserSchema.virtual("fullName").get(function () {
+  return `${this.firstName}${this.surName ? ` ${this.surName}` : ""}`;
+});
 
-// encrypt password before saving user 
-UserSchema.pre('save', async function (next) {
+// encrypt password before saving user
+UserSchema.pre("save", async function (next) {
   try {
-
     // only prceed if password is modified or is new
     if (!this.isModified("password")) return next();
-    
+
     // generate salt
     const salt = await bcrypt.genSalt(12);
-    
+
     // hash the password
     this.password = await bcrypt.hash(this.password, salt);
 
-    // update passwordChangedAt value 
+    // update passwordChangedAt value
     this.passwordChangedAt = Date.now() - 2000;
 
     // remove confirmPassword field
     this.confirmPassword = undefined;
     return next();
   } catch (error) {
-    return next(error)
+    return next(error);
   }
-})
+});
 
 // instance method to compare password
 UserSchema.methods.comparePassword = async function (password) {
   const passwordsMatch = await bcrypt.compare(password, this.password);
   return passwordsMatch;
-}
+};
 
-const User = mongoose.model("user", UserSchema); 
+const User = mongoose.model("user", UserSchema);
 
-module.exports = User;           
+module.exports = User;

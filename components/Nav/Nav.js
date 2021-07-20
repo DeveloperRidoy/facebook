@@ -19,6 +19,7 @@ import MessengerBox from "./Box/MessengerBox";
 import NotificationsBox from "./Box/NotificationsBox";
 import AccountBox from "./Box/AccountBox/AccountBox";
 import Logo from "../Logo";
+import Image from 'next/image';
 
 // variables
 const MENU = "MENU";
@@ -33,7 +34,7 @@ const Nav = ({ route }) => {
 
   return (
     <div
-      className={`fixed top-0 inset-x-0 px-3 items-center h-[57px] mb-52 bg-white dark:text-white z-20  ${
+      className={`fixed top-0 inset-x-0 px-3 items-center h-[57px] mb-52 bg-white dark:text-white z-20 dark:border-b-[1px] dark:border-gray-700 ${ 
         state.model?.show
           ? "dark:bg-darker-600"
           : "dark:bg-dark dark:bg-dark shadow-md"
@@ -51,7 +52,7 @@ const Nav = ({ route }) => {
           ) : box.mode === NOTIFICATIONS ? (
             <NotificationsBox />
           ) : (
-            box.mode === ACCOUNT && <AccountBox setBox={setBox}/>
+            box.mode === ACCOUNT && <AccountBox setBox={setBox} />
           )}
         </Box>
       )}
@@ -130,18 +131,21 @@ const Nav = ({ route }) => {
           <Link href="/profile">
             <a
               href="/profile"
-              className={`hidden xl:flex items-center pr-2 rounded-xl rounded transition active:scale-95 ${
+              className={`hidden xl:flex items-center pr-2 gap-2 rounded-xl rounded transition active:scale-95 ${
                 /^\/profile/.test(route)
                   ? "dark:bg-blue-500/20 text-blue-500"
                   : "hover:bg-secondary dark:hover:bg-dark-300"
               }`}
               tabIndex="13"
             >
-              <img
-                src="/img/users/default/user.jpeg"
-                alt="user"
-                className="h-9 w-9 rounded-full mr-1"
-              />
+              <div className="h-9 w-9 relative">
+                <Image
+                  src={`/img/users/${state.user?.photo || "default/user.jpeg"}`}
+                  alt="user"
+                  layout="fill"
+                  className="rounded-full"
+                />
+              </div>
               <p className="capitalize text-sm font-bold">
                 {state.user?.firstName.split(" ")[0]}
               </p>

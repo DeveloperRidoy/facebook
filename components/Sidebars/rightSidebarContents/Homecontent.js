@@ -1,6 +1,7 @@
-import { BsPlus, BsSearch, BsThreeDots } from "react-icons/bs";
+import { BsSearch, BsThreeDots } from "react-icons/bs";
 import { FaVideo } from "react-icons/fa"
 import Link from 'next/link';
+import Image from 'next/image';
 
 const Homecontent = () => {
     return (
@@ -67,7 +68,7 @@ export default Homecontent
 const Contact = ({
   link = "/user",
   name = "user",
-  photo = "img/users/default/user.jpeg",
+  photo = "/img/users/default/user.jpeg",
 }) => (
   <Link href={link}>
     <a
@@ -75,10 +76,19 @@ const Contact = ({
       className="flex flex-nowrap gap-x-2 items-center p-2 relative hover:bg-gray-200 dark:hover:bg-dark-400 active:bg-gray-300 dark:active:bg-dark-300 active:outline-none transition rounded-md w-full"
     >
       <div className="rounded-full overflow-hidden relative">
-        <img src={photo} alt={name} className="h-7 w-7" />
+        <div className="h-7 w-7 relative">
+          <Image
+            layout="fill"
+            src={photo}
+            alt={name}
+            className="rounded-full"
+          />
+        </div>
         <div className="absolute inset-0 bg-black bg-opacity-30"></div>
       </div>
-      <p className="font-semibold capitalize text-gray-400 dark:text-gray-600">{name}</p>
+      <p className="font-semibold capitalize text-gray-400 dark:text-gray-600">
+        {name}
+      </p>
     </a>
   </Link>
 );

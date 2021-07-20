@@ -1,9 +1,10 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BsX } from "react-icons/bs";
 import Spinner from "../../components/Spinners/Spinner/Spinner";
 import { useGlobalContext } from "../../context/GlobalContext";
 import catchAsync from "../../utils/client/functions/catchAsync";
+import Image from 'next/image';
 
 
 const QuickLoginAccount = ({ login, setModel }) => {
@@ -32,7 +33,10 @@ const QuickLoginAccount = ({ login, setModel }) => {
   
   return (
     <div className="relative">
-      <div className="absolute top-2 left-1 z-10 cursor-pointer" onClick={removeQuickLogin}>
+      <div
+        className="absolute top-2 left-1 z-10 cursor-pointer"
+        onClick={removeQuickLogin}
+      >
         <div className=" rounded-full bg-gray-500 h-5 w-5 flex items-center justify-center group-hover:bg-white transition transform group-hover:scale-125 text-white group-hover:text-black relative">
           <BsX />
         </div>
@@ -50,11 +54,14 @@ const QuickLoginAccount = ({ login, setModel }) => {
         ) : (
           <div className="h-full">
             <div className="flex h-full flex-col justify-stretch">
-              <img
-                src={`img/users/${login.user?.photo || "default/user.jpeg"}`}
-                alt="user"
-                className="w-full h-[130px] object-cover rounded-t-lg"
-              />
+              <div className="relative w-full h-[130px] rounded-t-lg">
+                  <Image
+                    layout="fill"
+                  src={`/img/users/${login.user?.photo || "default/user.jpeg"}`}
+                  alt="user"
+                  className=" object-cover "
+                />
+              </div>
               <div className="flex-1 flex text-gray-700 justify-center items-center capitalize">
                 {login.user?.firstName?.split(" ")[0]}
               </div>

@@ -7,7 +7,7 @@ const Alert = () => {
   useEffect(() => {
     if (state.renderChildren) {
       const timeOut = setTimeout(
-        () => setState({ ...state, alert: { show: false } }),
+        () => setState((state) => ({ ...state, alert: { show: false } })),
         [state.alert.time || 3000]
       );
       return () => clearTimeout(timeOut);

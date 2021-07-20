@@ -33,7 +33,7 @@ const CreateRoom = () => {
     return (
       <div className="rounded-xl shadow bg-white dark:bg-dark my-3 relative overflow-hidden">
         <button
-          className={`absolute left-2 top-1/2 -translate-y-1/2 p-3 bg-white border-gray-400 border dark:border-0 dark:bg-dark-400 rounded-full text-xl dark:hover:bg-dark-300 transition active:outline-none ${
+          className={`absolute left-2 top-1/2 -translate-y-1/2 p-3 bg-white border-gray-400 border dark:border-0 dark:bg-dark-400 rounded-full text-xl dark:hover:bg-dark-300 transition active:outline-none z-10 ${
             state.allowScrollLeft ? "focus:scale-95" : "scale-0"
           }`}
           onClick={() => scroll(LEFT)}
@@ -41,7 +41,7 @@ const CreateRoom = () => {
           <BsChevronLeft />
         </button>
         <button
-          className={`absolute right-2 top-1/2 -translate-y-1/2 p-3 bg-white border-gray-400 border dark:border-0 dark:bg-dark-400 rounded-full text-xl dark:hover:bg-dark-300 transition active:outline-none ${
+          className={`absolute right-2 top-1/2 -translate-y-1/2 p-3 bg-white border-gray-400 border dark:border-0 dark:bg-dark-400 rounded-full text-xl dark:hover:bg-dark-300 transition active:outline-none z-10 ${
             state.allowScrollRight ? "focus:scale-95" : "scale-0"
           }`}
           onClick={() => scroll(RIGHT)}
