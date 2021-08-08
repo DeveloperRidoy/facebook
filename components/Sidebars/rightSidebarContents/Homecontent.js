@@ -68,7 +68,7 @@ export default Homecontent
 const Contact = ({
   link = "/user",
   name = "user",
-  photo = "/img/users/default/user.jpeg",
+  photo = "/img/users/default/user.jpg",
 }) => (
   <Link href={link}>
     <a
@@ -81,7 +81,7 @@ const Contact = ({
             layout="fill"
             src={photo}
             alt={name}
-            className="rounded-full"
+            className="object-cover rounded-full"
           />
         </div>
         <div className="absolute inset-0 bg-black bg-opacity-30"></div>

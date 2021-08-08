@@ -4,33 +4,55 @@ import { BsX } from "react-icons/bs";
 import Spinner from "../../components/Spinners/Spinner/Spinner";
 import { useGlobalContext } from "../../context/GlobalContext";
 import catchAsync from "../../utils/client/functions/catchAsync";
-import Image from 'next/image';
-
+import Image from "next/image";
 
 const QuickLoginAccount = ({ login, setModel }) => {
   const [state, setState] = useGlobalContext();
   const [loading, setLoading] = useState(false);
-  
-  // quick login 
-  const quickLogin = () => catchAsync(async () => {
-    setLoading(true);
-    const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_API || "api"}/v1/users/auth/quick-login/${login.user._id}`,
-      { withCredentials: true }
+
+  // quick login
+  const quickLogin = () =>
+    catchAsync(
+      async () => {
+        setLoading(true);
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API || "api"}/v1/users/auth/quick-login/${
+            login.user._id
+          }`,
+          { withCredentials: true }
+        );
+        setState({
+          ...state,
+          user: res.data.data?.user,
+          alert: { show: true, text: res.data.message, type: "success" },
+        });
+        setLoading(false);
+        setState;
+      },
+      setState,
+      () => setLoading(false)
     );
-    setState({ ...state, user: res.data.data?.user, alert: { show: true, text: res.data.message, type: 'success' } });
-    setLoading(false);
-    setState
-  }, setState, () => setLoading(false));
 
-  // remove quick login 
-  const removeQuickLogin = () => catchAsync(async () => {
-    setLoading(true);
-    const res = await axios.delete(`${process.env.NEXT_PUBLIC_API || 'api'}/v1/quick-logins/${login.user._id}`, {withCredentials: true});
-    setState({ ...state, quickLogins: res.data.data?.quickLogins?.logins || null });
-  }, setState, () => setLoading(false));
+  // remove quick login
+  const removeQuickLogin = () =>
+    catchAsync(
+      async () => {
+        setLoading(true);
+        const res = await axios.delete(
+          `${process.env.NEXT_PUBLIC_API || "api"}/v1/quick-logins/${
+            login.user._id
+          }`,
+          { withCredentials: true }
+        );
+        setState({
+          ...state,
+          quickLogins: res.data.data?.quickLogins?.logins || null,
+        });
+      },
+      setState,
+      () => setLoading(false)
+    );
 
-  
   return (
     <div className="relative">
       <div
@@ -55,11 +77,11 @@ const QuickLoginAccount = ({ login, setModel }) => {
           <div className="h-full">
             <div className="flex h-full flex-col justify-stretch">
               <div className="relative w-full h-[130px] rounded-t-lg">
-                  <Image
-                    layout="fill"
-                  src={`/img/users/${login.user?.photo || "default/user.jpeg"}`}
+                <Image
+                  layout="fill"
+                  src={`/img/users/${login.user?.photo || "default/user.jpg"}`}
                   alt="user"
-                  className=" object-cover "
+                  className="object-cover object-cover "
                 />
               </div>
               <div className="flex-1 flex text-gray-700 justify-center items-center capitalize">

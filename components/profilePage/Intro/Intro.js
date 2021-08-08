@@ -2,16 +2,20 @@ import { useGlobalContext } from "../../../context/GlobalContext";
 import Bio from "./Bio";
 import Detail from "./Detail";
 
-const Intro = () => {
+const Intro = ({user, ownProfile}) => {
     return (
-        <div className="dark:bg-dark shadow p-2 rounded-lg grid gap-y-4">
-            <p className="text-lg font-semibold">Intro</p>
-            <Bio/>
-            <Detail/>
-            <Button>add hobbies</Button>
-            <Button>add features</Button>
-        </div>
-    )
+      <div className="dark:bg-dark shadow p-2 rounded-lg grid gap-y-4">
+        <p className="text-lg font-semibold">Intro</p>
+        <Bio user={user} ownProfile={ownProfile} />
+        <Detail user={user} ownProfile={ownProfile} />
+        {ownProfile && (
+          <>
+            <Button user={user}>add hobbies</Button>
+            <Button user={user}>add features</Button>
+          </>
+        )}
+      </div>
+    );
 }
 
 export default Intro

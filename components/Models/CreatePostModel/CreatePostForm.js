@@ -1,35 +1,118 @@
 import PostButton from "../../Buttons/PostButton";
 import { BsChatQuoteFill, BsThreeDots, BsX } from "react-icons/bs";
-import { FaCaretDown, FaGlobeAsia, FaImage, FaLock, FaUserFriends, FaUserTag, FaRegGrinAlt, FaMapMarkerAlt } from "react-icons/fa";
+import {
+  FaCaretDown,
+  FaGlobeAsia,
+  FaImage,
+  FaLock,
+  FaUserFriends,
+  FaUserTag,
+  FaRegGrinAlt,
+  FaMapMarkerAlt,
+  FaTimes,
+} from "react-icons/fa";
 import Link from "next/link";
-import { ADD_TO_POST, AUDIENCE, FRIENDS, HOST_QA, ONLY_ME, POST, PUBLIC, QA } from "../../../utils/client/variables";
-import { useState } from "react";
+import {
+  ADD_TO_POST,
+  AUDIENCE,
+  FRIENDS,
+  HOST_QA,
+  ONLY_ME,
+  POST,
+  PUBLIC,
+  QA,
+} from "../../../utils/client/variables";
+import { useRef, useState } from "react";
 import QADiv, { BackgroundSetter } from "./QADiv";
-import Image from 'next/image';
-import axios from "axios";
+import Image from "next/image";
 import { useGlobalContext } from "../../../context/GlobalContext";
 import catchAsync from "../../../utils/client/functions/catchAsync";
+import Axios from "../../../utils/client/axios";
+import Reader from "../../../utils/global/functions/fileReader";
+import convertToFormData from "../../../utils/global/functions/convertToFormData";
 
-const CreatePostForm = ({closeModel, setToggleModel, toggleModel, formData, setFormData}) => {
-  
+const CreatePostForm = ({
+  closeModel,
+  setToggleModel,
+  toggleModel,
+  formData,
+  setFormData,
+}) => {
   const [state, setState] = useGlobalContext();
   const [loading, setLoading] = useState(false);
-  
-  const submitPost = (e) => catchAsync(async () => {
-    e.preventDefault();
-    setLoading(true);
-    const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_API || "api"}/v1/posts`,
-      formData,
-      { withCredentials: true }
+  const photoRef = useRef(null);
+
+  const submitPost = (e) =>
+    catchAsync(
+      async () => {
+        e.preventDefault();
+        setLoading(true);
+        const data = convertToFormData(formData);
+        const res = await Axios.post("posts", data);
+
+        setState((state) => ({
+          ...state,
+          posts: [...state.posts, res.data.data?.post],
+          alert: { show: true, text: res.data.message },
+          model: { ...state.model, show: false },
+        }));
+      },
+      setState,
+      () => setLoading(false)
     );
-    setState((state) => ({
-      ...state,
-      posts: [...state.posts, res.data.data?.post],
-      alert: { show: true, text: res.data.message },
-      model: {...state.model, show: false}
-    }));
-  }, setState, () => setLoading(false));
+
+  // upload photos
+  const uploadPhotos = (e) =>
+    catchAsync(async () => {
+      const files = Object.values(e.target.files);
+      const photos = [];
+      const videos = [];
+
+      // only allow 10 files
+      if (files.length > 10) {
+        return setState((state) => ({
+          ...state,
+          alert: {
+            show: true,
+            type: "danger",
+            text: "only 10 files are allowed",
+          },
+        }));
+      }
+      const arrayOfPromises = files.map(async (file) => {
+        const type = file.type;
+
+        // only allow images and videos
+        if (!/^(image|video)/.test(type)) {
+          return setState((state) => ({
+            ...state,
+            alert: {
+              show: true,
+              type: "danger",
+              text: "only images and videos are allowed",
+            },
+          }));
+        }
+        const url = await new Reader(file).getUrl();
+
+        const data = { file, url };
+
+        return data;
+      });
+
+      const data = await Promise.all(arrayOfPromises);
+      data.forEach((item) =>
+        item.file.type.startsWith("image")
+          ? photos.push(item)
+          : videos.push(item)
+      );
+
+      setFormData((data) => ({
+        ...data,
+        photos: [...data.photos, ...photos],
+        videos: [...data.videos, ...videos],
+      }));
+    }, setState);
 
   return (
     <div
@@ -53,10 +136,10 @@ const CreatePostForm = ({closeModel, setToggleModel, toggleModel, formData, setF
               tabIndex="-1"
             >
               <Image
-                src="/img/users/default/user.jpeg"
+                src={`/img/users/${state.user?.photo || "default/user.jpg"}`}
                 alt="user"
                 layout="fill"
-                className="rounded-full"
+                className="object-cover rounded-full"
               />
             </a>
           </Link>
@@ -93,16 +176,86 @@ const CreatePostForm = ({closeModel, setToggleModel, toggleModel, formData, setF
           className="flex-1 flex flex-col justify-between"
         >
           {formData.type === POST ? (
-            <textarea
-              name="text"
-              cols="30"
-              rows="4"
-              placeholder="What's on your mind, Mubarak?"
-              className={`focus:outline-none mt-2 dark:bg-dark text-xl w-full rounded-lg p-1 mb-3 ${formData.postBackground}`}
-              onChange={(e) =>
-                setFormData({ ...formData, text: e.target.value })
-              }
-            ></textarea>
+            <div>
+              <textarea
+                name="text"
+                cols="30"
+                rows="4"
+                placeholder="What's on your mind, Mubarak?"
+                className={`focus:outline-none mt-2 dark:bg-dark text-xl w-full rounded-lg p-1 mb-3 ${formData.postBackground}`}
+                onChange={(e) =>
+                  setFormData({ ...formData, text: e.target.value })
+                }
+              ></textarea>
+              {formData.photos?.length > 0 && (
+                <div className="grid grid-cols-6 gap-y-2 gap-x-1 mb-2 relative">
+                  <button
+                    type="button"
+                    className="absolute top-0 right-0 text-white bg-black/70 rounded-full text-2xl z-10 active:scale-95 transition"
+                    onClick={() =>
+                      setFormData((data) => ({
+                        ...data,
+                        photos: [],
+                      }))
+                    }
+                  >
+                    <FaTimes />
+                  </button>
+                  {formData.photos.map((photo, i) => (
+                    <div
+                      className={` aspect-w-16 aspect-h-9 relative ${
+                        formData.photos.length === 1
+                          ? "col-span-6"
+                          : formData.photos.length < 6
+                          ? "col-span-3"
+                          : "col-span-2"
+                      }`}
+                      key={i}
+                    >
+                      <Image
+                        src={photo.url}
+                        layout="fill"
+                        className="object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+              {formData.videos?.length > 0 && (
+                <div className="grid grid-cols-6 gap-y-2 gap-x-1 mb-2 relative">
+                  <button
+                    type="button"
+                    className="absolute top-0 right-0 text-white bg-black/70 rounded-full text-2xl z-10 active:scale-95 transition"
+                    onClick={() =>
+                      setFormData((data) => ({
+                        ...data,
+                        videos: [],
+                      }))
+                    }
+                  >
+                    <FaTimes />
+                  </button>
+                  {formData.videos.map((video, i) => (
+                    <div
+                      className={` aspect-w-16 aspect-h-9 relative ${
+                        formData.videos.length === 1
+                          ? "col-span-6"
+                          : formData.videos.length < 6
+                          ? "col-span-3"
+                          : "col-span-2"
+                      }`}
+                      key={i}
+                    >
+                      <video
+                        src={video.url}
+                        controls
+                        className="object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           ) : (
             formData.type === QA && (
               <div className="overflow-auto h-52 mt-2 px-16 py-5">
@@ -135,8 +288,17 @@ const CreatePostForm = ({closeModel, setToggleModel, toggleModel, formData, setF
                   type="button"
                   tooltiptop="Photo/Video"
                   className="active:outline-none "
+                  onClick={() => photoRef?.current?.click()}
                 >
                   <FaImage className="text-emerald-500 transform -rotate-12" />
+                  <input
+                    type="file"
+                    accept="image/*,video/*"
+                    multiple
+                    ref={photoRef}
+                    className="hidden"
+                    onChange={uploadPhotos}
+                  />
                 </button>
                 <button
                   type="button"

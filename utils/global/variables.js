@@ -14,3 +14,6 @@ exports.MARRIED = "MARRIED";
 exports.COMPLICATED = "COMPLICATED";
 exports.SEPARATED = "SEPARATED";
 exports.DIVORCED = "DIVORCED";
+exports.COMMENT = 'COMMENT';
+exports.REPLY = "REPLY";
+exports.REPLY_TO_REPLY = "REPLY_TO_REPLY"

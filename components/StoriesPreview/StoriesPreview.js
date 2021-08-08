@@ -9,14 +9,14 @@ const StoriesPreview = () => {
     return (
       <div className="w-full max-w-[550px] xl:max-w-2xl mx-auto flex justify-center gap-x-2.5 h-48 ">
         <CreateStory />
-        <StoryItem userName="tazwar" />
-        <StoryItem userName="tazwar" />
+        <StoryItem userName="user" />
+        <StoryItem userName="user" />
         <div className="h-full w-full relative flex-1">
-          <StoryItem userName="tazwar" className="h-full w-full" />
+          <StoryItem userName="user" className="h-full w-full" />
           <SeeAllStories className="xl:hidden" />
         </div>
         <div className="hidden h-full w-full xl:block relative flex-1">
-          <StoryItem userName="tazwar" className="h-full w-full" />
+          <StoryItem userName="user" className="h-full w-full" />
           <SeeAllStories />
         </div>
       </div>

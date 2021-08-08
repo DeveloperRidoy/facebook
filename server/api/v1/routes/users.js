@@ -6,17 +6,29 @@ const {
   updateMe,
   getUserById,
   deleteUserById,
+  getUserBySlug,
 } = require("../controllers/users");
 const protect = require('../middlewares/protect');
 const checkId = require('../middlewares/checkId');
-const { uploadSinglePhoto, resizePhoto } = require('../middlewares/multer');
+const { uploadPhotos} = require('../middlewares/multer/multer');
 
 const Router = require('express').Router();
 
-Router.route('/')
-    .get(getAllUsers())
-    .delete(protect(ADMIN), deleteAllUsers())
-    .patch(protect(), uploadSinglePhoto(), resizePhoto(),  updateMe())
+Router.route("/")
+  .get(getAllUsers())
+  .delete(protect(ADMIN), deleteAllUsers())
+  .patch(
+    protect(),
+    uploadPhotos({
+      fields: [
+        { name: "photoFile", maxCount: 1 },
+        { name: "coverPhotoFile", maxCount: 1 },
+      ],
+      fileSize: 5 * 1024 * 1024,
+      resize: true
+    }),
+    updateMe()
+  );
 
 Router.route("/auth")
     .get(authenticate())
@@ -37,6 +49,8 @@ Router.route('/:id')
     .all(checkId())
     .get(getUserById())
     .delete(deleteUserById())
-  
+
+Router.route("/slug/:slug")
+    .get(getUserBySlug())
 
 module.exports = Router;

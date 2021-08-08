@@ -4,13 +4,14 @@ import Spacer from "../Spacer";
 const Model = ({
   children,
   title,
-  closeBtnClass,
   closeModel,
+  closeBtnClass,
   showHeader,
   className,
   backdropClass,
   disableCloseByBackDrop
 }) => {
+
   return (
     <div>
       <div

@@ -60,3 +60,23 @@ exports.updateMe = () => catchAsync(async (req, res, next) => {
     });
 })
 
+// @route           GET api/v1/users/slug/:slug  
+// @description     get user by slug 
+// @accessibllity   public
+exports.getUserBySlug = () =>
+  catchAsync(async (req, res, next) => {
+    const slug = req.params.slug.toLowerCase().trim();
+
+    // get user
+    const user = await User.findOne({ slug });
+    
+    if(!user) return next(
+      new AppError(404, `user not found`)
+    );
+ 
+    // return response
+    return res.json({
+      status: "success",
+      data: { user },
+    });
+  });

@@ -14,28 +14,29 @@ exports.addDocs = (Model) => catchAsync(async (req, res, next) => {
     })
 })
 
-// get all docs 
-exports.getDocs = (Model) => catchAsync(async (req, res, next) => {
+// get all docs  
+exports.getDocs = (Model, query) =>
+  catchAsync(async (req, res, next) => {
     const page = Number(req.query?.page) || 1;
     const limit = Number(req.query?.limit) || 100;
     const skip = limit * (page - 1);
-    const data = await Model.find().skip(skip).limit(limit);
+    const data = await Model.find(query).skip(skip).limit(limit);
     return res.json({
       status: "success",
-      page, 
+      page,
       limit,
       results: data.length,
-      data: {[Model.collection.name]: data}
+      data: { [Model.collection.name]: data },
     });
-})
+  });
 
 // get doc by id 
 exports.getDocById = (Model) => catchAsync(async (req, res, next) => {
-    const user = await Model.findById(req.params.id);
+    const data = await Model.findById(req.params.id);
     return res.json({
-        status: 'success',
-        data: {user}
-    })
+      status: "success",
+      data: { [docName(Model)]: data },
+    });
 })
 
 // update doc 

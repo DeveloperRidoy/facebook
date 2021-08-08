@@ -19,7 +19,8 @@ import MessengerBox from "./Box/MessengerBox";
 import NotificationsBox from "./Box/NotificationsBox";
 import AccountBox from "./Box/AccountBox/AccountBox";
 import Logo from "../Logo";
-import Image from 'next/image';
+import Image from "next/image";
+import { useRouter } from "next/router";
 
 // variables
 const MENU = "MENU";
@@ -27,14 +28,16 @@ const MESSENGER = "MESSENGER";
 const NOTIFICATIONS = "NOTIFICATIONS";
 const ACCOUNT = "ACCOUNT";
 
-const Nav = ({ route }) => {
+const Nav = () => {
+  const Router = useRouter();
+  const route = Router.route;
   const [box, setBox] = useState({ show: false, mode: null });
 
   const [state] = useGlobalContext();
 
   return (
     <div
-      className={`fixed top-0 inset-x-0 px-3 items-center h-[57px] mb-52 bg-white dark:text-white z-20 dark:border-b-[1px] dark:border-gray-700 ${ 
+      className={`fixed top-0 inset-x-0 px-3 items-center h-[57px] mb-52 bg-white dark:text-white z-20 dark:border-b-[1px] dark:border-gray-700 ${
         state.model?.show
           ? "dark:bg-darker-600"
           : "dark:bg-dark dark:bg-dark shadow-md"
@@ -128,11 +131,11 @@ const Nav = ({ route }) => {
           )}
         </section>
         <section className="flex-1 grid grid-flow-col justify-end gap-x-2 items-center text-lg">
-          <Link href="/profile">
+          <Link href={`/users/${state.user?.slug}`}>
             <a
-              href="/profile"
+              href={`/users/${state.user?.slug}`}
               className={`hidden xl:flex items-center pr-2 gap-2 rounded-xl rounded transition active:scale-95 ${
-                /^\/profile/.test(route)
+                Router.query?.slug === state.user?.slug
                   ? "dark:bg-blue-500/20 text-blue-500"
                   : "hover:bg-secondary dark:hover:bg-dark-300"
               }`}
@@ -140,10 +143,10 @@ const Nav = ({ route }) => {
             >
               <div className="h-9 w-9 relative">
                 <Image
-                  src={`/img/users/${state.user?.photo || "default/user.jpeg"}`}
+                  src={`/img/users/${state.user?.photo || "default/user.jpg"}`}
                   alt="user"
                   layout="fill"
-                  className="rounded-full"
+                  className="object-cover rounded-full"
                 />
               </div>
               <p className="capitalize text-sm font-bold">

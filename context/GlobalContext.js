@@ -14,16 +14,16 @@ const GlobalContext = ({ children }) => {
   const route = Router.route;
   const [state, setState] = useState({
     showCreatePostModel: false,
-    model: {show: false, type: null},
-    theme: typeof document !== 'undefined' && localStorage.theme || null,
+    model: { show: false, type: null, data: {}},
+    theme: (typeof document !== "undefined" && localStorage.theme) || null,
     themeUpdated: false,
     user: null,
     posts: [],
     quickLogins: null,
     loading: true,
-    alert: { show: false, text: null, type: '', time: null }, 
-    renderChildren: false
-  })
+    alert: { show: false, text: null, type: "", time: null },
+    renderChildren: false,
+  });
   
   useEffect(() => toggleTheme(state.theme, setState), [state.theme]);
   

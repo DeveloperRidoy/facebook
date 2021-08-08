@@ -7,12 +7,14 @@ import HostQA from "./HostQA";
 import { useState } from "react";
 
 
-const CreatePostModel = ({ closeModel }) => {
+const CreatePostModel = ({closeModel}) => {
 
   const [toggleModel, setToggleModel] = useState(null);
 
   const [formData, setFormData] = useState({
     text: null,
+    photos: [],
+    videos: [],
     audience: PUBLIC,
     type: POST,
     qaText: "",

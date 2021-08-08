@@ -24,10 +24,10 @@ const UserSchema = new mongoose.Schema(
     firstName: {
       type: String,
       required: [true, "Please provide your firstName"],
+      unique: true,
+      uniqueCaseInsensitive: true,
     },
-    surName: {
-      type: String,
-    },
+    surName: String,
     email: {
       type: String,
       unique: true,
@@ -132,7 +132,6 @@ const UserSchema = new mongoose.Schema(
     homeTown: String,
     relationShipStatus: {
       type: String,
-      default: SINGLE,
       enum: {
         values: [
           SINGLE,
@@ -146,6 +145,10 @@ const UserSchema = new mongoose.Schema(
         message: `relationShipStatus must be one of these values ['${SINGLE}', '${IN_A_RELATIONSHIP}', '${ENGAGED}', '${MARRIED}', '${COMPLICATED}', '${SEPARATED}', '${DIVORCED}']`,
       },
     },
+    friends: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user'
+    }]
   },
   { toObject: { virtuals: true }, toJSON: { virtuals: true } }
 );
@@ -153,6 +156,13 @@ const UserSchema = new mongoose.Schema(
 // unique fields error
 UserSchema.plugin(uniqueValidator, {
   message: "User with same {PATH} already exists",
+});
+
+// user posts
+UserSchema.virtual("posts", { 
+  ref: "post",
+  foreignField: "user",
+  localField: '_id'
 });
 
 // virtual fullName
@@ -188,6 +198,7 @@ UserSchema.methods.comparePassword = async function (password) {
   const passwordsMatch = await bcrypt.compare(password, this.password);
   return passwordsMatch;
 };
+ 
 
 const User = mongoose.model("user", UserSchema);
 

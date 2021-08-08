@@ -1,5 +1,25 @@
 const mongoose = require('mongoose');
-const { POST, QA } = require('../../../utils/global/variables');
+const { POST, QA, COMMENT, REPLY, REPLY_TO_REPLY } = require('../../../utils/global/variables');
+
+const userRefSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      required: [true, "user is required to like"],
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+    createdAt_ms: {
+      type: String,
+      default: function () {
+        return this.createdAt.getTime();
+      },
+    },
+  },
+);
 
 const PostSchema = new mongoose.Schema(
   {
@@ -19,65 +39,29 @@ const PostSchema = new mongoose.Schema(
     qaText: String,
     postBackground: String,
     qaBackground: String,
-    images: [String],
+    photos: [String],
     videos: [String],
     audios: [String],
-    hearts: [
-      {
-        user: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "user",
-          required: [true, "user is required to like"],
-        },
-      },
-    ],
-    likes: [
-      {
-        user: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "user",
-          required: [true, "user is required to like"],
-        },
-      },
-    ],
-    care: [
-      {
-        user: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "user",
-          required: [true, "user is required to like"],
-        },
-      },
-    ],
-    haha: [
-      {
-        user: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "user",
-          required: [true, "user is required to like"],
-        },
-      },
-    ],
-    wow: [
-      {
-        user: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "user",
-          required: [true, "user is required to like"],
-        },
-      },
-    ],
-    sad: [
-      {
-        user: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "user",
-          required: [true, "user is required to like"],
-        },
-      },
-    ],
+    likes: [userRefSchema],
     comments: [
       {
+        type: {
+          type: String,
+          default: COMMENT,
+          enum: {
+            values: [COMMENT, REPLY],
+            message: `comment must be one of these types ['${COMMENT}', '${REPLY}']`,
+          },
+        },
+        replyTo: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "user",
+        },
+        replyCommentId: mongoose.Schema.Types.ObjectId,
+        mension: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "user"
+        },
         user: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "user",
@@ -97,69 +81,17 @@ const PostSchema = new mongoose.Schema(
             return this.createdAt.getTime();
           },
         },
-        replies: [
-          {
-            replyTo: {
-              type: mongoose.Schema.Types.ObjectId,
-              ref: "user",
-              required: [true, "replyTo is required"],
-            },
-            user: {
-              type: mongoose.Schema.Types.ObjectId,
-              ref: "user",
-              required: [true, "user is required to reply"],
-            },
-            text: {
-              type: String,
-              required: [true, "text is required"],
-            },
-            createdAt: {
-              type: Date,
-              default: Date.now,
-            },
-            createdAt_ms: {
-              type: String,
-              default: function () {
-                return this.createdAt.getTime();
-              },
-            },
-            replies: [
-              {
-                replyTo: {
-                  type: mongoose.Schema.Types.ObjectId,
-                  ref: "user",
-                  required: [true, "user is required"],
-                },
-                user: {
-                  type: mongoose.Schema.Types.ObjectId,
-                  ref: "user",
-                  required: [true, "user is required"],
-                },
-                text: {
-                  type: String,
-                  required: [true, "text is required"],
-                },
-                createdAt: {
-                  type: Date,
-                  default: Date.now,
-                },
-                createdAt_ms: {
-                  type: String,
-                  default: function () {
-                    return this.createdAt.getTime();
-                  },
-                },
-              },
-            ],
-          },
-        ],
+        likes: [userRefSchema],
       },
     ],
-    createdAt: Date,
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
-      required: [true, "post must have have user"],
+      required: [true, "post must have user"],
     },
     audience: {
       type: String,
@@ -176,17 +108,13 @@ const PostSchema = new mongoose.Schema(
 
 // virtual fields 
 PostSchema.virtual('createdAt_ms').get(function () {
-  return this.createdAt.getTime()
-})
-
-PostSchema.pre('save', function (next) {
-  this.createdAt = Date.now;
-  next()
+  if (this.createdAt) return this.createdAt.getTime();
+  return null   
 })
 
 PostSchema.pre(/^find/, function (next) {
   this.populate({
-    path: 'user comments.user comments.replies comments.replies.replies', select: 'firstName surName fullName photo'
+    path: 'user likes.user comments.replyTo comments.user comments.mension comments.likes.user', select: 'firstName surName fullName photo slug'
   });
 
   next();

@@ -1,13 +1,13 @@
 import { useState } from 'react';
+import { COMMENT } from '../../../utils/global/variables';
 import { usePostContext } from '../Post';
-import Comment from './Comment';
-import { commentBoxRef } from './WriteComment';
+import Comment from './Comment/Comment';
 
 const showLimit = 10;
 const Comments = () => {
     
     const [postState, setPostState] = usePostContext();
-    const { comments } = postState.post;
+  const comments = postState.post.comments.filter(comment => comment.type === COMMENT && comment.user);
 
     const [state, setState] = useState({
       showCount: showLimit,
@@ -21,7 +21,7 @@ const Comments = () => {
           .reverse()
           .map(
             (comment, i) =>
-              i < state.showCount && (
+              i < state.showCount && comment.user && (
                 <Comment comment={comment} key={comment._id} />
               )
           )}
@@ -43,7 +43,11 @@ const Comments = () => {
           <button
             className="mt-2 block hover:underline"
             onClick={() =>
-              setPostState((state) => ({ ...state, focusCommentBox: true }))
+              setPostState((state) => ({
+                ...state,
+                focusCommentBox: true,
+                focusCommentBoxClicked: state.focusCommentBoxClicked + 1,
+              }))
             }
           >
             write a comment

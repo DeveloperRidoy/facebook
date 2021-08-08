@@ -1,18 +1,36 @@
 const Router = require("express").Router();
-const { ADMIN, USER } = require("../../../../utils/server/variables");
 const {
   getAllPosts,
   addPost,
   deleteAllPosts,
   addComment,
+  addLike,
+  removeLike,
+  likeComment,
+  unlikeComment,
+  getPostById,
+  getPostsByUserId,
+  deletePostById,
 } = require("../controllers/posts");
 const protect = require("../middlewares/protect");
-const checkId = require("../middlewares/checkId")
+const checkId = require("../middlewares/checkId");
+const { uploadFiles } = require("../middlewares/multer/multer");
 
 Router.route("/")
   .get(getAllPosts())
-  .post(protect(), addPost())
-  .delete(protect(), deleteAllPosts())
+  .post(
+    protect(),
+    uploadFiles({
+      types: ['image', 'video'],
+      fields: [
+        { name: "video", maxCount: 10 },
+        { name: "photo", maxCount: 10 },
+      ],
+      fileSize: 100 * 1024 * 1024,
+    }),
+    addPost()
+  )
+  .delete(protect(), deleteAllPosts());
 
 
 // protect below routes
@@ -20,10 +38,25 @@ Router.use(protect())
 
 Router.route("/:id")
   .all(checkId())
-
-Router.route("/:id/comment")
+  .get(getPostById())
+  .delete(deletePostById())
+Router.route("/:id/comments")
   .all(checkId())
-  .post(addComment())
+  .patch(addComment())
 
+Router.route("/:id/comments/:commentId/like")
+  .all(checkId())
+  .post(likeComment())
+  .delete(unlikeComment())
+  
+Router.route("/:id/like")
+  .all(checkId())
+  .patch(addLike())
+  .delete(removeLike())
+  
+Router.route('/user/:id')
+  .all(checkId())
+  .get(getPostsByUserId())
+  
 module.exports = Router;
  

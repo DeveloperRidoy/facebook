@@ -1,0 +1,201 @@
+import { BsThreeDots } from "react-icons/bs";
+import {
+  FaCircle,
+  FaCommentDots,
+  FaThumbsUp,
+  FaGlobeEurope,
+} from "react-icons/fa";
+import Spacer from "../../Spacer";
+import Image from "next/image";
+import moment from "moment";
+import { usePostContext } from "../Post";
+import LikeButton from "./LikeButton";
+import { CAROUSEL } from "../../../utils/client/variables";
+import { useGlobalContext } from "../../../context/GlobalContext";
+import { useState } from "react";
+import catchAsync from "../../../utils/client/functions/catchAsync";
+import Axios from "../../../utils/client/axios";
+
+const PostContent = () => {
+  const [globalState, setGlobalState] = useGlobalContext();
+  const [state, setState] = usePostContext();
+  const [showOptions, setShowOptions] = useState(false);
+  const {
+    _id,
+    user,
+    type,
+    group,
+    text,
+    photos = [],
+    audios,
+    videos = [],
+    likes,
+    comments,
+    createdAt_ms,
+  } = state.post;
+  const medias = [];
+  photos.forEach((photo) => medias.push({ type: "image", src: photo }));
+  videos.forEach((video) => medias.push({ type: "video", src: video }));
+  const [showMedias, setShowMedias] = useState(3);
+
+  const filteredComments = comments.filter((comment) => comment.user);
+
+  const deletePost = () =>
+    catchAsync(async () => {
+      await Axios.delete(`posts/${_id}`);
+      setGlobalState((state) => ({
+        ...state,
+        posts: state.posts?.filter((post) => post._id !== _id),
+        alert: { show: true, text: "post deleted" },
+      }));
+    }, setState);
+
+  const showCarouselModel = (e, i) => {
+    e.preventDefault();
+    setGlobalState((state) => ({
+      ...state,
+      model: {
+        show: true,
+        type: CAROUSEL,
+        data: {
+          medias,
+          startIndex: i,
+        },
+      },
+    }));
+  };
+
+  return (
+    <div>
+      <div className="flex items-start justify-between px-3">
+        <div className="flex gap-x-2">
+          <div className="h-10 w-10 relative">
+            <Image
+              src={`/img/users/${user?.photo || "default/user.jpg"}`}
+              alt={user?.name || "user"}
+              layout="fill"
+              className="h-10 w-10 object-cover rounded-full border-blue-500"
+            />
+          </div>
+          <div>
+            <p className="mt-[-5px]">
+              <span className="capitalize font-semibold">
+                {user?.name || "user"}{" "}
+              </span>
+              {/* <span className="text-gray-400">
+                {type === "question" ? "asked a question " : "posted in "}
+              </span>
+              <span className="capitalize font-semibold">
+                {group?.name || "this group"}
+              </span> */}
+            </p>
+            <div className="flex items-center text-gray-400 text-sm gap-x-1">
+              <span>{moment(createdAt_ms).fromNow()}</span>
+              <span className="text-[5px]">
+                <FaCircle />
+              </span>
+              <FaGlobeEurope className="bg-gray-400 text-gray-800 rounded-full" />
+            </div>
+          </div>
+        </div>
+        <div className="relative">
+          <button
+            className="p-3 rounded-full shadow dark:bg-dark text-lg text-gray-400 transition dark:hover:bg-dark-400 dark:active:scale-95"
+            onClick={() => setShowOptions((show) => !show)}
+          >
+            <BsThreeDots />
+          </button>
+          {showOptions && globalState.user?._id === user._id && (
+            <div className="absolute p-2 dark:bg-dark min-w-max right-0 shadow-lg dark:border-[1px] dark:border-white/10 rounded z-10">
+              <button onClick={deletePost}>delete post</button>
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="flex flex-col gap-y-3 mt-2">
+        <p className="px-3">{text}</p>
+        <div className="grid grid-cols-2 gap-1">
+          {medias?.length > 0 &&
+            medias.map(
+              (media, i) =>
+                i < showMedias && (
+                  <div
+                    className={`relative aspect-w-16 aspect-h-9 hover:cursor-pointer`}
+                    key={i}
+                    tabIndex="0"
+                  >
+                    {media.type === "image" ? (
+                      <Image
+                        layout="fill"
+                        src={`/img/users/${media.src}`}
+                        alt="post-photo"
+                        className="object-cover"
+                        onClick={(e) => showCarouselModel(e, i)}
+                      />
+                    ) : (
+                      media.type === "video" && (
+                        <video
+                          src={`/video/users/${media.src}`}
+                          controls={true}
+                          onClick={(e) => showCarouselModel(e, i)}
+                        ></video>
+                      )
+                    )}
+                  </div>
+                )
+            )}
+          {photos?.length > showMedias && (
+            <button
+              className="col-span-1 dark:bg-dark transition dark:hover:bg-dark-400 active:scale-[98%]"
+              onClick={() => setShowMedias(medias.length)}
+            >
+              show more
+            </button>
+          )}
+        </div>
+      </div>
+      <div className="px-3 mt-2">
+        <div className="flex justify-between items-center dark:text-gray-400">
+          <div className="flex items-center gap-x-[2px]">
+            <button>
+              <FaThumbsUp className="text-xs text-white bg-blue-500 p-[2px] h-4 w-4 rounded-full" />
+            </button>
+            <button className="ml-2 hover:underline">{likes.length}</button>
+          </div>
+          {filteredComments?.length > 0 && (
+            <button
+              className="hover:underline"
+              onClick={() =>
+                setState((state) => ({ ...state, expand: !state.expand }))
+              }
+            >
+              {filteredComments.length === 1
+                ? "1 comment"
+                : `${comments.length} comments`}
+            </button>
+          )}
+        </div>
+        <Spacer />
+        <div className="flex gap-x-1 dark:text-gray-400">
+          <LikeButton />
+          <button
+            className="flex-1 flex justify-center p-1 rounded items-center gap-x-2 transition 
+            hover:bg-gray-200 dark:hover:bg-dark-400"
+            onClick={() =>
+              setState((state) => ({
+                ...state,
+                expand: !state.expand,
+                focusCommentBox: !state.expand,
+              }))
+            }
+          >
+            <FaCommentDots />
+            <span>Comment</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default PostContent;

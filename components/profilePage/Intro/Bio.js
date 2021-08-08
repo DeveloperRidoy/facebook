@@ -7,11 +7,11 @@ import Button from '../../Buttons/Button';
 import Spacer from "../../Spacer";
 
 const limit = 101;
-const Bio = () => {
+const Bio = ({user, ownProfile}) => {
     const [state, setState] = useGlobalContext();
     const [expand, setExpand] = useState(false);
     const [loading, setLoading] = useState(false); 
-    const [data, setData] = useState({ text: state.user?.bio || '', charactersLeft: limit - state.user?.bio?.length });  
+    const [data, setData] = useState({ text: user?.bio || '', charactersLeft: limit - user?.bio?.length });  
     
     const updateBio = (e) => catchAsync(async () => {
         e.preventDefault()
@@ -68,18 +68,29 @@ const Bio = () => {
           </form>
         ) : (
           <div>
-            {state.user?.bio && (
-              <div>
-                <p className="text-center">{state.user.bio}</p>
-                <Spacer className="my-3" />
-              </div>
+            {ownProfile && state.user?.bio
+               ? (
+                <div>
+                  <p className="text-center">{state.user.bio}</p>
+                  <Spacer className="my-3" />
+                </div>
+              )
+             :(
+                user?.bio && (
+                  <div>
+                    <p className="text-center">{state.user.bio}</p>
+                    <Spacer className="my-3" />
+                  </div>
+                )
+              )}
+            {ownProfile && (
+              <button
+                className="w-full capitalize font-semibold bg-dark-400 rounded-md p-1.5 hover:brightness-125 transition active:scale-95"
+                onClick={() => setExpand(true)}
+              >
+                {state.user?.bio ? "edit" : "add"} bio
+              </button>
             )}
-            <button
-              className="w-full capitalize font-semibold bg-dark-400 rounded-md p-1.5 hover:brightness-125 transition active:scale-95"
-              onClick={() => setExpand(true)}
-            >
-              {state.user?.bio ? 'edit': 'add'} bio
-            </button>
           </div>
         )}
       </div>

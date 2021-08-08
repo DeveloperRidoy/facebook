@@ -14,3 +14,5 @@ export const CREATE_POST = 'CREATE_POST';
 export const CREATE_ACCOUNT = "CREATE_ACCOUNT";
 export const DETAILS = "DETAILS";
 export const LOGIN = "LOGIN";
+export const CAROUSEL = "CAROUSEL";
+export const EMOJI = "EMOJI";

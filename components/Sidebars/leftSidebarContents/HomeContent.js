@@ -3,10 +3,11 @@ import Link from 'next/link';
 import { FaAd, FaBusinessTime, FaCalendarAlt, FaClock, FaCreditCard, FaFacebookMessenger, FaFlag, FaGratipay, FaPaperPlane, FaPlaystation, FaRibbon, FaSignal, FaStoreAlt, FaTint, FaUserAlt, FaUserAltSlash, FaUserFriends, FaUsers } from 'react-icons/fa';
 import { IoTv } from "react-icons/io5";
 import Image from 'next/image';
+import { useGlobalContext } from '../../../context/GlobalContext';
 
 
 const HomeContent = () => {
-    
+  const [state] = useGlobalContext();
     
     const Item = ({children, link="/"}) => {
         return (
@@ -23,16 +24,16 @@ const HomeContent = () => {
 
     return (
       <div className="grid gap-y-1  font-semibold capitalize">
-        <Item link="/user">
+        <Item link={`/users/${state.user?.slug}`}>
           <div className="h-7 w-7 relative rounded-full">
             <Image
               layout="fill"
-              src="/img/users/default/user.jpeg"
+              src={`/img/users/${state.user?.photo || "default/user.jpg"}`}
               alt="user"
-              className="rounded-full"
+              className="object-cover rounded-full"
             />
           </div>
-          <p className="ml-2">mubarak hussain ridoy</p>
+          <p className="ml-2">{state.user?.fullName}</p>
         </Item>
         <Item link="/covid-19-information-center">
           <FaGratipay className="text-red-500 text-2xl" />

@@ -4,33 +4,38 @@ import { useGlobalContext } from "../../../context/GlobalContext"
 import { DETAILS } from "../../../utils/client/variables";
 import { CURRENT_CITY, EDUCATION, HOME_TOWN, RELATIONSHIP_STATUS, WORK } from "../../../utils/global/variables";
 
-const Detail = () => {
+const Detail = ({user, ownProfile}) => {
     const [state, setState] = useGlobalContext();
     const detail = {
-      [WORK]: state.user?.[WORK],
-      [EDUCATION]: state.user?.[EDUCATION],
-      [HOME_TOWN]: state.user?.[HOME_TOWN],
-      [CURRENT_CITY]: state.user?.[CURRENT_CITY],
-      [RELATIONSHIP_STATUS]: state.user?.[RELATIONSHIP_STATUS],
+      [WORK]:ownProfile ? state.user?.[WORK] : user?.[WORK],
+      [EDUCATION]: ownProfile ? state.user?.[EDUCATION] : user?.[EDUCATION],
+      [HOME_TOWN]:ownProfile ? state.user?.[HOME_TOWN] : user?.[HOME_TOWN],
+      [CURRENT_CITY]:ownProfile ? state.user?.[CURRENT_CITY] : user?.[CURRENT_CITY],
+      [RELATIONSHIP_STATUS]: ownProfile ? state.user?.[RELATIONSHIP_STATUS] : user?.[RELATIONSHIP_STATUS],
   };
     const detailsEmpty = Object.keys(detail).every(item => item.length === 0)
 
     return (
       <div>
         <div className="grid gap-2">
-          {!detailsEmpty && Object.keys(detail).map((key, i) => <Item key={i} item={detail[key]} type={key}/>)}
+          {!detailsEmpty &&
+            Object.keys(detail).map((key, i) => (
+              <Item key={i} item={detail[key]} type={key} />
+            ))}
         </div>
-        <button
-          className="mt-1 w-full capitalize font-semibold bg-dark-400 rounded-md p-1.5 hover:brightness-125 transition active:scale-95"
-          onClick={() =>
-            setState((state) => ({
-              ...state,
-              model: { show: true, type: DETAILS },
-            }))
-          }
-        >
-          {detailsEmpty ? "add" : "edit"} details
-        </button>
+        {ownProfile && (
+          <button
+            className="mt-1 w-full capitalize font-semibold bg-dark-400 rounded-md p-1.5 hover:brightness-125 transition active:scale-95"
+            onClick={() =>
+              setState((state) => ({
+                ...state,
+                model: { show: true, type: DETAILS },
+              }))
+            }
+          >
+            {detailsEmpty ? "add" : "edit"} details
+          </button>
+        )}
       </div>
     );
 }

@@ -17,19 +17,28 @@ import catchAsync from "../../../../utils/client/functions/catchAsync";
 import { useGlobalContext } from "../../../../context/GlobalContext";
 import axios from "axios";
 import { useEffect } from "react";
-import Image from 'next/image';
+import Image from "next/image";
 
 const MainOption = ({ setMode, setBox }) => {
   const [state, setState] = useGlobalContext();
-  const logOut = () => catchAsync(async () => {
-    setState({ ...state, loading: true });
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_API || 'api'}/v1/users/auth/logout`, {withCredentials: true});
-    setState({ ...state, user: null, loading: false, alert: { show: true, text: res.data.message } });
-  }, setState)
+  const logOut = () =>
+    catchAsync(async () => {
+      setState({ ...state, loading: true });
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API || "api"}/v1/users/auth/logout`,
+        { withCredentials: true }
+      );
+      setState({
+        ...state,
+        user: null,
+        loading: false,
+        alert: { show: true, text: res.data.message },
+      });
+    }, setState);
 
   useEffect(() => {
-    return () => { };
-  }, [])
+    return () => {};
+  }, []);
 
   return (
     <div className={`w-full transition`}>
@@ -41,14 +50,10 @@ const MainOption = ({ setMode, setBox }) => {
         >
           <div className="h-16 w-16 relative">
             <Image
-              src={
-                
-                  `/img/users/${state.user?.photo || 'default/user.jpeg'}`
-                  
-              }
+              src={`/img/users/${state.user?.photo || "default/user.jpg"}`}
               alt="user"
               layout="fill"
-              className="rounded-full"
+              className="object-cover rounded-full"
             />
           </div>
           <div className="leading-5">

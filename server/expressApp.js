@@ -43,10 +43,11 @@ const expressApp = (app, server, dev) => {
   // compress response
   app.use(compression());
 
-  // body parser, cookie parser, urlencoding
+  // body parser, cookie parser, urlencoded formdata
   app.use(express.json());
-  app.use(cookieParser(process.env.COOKIE_SECRET)); 
-  app.use(express.urlencoded({ extended: true, limit: "10kb" }));
+  app.use(express.urlencoded({ extended: true }));
+  app.use(cookieParser(process.env.COOKIE_SECRET));
+ 
 
   // connect db
   connectDb();

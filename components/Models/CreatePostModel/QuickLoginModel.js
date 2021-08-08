@@ -1,8 +1,8 @@
-import LoginModel from "../LoginModel"
+import LoginModel from "../LoginModel";
 import { BsX } from "react-icons/bs";
-import Image from 'next/image';
+import Image from "next/image";
 
-const QuickLoginModel = ({user, closeModel}) => {
+const QuickLoginModel = ({ user, closeModel }) => {
   return (
     <LoginModel quickLogin email={user.email} closeModel={closeModel}>
       <div className="flex items-center justify-end px-4 py-3 min-w-[250px] text-center text-xl font-semibold">
@@ -16,15 +16,15 @@ const QuickLoginModel = ({user, closeModel}) => {
       <div className="flex justify-center">
         <div className="w-40 h-40 relative">
           <Image
-            src={`/img/users/${user.photo || "default/user.jpeg"}`}
+            src={`/img/users/${user.photo || "default/user.jpg"}`}
             alt={user.fullName || "user"}
             layout="fill"
-            className=" rounded-full"
+            className="object-cover rounded-full"
           />
         </div>
       </div>
     </LoginModel>
   );
-}
+};
 
-export default QuickLoginModel
+export default QuickLoginModel;

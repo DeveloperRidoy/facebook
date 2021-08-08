@@ -1,17 +1,17 @@
 import { useState } from "react";
-import {  QA } from "../../../utils//client/variables";
-import {  BsChevronLeft, BsX } from "react-icons/bs";
-import Image from 'next/image';
+import { QA } from "../../../utils//client/variables";
+import { BsChevronLeft, BsX } from "react-icons/bs";
+import Image from "next/image";
 
 const QADiv = ({ formData, setFormData, setToggleModel, locked, closeQA }) => (
   <div className="py-3 md:px-10">
     <div className={`rounded-xl p-3 relative ${formData.qaBackground}`}>
       <div className="h-10 w-10 relative">
         <Image
-          src="/img/users/default/user.jpeg"
+          src="/img/users/default/user.jpg"
           alt="user"
           layout="fill"
-          className="rounded-full"
+          className="object-cover rounded-full"
         />
       </div>
       <textarea
@@ -133,23 +133,25 @@ export const BackgroundSetter = ({ formData, setFormData, postBackground }) => {
 };
 
 const BgItem = ({ bg, formData, setFormData, postBackground }) => {
-  const active = postBackground ? formData.postBackground === bg : formData.qaBackground === bg;
+  const active = postBackground
+    ? formData.postBackground === bg
+    : formData.qaBackground === bg;
 
   const toggleBg = () => {
     setFormData({
-          ...formData,
-          postBackground: postBackground
-            ? formData.postBackground === bg
-              ? "transparent"
-              : bg
-            : formData.postBackground,
-          qaBackground: !postBackground
-            ? formData.qaBackground === bg
-              ? "transparent"
-              : bg
-            : formData.qaBackground,
-        })
-  }
+      ...formData,
+      postBackground: postBackground
+        ? formData.postBackground === bg
+          ? "transparent"
+          : bg
+        : formData.postBackground,
+      qaBackground: !postBackground
+        ? formData.qaBackground === bg
+          ? "transparent"
+          : bg
+        : formData.qaBackground,
+    });
+  };
 
   return (
     <button
@@ -162,6 +164,6 @@ const BgItem = ({ bg, formData, setFormData, postBackground }) => {
       <div className={`${bg} rounded-md h-full w-full`}></div>
     </button>
   );
-}
+};
 
 export default QADiv;

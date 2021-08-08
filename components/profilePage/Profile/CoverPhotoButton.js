@@ -13,6 +13,16 @@ const CoverPhotoButton = () => {
     const updateCoverPhoto = (e) =>
       catchAsync(
         async () => {
+          // check if file is an image
+          if (!/^image/i.test(e.target.files[0].type))
+            return setState((state) => ({
+              ...state,
+              alert: {
+                show: true,
+                type: "danger",
+                text: "please upload an image",
+              },
+            }));
           setLoading(true);
           const formData = new FormData();
           formData.append("coverPhotoFile", e.target.files[0]);

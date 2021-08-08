@@ -12,9 +12,13 @@ const Container = ({ children }) => {
     route !== "/marketplace" &&
     route !== "/gaming" &&
     route !== "/login-or-signup" &&
-    !/^\/profile/.test(route);
+    !/^\/profile/.test(route) &&
+    !/^\/users/.test(route); 
+    ;
   const showLeftSidebar =
-    route !== "/login-or-signup" && !/^\/profile/.test(route);
+    route !== "/login-or-signup" &&
+    !/^\/profile/.test(route) &&
+    !/^\/users/.test(route);
 
   return (
     <div className="min-h-screen dark:text-white">

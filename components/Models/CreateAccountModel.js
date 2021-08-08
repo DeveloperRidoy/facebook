@@ -17,7 +17,7 @@ const birthYears = [];
 for (let i = 1905; i <= 2021; i++) birthYears.unshift(i);
 for (let i = 1; i <= 31; i++) birthDates.push(i);
 
-const CreateAccountModel = ({ closeModel, backdropClass }) => {
+const CreateAccountModel = ({closeModel, backdropClass }) => {
   const [state, setState] = useGlobalContext();
     const [formData, setFormData] = useState({
         firstName: '',
