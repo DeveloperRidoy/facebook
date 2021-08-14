@@ -21,6 +21,8 @@ const StoryItem = ({
               src="/img/users/default/user.jpg"
               alt="user"
               className="object-cover rounded-full"
+              placeholder="blur"
+              blurDataURL="/img/users/default/user.jpg"
             />
           </div>
         </div>

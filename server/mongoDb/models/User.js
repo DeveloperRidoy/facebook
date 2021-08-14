@@ -10,6 +10,8 @@ const {
   SEPARATED,
   COMPLICATED,
   DIVORCED,
+  FRIENDS,
+  REQUESTED,
 } = require("../../../utils/global/variables");
 
 // function to set slug
@@ -86,6 +88,14 @@ const UserSchema = new mongoose.Schema(
         return setSlug(this);
       },
     },
+    fullName: {
+      type: String,
+      default: function () {
+        return this.surName
+          ? (this.firstName + " " + this.surName)
+          : this.firstName;
+      }
+    },
     bio: String,
 
     work: [
@@ -144,11 +154,7 @@ const UserSchema = new mongoose.Schema(
         ],
         message: `relationShipStatus must be one of these values ['${SINGLE}', '${IN_A_RELATIONSHIP}', '${ENGAGED}', '${MARRIED}', '${COMPLICATED}', '${SEPARATED}', '${DIVORCED}']`,
       },
-    },
-    friends: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'user'
-    }]
+    }
   },
   { toObject: { virtuals: true }, toJSON: { virtuals: true } }
 );
@@ -158,17 +164,19 @@ UserSchema.plugin(uniqueValidator, {
   message: "User with same {PATH} already exists",
 });
 
-// user posts
-UserSchema.virtual("posts", { 
-  ref: "post",
+// user posts 
+UserSchema.virtual('posts', {
+  ref: 'post',
   foreignField: "user",
   localField: '_id'
-});
+})
 
-// virtual fullName
-UserSchema.virtual("fullName").get(function () {
-  return `${this.firstName}${this.surName ? ` ${this.surName}` : ""}`;
-});
+UserSchema.virtual('friends', {
+  ref: 'friend',
+  foreignField: 'requester',
+  localField: '_id'
+})
+
 
 // encrypt password before saving user
 UserSchema.pre("save", async function (next) {
@@ -198,7 +206,7 @@ UserSchema.methods.comparePassword = async function (password) {
   const passwordsMatch = await bcrypt.compare(password, this.password);
   return passwordsMatch;
 };
- 
+
 
 const User = mongoose.model("user", UserSchema);
 

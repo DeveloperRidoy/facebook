@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useGlobalContext } from "../../context/GlobalContext";
 import Image from "next/image";
 
-const Friends = ({user, ownProfile}) => {
+const Friends = ({ user, ownProfile }) => {
   const [state] = useGlobalContext();
   return (
     <div className="dark:bg-dark p-2 rounded-lg">
@@ -19,7 +19,10 @@ const Friends = ({user, ownProfile}) => {
           see all friends
         </button>
       </div>
-      <span className="dark:text-gray-300">{ownProfile ? state.user?.friends?.length : user?.friends?.length} friends</span>
+      <span className="dark:text-gray-300">
+        {ownProfile ? state.user?.friends?.length : user?.friends?.length}{" "}
+        friends
+      </span>
       <div className="grid grid-cols-3 items-center gap-4 justify-between mt-3">
         <Friend />
         <Friend />
@@ -43,6 +46,8 @@ const Friend = ({ link = "#", name = "user", img = "default/user.jpg" }) => (
           alt={name}
           layout="fill"
           className="object-cover rounded-lg"
+          placeholder="blur"
+          blurDataURL="/img/users/default/user.jpg"
         />
       </div>
       <p>{name}</p>

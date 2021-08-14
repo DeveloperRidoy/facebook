@@ -54,6 +54,8 @@ const MainOption = ({ setMode, setBox }) => {
               alt="user"
               layout="fill"
               className="object-cover rounded-full"
+              placeholder="blur"
+              blurDataURL="/img/users/default/user.jpg"
             />
           </div>
           <div className="leading-5">

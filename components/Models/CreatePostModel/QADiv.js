@@ -12,6 +12,8 @@ const QADiv = ({ formData, setFormData, setToggleModel, locked, closeQA }) => (
           alt="user"
           layout="fill"
           className="object-cover rounded-full"
+          placeholder="blur"
+          blurDataURL="/img/users/default/user.jpg"
         />
       </div>
       <textarea

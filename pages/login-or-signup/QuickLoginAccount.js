@@ -82,6 +82,8 @@ const QuickLoginAccount = ({ login, setModel }) => {
                   src={`/img/users/${login.user?.photo || "default/user.jpg"}`}
                   alt="user"
                   className="object-cover object-cover "
+                  placeholder="blur"
+                  blurDataURL="/img/users/default/user.jpg"
                 />
               </div>
               <div className="flex-1 flex text-gray-700 justify-center items-center capitalize">

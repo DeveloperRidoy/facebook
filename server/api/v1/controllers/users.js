@@ -8,11 +8,10 @@ const { getDocs, deleteDocs, deleteDocById,  getDocById } = require("./handlerFa
 // @accessibllity   public
 exports.getAllUsers = () => getDocs(User);
 
-
 // @route           GET api/v1/users/:id
 // @description     get user by id 
 // @accessibllity   public
-exports.getUserById = () => getDocById(User)
+exports.getUserById = () => getDocById(User, {path: 'friends posts'})
 
 // @route           DELETE api/v1/users
 // @description     delete all users
@@ -25,13 +24,28 @@ exports.deleteAllUsers = () => deleteDocs(User);
 exports.deleteUserById = () => deleteDocById(User);
 
 
+// @route           GET api/v1/users/name/:name 
+// @description     get user by name
+// @accessibllity   public
+exports.getUsersByName = () => catchAsync(async (req, res, next) => {
+  const name = req.params.name.toLowerCase().trim().replace(/\s+/g, " ");
 
+  const users = await User.find({
+    fullName: new RegExp(`^(${name})`, "i"),
+  }).select("fullName photo slug");
+
+  return res.json({
+    status: "success",
+    results: users.length,
+    data: { users },
+  });
+});
 
 // @route           PATCH api/v1/users
 // @description     update user
 // @accessibllity   user (expecting req.user from the previous middleware)
 exports.updateMe = () => catchAsync(async (req, res, next) => {
-    let error = false;
+  let error = false;
     Object.keys(req.body).forEach(key => {
         // check for unauthorized inputs
         if (key === 'passwordChangedAt' || key === 'password' || key === 'confirmPassword' || key === '_id') {
@@ -50,7 +64,7 @@ exports.updateMe = () => catchAsync(async (req, res, next) => {
       req.user._id,
       {$set: req.body},
       { new: true, runValidators: true }
-    );          
+    ).populate({path: 'friends posts'});          
 
     // return response 
     return res.json({
@@ -68,7 +82,7 @@ exports.getUserBySlug = () =>
     const slug = req.params.slug.toLowerCase().trim();
 
     // get user
-    const user = await User.findOne({ slug });
+    const user = await User.findOne({ slug }).populate('friends posts');
     
     if(!user) return next(
       new AppError(404, `user not found`)

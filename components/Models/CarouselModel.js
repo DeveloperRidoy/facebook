@@ -1,6 +1,6 @@
-import Model from "./Model"
-import {Carousel} from "react-responsive-carousel";
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import Model from "./Model";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -29,6 +29,8 @@ const CarouselModel = ({ closeModel, data }) => {
                   alt="post-photo"
                   layout="fill"
                   className="object-cover rounded"
+                  placeholder="blur"
+                  blurDataURL="/img/users/default/user.jpg"
                 />
               ) : (
                 media.type === "video" && (
@@ -45,4 +47,4 @@ const CarouselModel = ({ closeModel, data }) => {
   );
 };
 
-export default CarouselModel
+export default CarouselModel;

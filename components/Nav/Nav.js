@@ -1,5 +1,6 @@
 import { IoCube, IoHome, IoTv } from "react-icons/io5";
 import {
+  FaArrowLeft,
   FaBars,
   FaBell,
   FaCaretDown,
@@ -32,8 +33,9 @@ const Nav = () => {
   const Router = useRouter();
   const route = Router.route;
   const [box, setBox] = useState({ show: false, mode: null });
-
+  const [searchActive, setSearchActive] = useState(false);
   const [state] = useGlobalContext();
+  
 
   return (
     <div
@@ -61,12 +63,25 @@ const Nav = () => {
       )}
       <div className="flex flex-wrap h-full">
         <section className="flex-1 flex items-center py-1.5 z-50">
-          <Link href="/">
-            <a href="/" tabIndex="1">
-              <Logo />
-            </a>
-          </Link>
-          <SearchBar tabIndex="2" tooltip="Search" />
+          <div className="flex-1 flex gap-x-3 items-center max-w-[285px] overflow-hidden">
+            {searchActive ? (
+              <button tabIndex="1">
+                <FaArrowLeft />
+              </button>
+            ) : (
+              <Link href="/">
+                <a href="/" tabIndex="1">
+                  <Logo />
+                </a>
+              </Link>
+            )}
+            <SearchBar
+              tabIndex="2"
+              tooltip="Search"
+              setSearchActive={setSearchActive}
+              searchActive={searchActive}
+            />
+          </div>
           <button
             className="md:hidden text-3xl ml-5"
             tabIndex="3"
@@ -147,6 +162,8 @@ const Nav = () => {
                   alt="user"
                   layout="fill"
                   className="object-cover rounded-full"
+                  placeholder="blur"
+                  blurDataURL="/img/users/default/user.jpg"
                 />
               </div>
               <p className="capitalize text-sm font-bold">
@@ -169,6 +186,7 @@ const Nav = () => {
             box={box}
             setBox={setBox}
             mode={MESSENGER}
+            notifications={1}
           >
             <FaFacebookMessenger />
           </Button>
@@ -178,6 +196,7 @@ const Nav = () => {
             box={box}
             setBox={setBox}
             mode={NOTIFICATIONS}
+            notifications={state.notifications.totalNotifications}
           >
             <FaBell />
           </Button>
@@ -198,7 +217,7 @@ const Nav = () => {
 
 export default Nav;
 
-const Button = ({ children, tabIndex, tooltip, box, setBox, mode }) => {
+const Button = ({ children, tabIndex, tooltip, box, setBox, mode, notifications = 0 }) => {
   const changeBox = (e) => {
     e.stopPropagation();
     setBox({
@@ -210,7 +229,7 @@ const Button = ({ children, tabIndex, tooltip, box, setBox, mode }) => {
 
   return (
     <button
-      className={`rounded-full flex items-center justify-center transition h-10 w-10 group ${
+      className={`rounded-full flex items-center justify-center transition h-10 w-10 group relative ${
         box.mode === mode
           ? "bg-cyan-100 dark:bg-blue-500/30 bg-opacity-60 hover:bg-blue-100 dark:text-blue-400 text-blue-600 scale-95 focus:outline-none"
           : "bg-gray-200 dark:bg-dark-400 hover:bg-gray-300 dark:hover:bg-dark-300 active:outline-none"
@@ -219,6 +238,13 @@ const Button = ({ children, tabIndex, tooltip, box, setBox, mode }) => {
       tooltip={tooltip}
       onClick={changeBox}
     >
+      {notifications > 0 && (
+        <span
+          className={`absolute top-0 -right-2 h-4 ${notifications > 9 ? 'w-5': 'w-4'} flex items-center justify-center rounded-full bg-red-500 z-10 text-sm text-white`}
+        >
+          {notifications > 9 ? '9+': notifications}
+        </span>
+      )}
       {children}
     </button>
   );

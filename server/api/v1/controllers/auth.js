@@ -39,7 +39,7 @@ exports.authenticate = () =>
     // check if user still exits from the id in validUserAuthToken;
     const user = await User.findById(validUserAuthToken.id).select(
       "+passwordChangedAt"
-    );
+    ).populate('posts friends');
     if (!user)
       return res.json({
         status: "fail",
@@ -106,7 +106,7 @@ exports.loginUser = () =>
       return next(new AppError(400, "Please provide your password"));
 
     // check if user exists
-    const user = await User.findOne({ email }).select("+password");
+    const user = await User.findOne({ email }).select("+password").populate('posts friends');
     if (!user) return next(new AppError(404, "User not found"));
 
     // add or update quick-logins

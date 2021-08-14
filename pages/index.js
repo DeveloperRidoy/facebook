@@ -16,7 +16,7 @@ export default function Home () {
       <StoriesPreview />
       <div className="w-full max-w-lg mx-auto mt-8">
         <CreatePost />
-        <CreateRoom />
+      <CreateRoom />
         {state.posts?.length > 0 &&
           state.posts
             .slice(0)

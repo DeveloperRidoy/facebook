@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import Axios from "../../../utils/client/axios";
 import { useGlobalContext } from "../../../context/GlobalContext";
 import { usePostContext } from "../Post";
-import { COMMENT, DARK } from "../../../utils/global/variables";
+import { COMMENT, DARK, QA } from "../../../utils/global/variables";
 import { Picker } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
 
@@ -46,6 +46,12 @@ const WriteComment = ({
       // update state
       setState((state) => ({
         ...state,
+        user: {
+          ...state.user,
+          posts: state.user?.posts?.map((post) =>
+            post._id === postState.post?._id ? res.data.data?.post : post
+          ),
+        },
         posts: state.posts.map((item) =>
           item._id === post._id ? res.data.data?.post : item
         ),
@@ -79,6 +85,7 @@ const WriteComment = ({
       positionOnTop:
         e.target.getBoundingClientRect().top / window.innerHeight > 0.5,
     }));
+
   return (
     <div className="flex items-center gap-x-2 mb-2 relative">
       {!hidePic && (
@@ -88,6 +95,8 @@ const WriteComment = ({
             alt="user"
             layout="fill"
             className="object-cover rounded-full"
+            placeholder="blur"
+            blurDataURL="/img/users/default/user.jpg"
           />
         </div>
       )}
@@ -97,7 +106,11 @@ const WriteComment = ({
             <textarea
               ref={commentBoxRef}
               className="w-full h-6 px-2 bg-transparent focus:outline-none overflow-hidden resize-none dark:text-white"
-              placeholder="Write a comment"
+              placeholder={`${
+                post.type === QA && type == COMMENT
+                  ? "Give an answer"
+                  : "Write a comment"
+              }`}
               value={data.text}
               onChange={inputChange}
               required
@@ -105,7 +118,11 @@ const WriteComment = ({
           ) : (
             <textarea
               className="w-full h-6 px-2 bg-transparent focus:outline-none overflow-hidden resize-none dark:text-white"
-              placeholder="Write a comment"
+              placeholder={`${
+                post.type === QA && type == COMMENT
+                  ? "Give an answer"
+                  : "Write a comment"
+              }`}
               value={data.text}
               onChange={inputChange}
               required

@@ -42,10 +42,10 @@ const CoverPhotoButton = () => {
         () => setLoading(false)
       ); 
   return (
-    <Button loading={loading} className="py-1.5 px-2.5 capitalize bg-white text-black font-semibold rounded-lg flex items-center gap-x-2 ml-auto mr-3 active:scale-95 transition" onClick={() => fileRef.current.click()}>
+    <Button loading={loading} className="py-1.5 px-2.5 capitalize bg-white text-black font-semibold rounded-lg flex items-center justify-center sm:gap-x-2  ml-auto mr-3 active:scale-95 transition filter hover:brightness-75" onClick={() => fileRef.current.click()}>
       <FaCamera />
       <span className="hidden sm:block">{state.user?.coverPhoto ? 'update': 'add'} cover photo</span>
-      <input type="file" ref={fileRef} onChange={updateCoverPhoto} className="h-0 w-0"/>
+      <input type="file" accept="image/*" ref={fileRef} onChange={updateCoverPhoto} className="h-0 w-0 absolute"/>
     </Button>
   );
 };

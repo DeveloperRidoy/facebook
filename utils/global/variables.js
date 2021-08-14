@@ -17,3 +17,7 @@ exports.DIVORCED = "DIVORCED";
 exports.COMMENT = 'COMMENT';
 exports.REPLY = "REPLY";
 exports.REPLY_TO_REPLY = "REPLY_TO_REPLY"
+exports.REQUESTED = 'REQUESTED';
+exports.FRIENDS = 'FRIENDS';
+exports.PENDING = 'PENDING';
+exports.ADD_FRIEND = 'ADD_FRIEND';

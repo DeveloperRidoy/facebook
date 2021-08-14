@@ -8,7 +8,6 @@ import Button from "../../../Buttons/Button";
 import { useState } from "react";
 import WriteComment from "../WriteComment";
 import Link from "next/link";
-import { COMMENT } from "../../../../utils/global/variables";
 
 // vairables
 const REPLY = "REPLY";
@@ -34,6 +33,12 @@ const CommentBody = ({ type, comment, post }) => {
 
         setState((state) => ({
           ...state,
+          user: {
+            ...state.user,
+            posts: state.user?.posts?.map((item) =>
+              item._id === post?._id ? res.data.data?.post : post
+            ),
+          },
           posts: state.posts.map((item) =>
             item._id === post._id ? res.data.data?.post : item
           ),
@@ -57,6 +62,8 @@ const CommentBody = ({ type, comment, post }) => {
             alt="user"
             layout="fill"
             className="rounded-full object-cover z-10"
+            placeholder="blur"
+            blurDataURL="/img/users/default/user.jpg"
           />
         </div>
         <div className="dark:text-gray-300">

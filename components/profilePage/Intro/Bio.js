@@ -71,14 +71,14 @@ const Bio = ({user, ownProfile}) => {
             {ownProfile && state.user?.bio
                ? (
                 <div>
-                  <p className="text-center">{state.user.bio}</p>
+                  <p className="text-center">{state.user?.bio}</p>
                   <Spacer className="my-3" />
                 </div>
               )
              :(
                 user?.bio && (
                   <div>
-                    <p className="text-center">{state.user.bio}</p>
+                    <p className="text-center">{state.user?.bio}</p>
                     <Spacer className="my-3" />
                   </div>
                 )

@@ -31,6 +31,7 @@ const HomeContent = () => {
               src={`/img/users/${state.user?.photo || "default/user.jpg"}`}
               alt="user"
               className="object-cover rounded-full"
+              placeholder="blur" blurDataURL="/img/users/default/user.jpg"
             />
           </div>
           <p className="ml-2">{state.user?.fullName}</p>

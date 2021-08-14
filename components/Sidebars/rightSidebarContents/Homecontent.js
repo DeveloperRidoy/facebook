@@ -7,7 +7,7 @@ const Homecontent = () => {
     return (
       <div className="">
         <div className="flex items-center font-semibold text-gray-500 dark:text-gray-300">
-          <p className="capitalize text-lg">contacts</p>
+          <p className="capitalize text-lg">friends</p>
           <div className="ml-16 flex items-center z-10">
             <button
               className="flex justify-center items-center h-8 w-8 hover:bg-gray-200 dark:hover:bg-dark-400 active:bg-gray-300 dark:active:bg-dark-300 transition active:outline-none rounded-full"
@@ -82,6 +82,7 @@ const Contact = ({
             src={photo}
             alt={name}
             className="object-cover rounded-full"
+            placeholder="blur" blurDataURL="/img/users/default/user.jpg"
           />
         </div>
         <div className="absolute inset-0 bg-black bg-opacity-30"></div>

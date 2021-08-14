@@ -8,6 +8,8 @@ const UserItem = (user) => {
         alt={user?.name || "user"}
         layout="fill"
         className="object-cover rounded-full"
+        placeholder="blur"
+        blurDataURL="/img/users/default/user.jpg"
       />
     </button>
   );

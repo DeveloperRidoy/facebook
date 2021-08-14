@@ -41,8 +41,8 @@ const ProfilePage = ({ user }) => {
           <div className="sm:col-span-7 grid gap-3 content-start">
             {ownProfile && <CreatePost />}
             {ownProfile
-              ? state.posts?.length > 0 &&
-                state.posts
+              ? state.user?.posts?.length > 0 &&
+                state.user.posts
                   .slice(0)
                   .reverse()
                   .map((post) => <Post post={post} key={post._id} />)
@@ -64,8 +64,9 @@ export const getServerSideProps = async (ctx) => {
    
   try {
     const { slug } = ctx.query;
-    const user = await (await Axios.get(`users/slug/${slug}`)).data.data?.user;
-    // const posts = await (await Axios.get(`posts/${4}`)).data.data?.user;
+    const user = await (
+      await Axios.get(`users/slug/${slug}`)
+    ).data.data?.user;                               
     return {
         props: {user},
       };

@@ -7,16 +7,17 @@ const {
   getUserById,
   deleteUserById,
   getUserBySlug,
+  getUsersByName,
 } = require("../controllers/users");
 const protect = require('../middlewares/protect');
 const checkId = require('../middlewares/checkId');
 const { uploadPhotos} = require('../middlewares/multer/multer');
 
-const Router = require('express').Router();
+const Router = require("express").Router();
 
 Router.route("/")
   .get(getAllUsers())
-  .delete(protect(ADMIN), deleteAllUsers())
+  .delete(protect(), deleteAllUsers())
   .patch(
     protect(),
     uploadPhotos({
@@ -49,6 +50,9 @@ Router.route('/:id')
     .all(checkId())
     .get(getUserById())
     .delete(deleteUserById())
+
+Router.route("/name/:name")
+    .get(getUsersByName());
 
 Router.route("/slug/:slug")
     .get(getUserBySlug())

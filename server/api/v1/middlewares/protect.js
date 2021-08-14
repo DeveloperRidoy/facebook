@@ -9,13 +9,18 @@ const protect = (...roles) => catchAsync(async (req, res, next) => {
       req.signedCookies[USER_AUTH_TOKEN] ||
       req.headers.authorization?.split(" ")[1] ||
       null;
- 
+  
   // check if authToken is provided
   if (!authToken) return next(new AppError(400, 'not logged in',));
 
   // check if token is valid 
-  const validToken = jwt.verify(authToken, process.env.JWT_SECRET); 
-  if (!validToken) return next(new AppError(401, 'not logged in'));
+  let validToken = '';
+  try {
+     validToken = jwt.verify(authToken, process.env.JWT_SECRET);
+    if (!validToken) return next(new AppError(401, "not logged in"));
+  } catch (error) {
+    return next(new AppError(400, error.message))
+  }
 
   // check if user still exits from the id in validToken;
   const user = await User.findById(validToken.id).select('+passwordChangedAt');
@@ -34,6 +39,7 @@ const protect = (...roles) => catchAsync(async (req, res, next) => {
     // attach user to the request to use in the next middleware 
     req.user = user;
     // go to next middleware 
+  
     return next();
 })
 

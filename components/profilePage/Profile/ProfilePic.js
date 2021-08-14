@@ -55,6 +55,8 @@ const ProfilePic = () => {
             alt={state.user?.fullName}
             layout="fill"
             className="object-cover rounded-full"
+            placeholder="blur"
+            blurDataURL="/img/users/default/user.jpg"
           />
           <div className="absolute text-gray-300 bg-dark-400 shadow-lg p-1.5 rounded-full text-xl top-[70%] right-1">
             <FaCamera />
@@ -64,6 +66,7 @@ const ProfilePic = () => {
       <input
         ref={fileRef}
         type="file"
+        accept="image/*"
         className="h-0 w-0"
         onChange={updatePhoto}
       />

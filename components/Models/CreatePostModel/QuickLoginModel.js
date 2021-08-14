@@ -20,6 +20,8 @@ const QuickLoginModel = ({ user, closeModel }) => {
             alt={user.fullName || "user"}
             layout="fill"
             className="object-cover rounded-full"
+            placeholder="blur"
+            blurDataURL="/img/users/default/user.jpg"
           />
         </div>
       </div>

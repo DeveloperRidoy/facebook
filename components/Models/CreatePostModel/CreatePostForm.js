@@ -30,6 +30,8 @@ import catchAsync from "../../../utils/client/functions/catchAsync";
 import Axios from "../../../utils/client/axios";
 import Reader from "../../../utils/global/functions/fileReader";
 import convertToFormData from "../../../utils/global/functions/convertToFormData";
+import { useSocketContext } from "../../../context/SocketContext";
+
 
 const CreatePostForm = ({
   closeModel,
@@ -38,6 +40,7 @@ const CreatePostForm = ({
   formData,
   setFormData,
 }) => {
+  const socket = useSocketContext();
   const [state, setState] = useGlobalContext();
   const [loading, setLoading] = useState(false);
   const photoRef = useRef(null);
@@ -50,9 +53,14 @@ const CreatePostForm = ({
         const data = convertToFormData(formData);
         const res = await Axios.post("posts", data);
 
+        // update state
         setState((state) => ({
           ...state,
           posts: [...state.posts, res.data.data?.post],
+          user: {
+            ...state.user,
+            posts: [...state.user?.posts, res.data.data?.post],
+          },
           alert: { show: true, text: res.data.message },
           model: { ...state.model, show: false },
         }));
@@ -140,6 +148,8 @@ const CreatePostForm = ({
                 alt="user"
                 layout="fill"
                 className="object-cover rounded-full"
+                placeholder="blur"
+                blurDataURL="/img/users/default/user.jpg"
               />
             </a>
           </Link>
@@ -187,74 +197,6 @@ const CreatePostForm = ({
                   setFormData({ ...formData, text: e.target.value })
                 }
               ></textarea>
-              {formData.photos?.length > 0 && (
-                <div className="grid grid-cols-6 gap-y-2 gap-x-1 mb-2 relative">
-                  <button
-                    type="button"
-                    className="absolute top-0 right-0 text-white bg-black/70 rounded-full text-2xl z-10 active:scale-95 transition"
-                    onClick={() =>
-                      setFormData((data) => ({
-                        ...data,
-                        photos: [],
-                      }))
-                    }
-                  >
-                    <FaTimes />
-                  </button>
-                  {formData.photos.map((photo, i) => (
-                    <div
-                      className={` aspect-w-16 aspect-h-9 relative ${
-                        formData.photos.length === 1
-                          ? "col-span-6"
-                          : formData.photos.length < 6
-                          ? "col-span-3"
-                          : "col-span-2"
-                      }`}
-                      key={i}
-                    >
-                      <Image
-                        src={photo.url}
-                        layout="fill"
-                        className="object-cover"
-                      />
-                    </div>
-                  ))}
-                </div>
-              )}
-              {formData.videos?.length > 0 && (
-                <div className="grid grid-cols-6 gap-y-2 gap-x-1 mb-2 relative">
-                  <button
-                    type="button"
-                    className="absolute top-0 right-0 text-white bg-black/70 rounded-full text-2xl z-10 active:scale-95 transition"
-                    onClick={() =>
-                      setFormData((data) => ({
-                        ...data,
-                        videos: [],
-                      }))
-                    }
-                  >
-                    <FaTimes />
-                  </button>
-                  {formData.videos.map((video, i) => (
-                    <div
-                      className={` aspect-w-16 aspect-h-9 relative ${
-                        formData.videos.length === 1
-                          ? "col-span-6"
-                          : formData.videos.length < 6
-                          ? "col-span-3"
-                          : "col-span-2"
-                      }`}
-                      key={i}
-                    >
-                      <video
-                        src={video.url}
-                        controls
-                        className="object-cover"
-                      />
-                    </div>
-                  ))}
-                </div>
-              )}
             </div>
           ) : (
             formData.type === QA && (
@@ -269,6 +211,7 @@ const CreatePostForm = ({
               </div>
             )
           )}
+          <PhotosAndVideos formData={formData} setFormData={setFormData} />
           <div>
             <BackgroundSetter
               formData={formData}
@@ -339,7 +282,10 @@ const CreatePostForm = ({
                 </button>
               </div>
             </div>
-            <PostButton disabled={!formData.text} loading={loading}>
+            <PostButton
+              disabled={!formData.text && !formData.qaText}
+              loading={loading}
+            >
               post
             </PostButton>
           </div>
@@ -350,3 +296,68 @@ const CreatePostForm = ({
 };
 
 export default CreatePostForm;
+
+const PhotosAndVideos = ({ formData, setFormData }) => (
+  <>
+    {formData.photos?.length > 0 && (
+      <div className="grid grid-cols-6 gap-y-2 gap-x-1 mb-2 relative">
+        <button
+          type="button"
+          className="absolute top-0 right-0 text-white bg-black/70 rounded-full text-2xl z-10 active:scale-95 transition"
+          onClick={() =>
+            setFormData((data) => ({
+              ...data,
+              photos: [],
+            }))
+          }
+        >
+          <FaTimes />
+        </button>
+        {formData.photos.map((photo, i) => (
+          <div
+            className={` aspect-w-16 aspect-h-9 relative ${
+              formData.photos.length === 1
+                ? "col-span-6"
+                : formData.photos.length < 6
+                ? "col-span-3"
+                : "col-span-2"
+            }`}
+            key={i}
+          >
+            <Image src={photo.url} layout="fill" className="object-cover" />
+          </div>
+        ))}
+      </div>
+    )}
+    {formData.videos?.length > 0 && (
+      <div className="grid grid-cols-6 gap-y-2 gap-x-1 mb-2 relative">
+        <button
+          type="button"
+          className="absolute top-0 right-0 text-white bg-black/70 rounded-full text-2xl z-10 active:scale-95 transition"
+          onClick={() =>
+            setFormData((data) => ({
+              ...data,
+              videos: [],
+            }))
+          }
+        >
+          <FaTimes />
+        </button>
+        {formData.videos.map((video, i) => (
+          <div
+            className={` aspect-w-16 aspect-h-9 relative ${
+              formData.videos.length === 1
+                ? "col-span-6"
+                : formData.videos.length < 6
+                ? "col-span-3"
+                : "col-span-2"
+            }`}
+            key={i}
+          >
+            <video src={video.url} controls className="object-cover" />
+          </div>
+        ))}
+      </div>
+    )}
+  </>
+);

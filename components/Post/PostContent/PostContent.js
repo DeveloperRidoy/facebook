@@ -15,6 +15,7 @@ import { useGlobalContext } from "../../../context/GlobalContext";
 import { useState } from "react";
 import catchAsync from "../../../utils/client/functions/catchAsync";
 import Axios from "../../../utils/client/axios";
+import { POST, QA } from "../../../utils/global/variables";
 
 const PostContent = () => {
   const [globalState, setGlobalState] = useGlobalContext();
@@ -26,11 +27,14 @@ const PostContent = () => {
     type,
     group,
     text,
+    qaText,
     photos = [],
     audios,
     videos = [],
     likes,
     comments,
+    postBackground,
+    qaBackground,
     createdAt_ms,
   } = state.post;
   const medias = [];
@@ -45,6 +49,10 @@ const PostContent = () => {
       await Axios.delete(`posts/${_id}`);
       setGlobalState((state) => ({
         ...state,
+        user: {
+          ...state.user,
+          posts: state.user?.posts?.filter((post) => post._id !== _id),
+        },
         posts: state.posts?.filter((post) => post._id !== _id),
         alert: { show: true, text: "post deleted" },
       }));
@@ -75,6 +83,8 @@ const PostContent = () => {
               alt={user?.name || "user"}
               layout="fill"
               className="h-10 w-10 object-cover rounded-full border-blue-500"
+              placeholder="blur"
+              blurDataURL="/img/users/default/user.jpg"
             />
           </div>
           <div>
@@ -82,12 +92,9 @@ const PostContent = () => {
               <span className="capitalize font-semibold">
                 {user?.name || "user"}{" "}
               </span>
-              {/* <span className="text-gray-400">
-                {type === "question" ? "asked a question " : "posted in "}
+              <span className="text-gray-400">
+                {type === QA ? "asked a question " : "posted "}
               </span>
-              <span className="capitalize font-semibold">
-                {group?.name || "this group"}
-              </span> */}
             </p>
             <div className="flex items-center text-gray-400 text-sm gap-x-1">
               <span>{moment(createdAt_ms).fromNow()}</span>
@@ -112,8 +119,12 @@ const PostContent = () => {
           )}
         </div>
       </div>
-      <div className="flex flex-col gap-y-3 mt-2">
-        <p className="px-3">{text}</p>
+      <div
+        className={`flex flex-col gap-y-3 mt-2 ${
+          type === POST ? postBackground : qaBackground
+        }`}
+      >
+        <p className="px-3">{type === QA ? qaText : text}</p>
         <div className="grid grid-cols-2 gap-1">
           {medias?.length > 0 &&
             medias.map(
@@ -131,6 +142,8 @@ const PostContent = () => {
                         alt="post-photo"
                         className="object-cover"
                         onClick={(e) => showCarouselModel(e, i)}
+                        placeholder="blur"
+                        blurDataURL="/img/users/default/user.jpg"
                       />
                     ) : (
                       media.type === "video" && (
@@ -144,7 +157,7 @@ const PostContent = () => {
                   </div>
                 )
             )}
-          {photos?.length > showMedias && (
+          {medias?.length > showMedias && (
             <button
               className="col-span-1 dark:bg-dark transition dark:hover:bg-dark-400 active:scale-[98%]"
               onClick={() => setShowMedias(medias.length)}
@@ -170,8 +183,8 @@ const PostContent = () => {
               }
             >
               {filteredComments.length === 1
-                ? "1 comment"
-                : `${comments.length} comments`}
+                ? `1 ${type === QA ? "answer" : "comment"}`
+                : `${comments.length} ${type === QA ? "answers" : "comments"}`}
             </button>
           )}
         </div>
@@ -190,7 +203,9 @@ const PostContent = () => {
             }
           >
             <FaCommentDots />
-            <span>Comment</span>
+            <span className="capitalize">
+              {type === QA ? "answer" : "comment"}
+            </span>
           </button>
         </div>
       </div>

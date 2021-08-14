@@ -20,9 +20,15 @@ const LikeButton = () => {
             : await Axios.delete(`posts/${postState.post._id}/like`);
           setState((state) => ({
             ...state,
+            user: {
+              ...state.user,
+              posts: state.user?.posts?.map((post) =>
+                post._id === postState.post?._id ? res.data.data?.post : post
+              ),
+            },
             posts: state.posts.map((post) =>
               post._id === postState.post._id ? res.data.data?.post : post
-              ),
+            ),
           }));
               setLoading(false);
         },
