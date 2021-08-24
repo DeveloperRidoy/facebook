@@ -15,6 +15,7 @@ const SearchBar = ({ tabIndex, tooltip, searchActive, setSearchActive }) => {
     loading: false,
     results: [],
   });
+  const [showMobileSearchBar, setshowMobileSearchBar] = useState(false)
 
   const submitSearch = (viaForm, e) =>
     catchAsync(
@@ -82,15 +83,13 @@ const SearchBar = ({ tabIndex, tooltip, searchActive, setSearchActive }) => {
   return (
     <div className="">
       <form
-        className={` flex items-center bg-secondary dark:bg-dark-400 rounded-3xl p-2 text-gray-500 relative transition`}
+        className={`flex items-center bg-secondary dark:bg-dark-400 rounded-3xl p-2 text-gray-500 transition ${
+          searchActive ? "absolute lg:relative right-2 left-9 top-2 lg:top-0" : "relative"
+        }`}
         onSubmit={() => submitSearch(true)}
       >
         {!searchActive && (
-          <label
-            htmlFor="searchInput"
-            animate={{ scale: 1 }}
-            exit={{ scale: 0 }}
-          >
+          <label htmlFor="searchInput" className="cursor-pointer" >
             <IoSearch fontSize="1.3em" />
           </label>
         )}
@@ -98,7 +97,7 @@ const SearchBar = ({ tabIndex, tooltip, searchActive, setSearchActive }) => {
         <input
           id="searchInput"
           type="text"
-          className="bg-transparent dark:text-white dark:placeholder-gray-400 focus:outline-none ml-2 pr-2 max-w-[180px]"
+          className={`${searchActive ? 'block': 'hidden sm:block'} bg-transparent dark:text-white dark:placeholder-gray-400 focus:outline-none ml-2 pr-2 w-full sm:max-w-[180px]`}
           placeholder="Search Facebook"
           tabIndex={tabIndex}
           onClick={activateSearch}
