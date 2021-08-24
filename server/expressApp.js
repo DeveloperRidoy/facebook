@@ -53,7 +53,7 @@ const expressApp = (app, server, dev) => {
   connectDb();
 
   // api routes
-  const routes = ["users", "posts", "friends"];
+  const routes = ["users", "posts", "friends", "chats"];
  
   // handle routes requests
   routes.forEach((route) =>

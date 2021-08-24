@@ -36,7 +36,8 @@ const CarouselModel = ({ closeModel, data }) => {
                 media.type === "video" && (
                   <video
                     src={`/video/users/${media.src}`}
-                    controls={true}
+                    controls={true} 
+                    className="px-5"
                   ></video>
                 )
               )}

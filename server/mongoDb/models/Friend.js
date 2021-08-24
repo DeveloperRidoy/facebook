@@ -21,10 +21,6 @@ const FriendsSchema = new mongoose.Schema(
         message: `status must be one of [ '${ADD_FRIEND}','${REQUESTED}','${PENDING}', '${FRIENDS}' ]`,
       },
     },
-    createdAt: { 
-      type: Date,
-      default: Date.now,
-    }, 
     createdAt_ms: {
       type: String,
       default: function () {
@@ -40,7 +36,7 @@ const FriendsSchema = new mongoose.Schema(
       }
     }
   },
-  { toObject: { virtuals: true }, toJSON: { virtuals: true } }
+  { toObject: { virtuals: true }, toJSON: { virtuals: true }, timestamps: true}
 );
 
 // pre find middleware 

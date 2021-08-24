@@ -11,7 +11,7 @@ const Bio = ({user, ownProfile}) => {
     const [state, setState] = useGlobalContext();
     const [expand, setExpand] = useState(false);
     const [loading, setLoading] = useState(false); 
-    const [data, setData] = useState({ text: user?.bio || '', charactersLeft: limit - user?.bio?.length });  
+    const [data, setData] = useState({ text: user?.bio || '', charactersLeft: limit - user?.bio?.length || 0});  
     
     const updateBio = (e) => catchAsync(async () => {
         e.preventDefault()
@@ -30,7 +30,7 @@ const Bio = ({user, ownProfile}) => {
             <textarea
               rows="3"
               placeholder="Describe who you are"
-              className="w-full p-2 rounded-lg text-center bg-white/0 dark:hover:bg-dark-400 border border-blue-500 focus:outline-none"
+              className="w-full p-2 rounded-lg text-center bg-white/0 dark:hover:bg-dark-400 border border-blue-500 focus:outline-none resize-none"
               onChange={(e) =>
                 e.target.value.length <= limit &&
                 setData({

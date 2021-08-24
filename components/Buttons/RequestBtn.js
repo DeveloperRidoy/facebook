@@ -3,6 +3,7 @@ import { useGlobalContext } from "../../context/GlobalContext";
 import { useSocketContext } from "../../context/SocketContext";
 import Axios from "../../utils/client/axios";
 import catchAsync from "../../utils/client/functions/catchAsync";
+import updatedNotifications from "../../utils/client/functions/updatedNotifications";
 import Button from "./Button";
 
 const RequestBtn = ({
@@ -23,17 +24,21 @@ const RequestBtn = ({
         setLoading(true);
         const res = await Axios[request.type](request.url, request.data)
             
-        setState((state) => ({
-          ...state,
-          user: userAsRequester
-            ? res.data.data?.requester._id === state.user?._id
-              ? res.data.data?.requester
-              : state.user
-            : res.data.data?.recepient._id === state.user?._id
-            ? res.data.data?.recepient
-              : state.user,
-          alert: {show: true, text: res.data?.message}
-        }));
+        setState((state) => {
+          const notifications = updatedNotifications({notifications: state.notifications, recepient: userAsRequester ? res.data.data?.requester : res.data.data?.recepient})
+          return {
+            ...state,
+            user: userAsRequester
+              ? res.data.data?.requester._id === state.user?._id
+                ? res.data.data?.requester
+                : state.user
+              : res.data.data?.recepient._id === state.user?._id
+              ? res.data.data?.recepient
+                : state.user,
+            notifications,
+            alert: { show: true, text: res.data?.message },
+          };
+        });
         setLoading(false);
         setShowOptions(false);
         

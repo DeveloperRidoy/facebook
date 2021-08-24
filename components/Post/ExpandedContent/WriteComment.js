@@ -1,5 +1,3 @@
-import { FaCaretRight, FaRegSmile } from "react-icons/fa";
-import { BsCamera } from "react-icons/bs";
 import Image from "next/image";
 import catchAsync from "../../../utils/client/functions/catchAsync";
 import { useEffect, useRef, useState } from "react";
@@ -7,8 +5,9 @@ import Axios from "../../../utils/client/axios";
 import { useGlobalContext } from "../../../context/GlobalContext";
 import { usePostContext } from "../Post";
 import { COMMENT, DARK, QA } from "../../../utils/global/variables";
-import { Picker } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
+import { RiSendPlaneFill } from "react-icons/ri";
+import EmojiBtn from "../../EmojiBtn";
 
 const WriteComment = ({
   hidePic,
@@ -20,7 +19,6 @@ const WriteComment = ({
   const [postState] = usePostContext();
   const post = postState.post;
   const [state, setState] = useGlobalContext();
-  const [emojis, setEmojis] = useState({ show: false, positionOnTop: true });
   const [data, setData] = useState({
     text: "",
     type,
@@ -56,9 +54,6 @@ const WriteComment = ({
           item._id === post._id ? res.data.data?.post : item
         ),
       }));
-
-      //  close emoji menu if open
-      if (emojis.show) setEmojis((state) => ({ ...state, show: false }));
     }, setState);
 
   useEffect(() => {
@@ -77,14 +72,6 @@ const WriteComment = ({
     e.target.style.height = e.target.scrollHeight + "px";
     setData({ ...data, text: e.target.value });
   };
-
-  // function to toggle emojis
-  const toggleEmojis = (e) =>
-    setEmojis((state) => ({
-      show: !state.show,
-      positionOnTop:
-        e.target.getBoundingClientRect().top / window.innerHeight > 0.5,
-    }));
 
   return (
     <div className="flex items-center gap-x-2 mb-2 relative">
@@ -129,43 +116,20 @@ const WriteComment = ({
             ></textarea>
           )}
           <div className="text-gray-600 dark:text-gray-400 flex items-center gap-1 mt-auto ml-auto">
-            <div>
-              <button
-                type="button"
-                className={`p-1 rounded-full transition  ${
-                  emojis.show ? "bg-dark-300" : "hover:bg-dark-300"
-                }`}
-                onClick={toggleEmojis}
-              >
-                <FaRegSmile />
-              </button>
-              {emojis.show && (
-                <div
-                  className={`absolute right-0 z-10 ${
-                    emojis.positionOnTop ? "bottom-full" : ""
-                  }`}
-                >
-                  <Picker
-                    set="facebook"
-                    enableFrequentEmojiSort={true}
-                    theme={state.theme === DARK ? "dark" : "light"}
-                    emojiTooltip={true}
-                    title="select emojis"
-                    onSelect={(e) =>
-                      setData((data) => ({
-                        ...data,
-                        text: `${data.text} ${e.native}`,
-                      }))
-                    }
-                  />
-                </div>
-              )}
-            </div>
+            <EmojiBtn
+              className="text-blue-500"
+              onSelect={(e) =>
+                setData((data) => ({
+                  ...data,
+                  text: `${data.text} ${e.native}`,
+                }))
+              }
+            />
             <button
               type="submit"
-              className="rounded-full transition text-blue-500 text-2xl hover:bg-dark-300"
+              className="rounded-full transition text-blue-500 text-2xl hover:bg-dark-300 p-1"
             >
-              <FaCaretRight />
+              <RiSendPlaneFill className="rotate-[45deg] text-[17px]" />
             </button>
           </div>
         </form>

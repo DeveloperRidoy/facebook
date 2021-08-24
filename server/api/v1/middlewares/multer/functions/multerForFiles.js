@@ -1,6 +1,6 @@
 const multer = require("multer");
-const makeDir = require("../../../../../../utils/server/functions/makeDir");
 const { v4 } = require('uuid');
+const makeDir = require("../../../../../../utils/server/functions/makeDir");
 
 // multer for videos
 const multerForfiles = ({fileSize, types}) => {
@@ -17,26 +17,20 @@ module.exports = multerForfiles;
 
 const storage = multer.diskStorage({
   destination: async (req, file, cb) => {
-    const dir = `public/${
-      file.mimetype.startsWith("video")
-        ? "video"
-        : file.mimetype.startsWith("image") ? "img": ''
-      }/users/${req.user.slug}-${req.user._id}`;
-    
+    const dir = file.mimetype.startsWith('image') ? 'public/img/users' : 'public/video/users';
     await makeDir(dir);
-    return cb(null, dir);
+    cb(null, dir)
   },
   filename: (req, file, cb) => {
     const name = `${v4()}.${file.mimetype.split("/")[1]}`;
-    const nameWithFolder = `${req.user.slug}-${req.user._id}/${name}`;
 
     // for videos 
     if (file.mimetype.startsWith('video')) {
        if (!req.body.videos) {
          req.body.videos = [];
-         req.body.videos.push(nameWithFolder);
+         req.body.videos.push(name);
        } else {
-         req.body.videos.push(nameWithFolder);
+         req.body.videos.push(name);
        }
     }
 
@@ -44,9 +38,9 @@ const storage = multer.diskStorage({
     if (file.mimetype.startsWith("image")) {
       if (!req.body.photos) {
         req.body.photos = [];
-        req.body.photos.push(nameWithFolder);
+        req.body.photos.push(name);
       } else {
-        req.body.photos.push(nameWithFolder);
+        req.body.photos.push(name);
       }
     }
 

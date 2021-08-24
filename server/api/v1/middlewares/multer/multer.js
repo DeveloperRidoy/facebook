@@ -38,7 +38,7 @@ exports.uploadFiles = ({ fileSize = 5 * 1024 * 1024, fields = [], types = [] }) 
   catchAsync(async (req, res, next) => {
     multerForFiles({fileSize, types}).fields(fields)(req, res, (err) => {
       // see if there are files to upload
-      if (Object.keys(req.files)?.length === 0) return next();
+      if (req.files && Object.keys(req.files)?.length === 0) return next();
       
       // handle multer validation error
       if (err instanceof multer.MulterError)

@@ -7,7 +7,7 @@ import {
 } from "react-icons/fa";
 import Spacer from "../../Spacer";
 import Image from "next/image";
-import moment from "moment";
+import moment from "moment-shortformat";
 import { usePostContext } from "../Post";
 import LikeButton from "./LikeButton";
 import { CAROUSEL } from "../../../utils/client/variables";
@@ -16,6 +16,7 @@ import { useState } from "react";
 import catchAsync from "../../../utils/client/functions/catchAsync";
 import Axios from "../../../utils/client/axios";
 import { POST, QA } from "../../../utils/global/variables";
+import Link from "next/link";
 
 const PostContent = () => {
   const [globalState, setGlobalState] = useGlobalContext();
@@ -77,21 +78,30 @@ const PostContent = () => {
     <div>
       <div className="flex items-start justify-between px-3">
         <div className="flex gap-x-2">
-          <div className="h-10 w-10 relative">
-            <Image
-              src={`/img/users/${user?.photo || "default/user.jpg"}`}
-              alt={user?.name || "user"}
-              layout="fill"
-              className="h-10 w-10 object-cover rounded-full border-blue-500"
-              placeholder="blur"
-              blurDataURL="/img/users/default/user.jpg"
-            />
-          </div>
+          <Link href={`/users/${user.slug}`}>
+            <a href={`/users/${user.slug}`}>
+              <div className="h-10 w-10 relative">
+                <Image
+                  src={`/img/users/${user?.photo || "default/user.jpg"}`}
+                  alt={user?.name || "user"}
+                  layout="fill"
+                  className="h-10 w-10 object-cover rounded-full border-blue-500"
+                  placeholder="blur"
+                  blurDataURL="/img/users/default/user.jpg"
+                />
+              </div>
+            </a>
+          </Link>
           <div>
             <p className="mt-[-5px]">
-              <span className="capitalize font-semibold">
-                {user?.name || "user"}{" "}
-              </span>
+              <Link href={`/users/${user.slug}`}>
+                <a
+                  href={`/users/${user.slug}`}
+                  className="capitalize font-semibold"
+                >
+                  {user?.name || "user"}{" "}
+                </a>
+              </Link>
               <span className="text-gray-400">
                 {type === QA ? "asked a question " : "posted "}
               </span>

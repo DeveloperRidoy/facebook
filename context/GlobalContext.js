@@ -4,6 +4,7 @@ import RoundSpinner from "../components/Spinners/RoundSpinner";
 import initialRequests from "../utils/client/functions/initialRequests";
 import toggleTheme from "../utils/client/functions/toggleTheme";
 import Alert from '../components/Alert';
+import { DARK } from "../utils/global/variables";
 
 export const useGlobalContext = () => useContext(Context);
 
@@ -15,7 +16,7 @@ const GlobalContext = ({ children }) => {
   const [state, setState] = useState({
     showCreatePostModel: false,
     model: { show: false, type: null, data: {}},
-    theme: (typeof document !== "undefined" && localStorage.theme) || null,
+    theme: (typeof document !== "undefined" && localStorage.theme) || DARK,
     themeUpdated: false,
     user: null,
     posts: [],
@@ -29,8 +30,8 @@ const GlobalContext = ({ children }) => {
   useEffect(() => toggleTheme(state.theme, setState), [state.theme]);
   
   // make initial requests on first load
-  useEffect(  () =>  initialRequests(setState), [])
-     
+  useEffect(() => initialRequests(setState), [])
+  
   useEffect(() => {
     // decide wehether to redirect user
     !state.loading

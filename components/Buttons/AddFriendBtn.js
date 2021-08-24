@@ -41,7 +41,7 @@ const AddFriendBtn = ({user}) => {
             type: "post",
             url: `friends/${user._id}`,
           }}
-          emitEvent="friend_request_sent"
+          emitEvent="friend_event_sent"
         >
           <BsPersonPlusFill className="text-xl" />
         </RequestBtn>
@@ -70,7 +70,7 @@ const AddFriendBtn = ({user}) => {
                 type: "post",
                 url: `friends/unfriend/${friend?.recepient?._id}`,
               }}
-              emitEvent="friend_unfriended"
+              emitEvent="friend_event_sent"
             >
               {" "}
               <FaUserTimes className="text-xl" />
@@ -86,7 +86,7 @@ const AddFriendBtn = ({user}) => {
                 type: "delete",
                 url: `friends/${friend?.recepient?._id}`,
               }}
-              emitEvent="friend_request_cancelled"
+              emitEvent="friend_event_sent"
             >
               <FaUserTimes className="text-xl" />
             </RequestBtn>
@@ -103,7 +103,7 @@ const AddFriendBtn = ({user}) => {
                   type: "patch",
                   url: `friends/${friend?.recepient?._id}`,
                 }}
-                emitEvent="friend_request_accepted"
+                emitEvent="reverse_friend_event_sent"
               >
                 <FaUserPlus className="text-xl" />
               </RequestBtn>
@@ -117,6 +117,7 @@ const AddFriendBtn = ({user}) => {
                   type: "post",
                   url: `friends/decline/${friend?.recepient?._id}`,
                 }}
+                emitEvent="friend_event_sent"
               >
                 <FaUserTimes className="text-xl" />
               </RequestBtn>

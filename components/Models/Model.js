@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { BsX } from "react-icons/bs"
 import Spacer from "../Spacer";
 
@@ -11,6 +12,12 @@ const Model = ({
   backdropClass,
   disableCloseByBackDrop
 }) => {
+
+  useEffect(() => {
+    const closeOnEscape = (e) => { if (e.key === 'Escape') closeModel() };
+    document.body.addEventListener('keydown', closeOnEscape);
+    return () => document.body.removeEventListener('keydown', closeOnEscape);
+  }, [])
 
   return (
     <div>

@@ -1,19 +1,16 @@
-import axios from "axios";
+import Axios from "../axios";
 import catchAsync from "./catchAsync";
 import updatedNotifications from "./updatedNotifications";
 
 const initialRequests = (setState) => catchAsync(async () => {
 
   // authenticate user 
-  const authRes = await axios.get(
-    `${process.env.NEXT_PUBLIC_API || "api"}/v1/users/auth`,
-    { withCredentials: true }
-  );
+  const authRes = await Axios.get("users/auth");
 
   // get first 20 posts
-  const postRes = await axios.get(`${process.env.NEXT_PUBLIC_API || 'api'}/v1/posts?limit=20`, { withCredentials: true });
+  const postRes = await Axios.get("posts?limit=20");
 
-   
+  //  update globalContext
   if (setState)
     setState((state) => {
        const notifications = updatedNotifications({

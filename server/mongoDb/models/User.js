@@ -156,7 +156,7 @@ const UserSchema = new mongoose.Schema(
       },
     }
   },
-  { toObject: { virtuals: true }, toJSON: { virtuals: true } }
+  { toObject: { virtuals: true }, toJSON: { virtuals: true }, timestamps: true }
 );
 
 // unique fields error

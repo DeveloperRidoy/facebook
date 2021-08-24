@@ -18,11 +18,9 @@ const savePhotos = async ({
       // check if there is file
       if (!req.files) return next();
 
+      // make directory if does not exist 
+      await makeDir('public/img/users')
       for (let key in req.files) {
-        // create folder if does not exist
-        const folder = `${req.user.slug}-${req.user._id}`;
-        await makeDir(`public/img/users/${folder}`);
-
          const fieldItem = fields.find((item) => item.name === key);
         // for multiple files
         if (fieldItem?.maxCount > 1 ) {
@@ -37,14 +35,14 @@ const savePhotos = async ({
             file
               .toFormat("jpeg")
               .jpeg({ quality: 100 })
-              .toFile(`public/img/users/${`${folder}/${name}`}`, (err) => {
+              .toFile(`public/img/users/${`${name}`}`, (err) => {
                 if (err) {
                   error = true;
                   return next(new AppError(400, err.message));
                 }
               });
             if (error) break;
-            req.body.photos.push(`${folder}/${name}`);
+            req.body.photos.push(`${name}`);
           }
         }
 
@@ -56,12 +54,12 @@ const savePhotos = async ({
 
           // set photo
           if (key === "photoFile") {
-            req.body.photo = `${folder}/${name}`;
+            req.body.photo = `${name}`;
             height = 100;
             width = 100;
           }
           if (key === "coverPhotoFile") {
-            req.body.coverPhoto = `${folder}/${name}`;
+            req.body.coverPhoto = `${name}`;
             height = 312;
             width = 820;
           }
@@ -71,7 +69,7 @@ const savePhotos = async ({
           file
             .toFormat("jpeg")
             .jpeg({ quality: 100 })
-            .toFile(`public/img/users/${`${folder}/${name}`}`, (err) => {
+            .toFile(`public/img/users/${name}`, (err) => {
               if (err) {
                 return next(new AppError(500, error.message));
               }

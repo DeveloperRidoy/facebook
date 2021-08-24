@@ -8,17 +8,17 @@ const userRefSchema = new mongoose.Schema(
       ref: "user",
       required: [true, "user is required to like"],
     },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
     createdAt_ms: {
       type: String,
       default: function () {
-        return this.createdAt.getTime();
+        if (this.createdAt) {
+          return this.createdAt.getTime();
+        } else {
+          return new Date().getTime();
+        }
       },
     },
-  },
+  }, {timestamps: true}
 );
 
 const PostSchema = new mongoose.Schema(
@@ -73,21 +73,17 @@ const PostSchema = new mongoose.Schema(
         },
         createdAt: {
           type: Date,
-          default: Date.now,
+          default: Date.now
         },
         createdAt_ms: {
           type: String,
           default: function () {
-            return this.createdAt.getTime();
+           return this.createdAt.getTime()
           },
         },
         likes: [userRefSchema],
       },
     ],
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
@@ -103,7 +99,7 @@ const PostSchema = new mongoose.Schema(
       },
     },
   },
-  { toJSON: { virtuals: true }, toObject: { Virtuals: true } }
+  { toJSON: { virtuals: true }, toObject: { Virtuals: true }, timestamps: true }
 );
 
 // virtual fields 

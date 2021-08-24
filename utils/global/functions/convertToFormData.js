@@ -6,7 +6,7 @@ const convertToFormData = (initialData) => {
   delete cloneData.photos;
   delete cloneData.videos;
 
-  for (let key in cloneData) data.append(key, cloneData[key]);
+  for (let key in cloneData) data.append(key, JSON.stringify(cloneData[key]));
 
   if (initialData.photos?.length > 0) {
     initialData.photos.forEach((photo) => data.append("photo", photo.file));

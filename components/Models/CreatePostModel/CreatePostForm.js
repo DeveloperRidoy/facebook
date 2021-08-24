@@ -30,7 +30,7 @@ import catchAsync from "../../../utils/client/functions/catchAsync";
 import Axios from "../../../utils/client/axios";
 import Reader from "../../../utils/global/functions/fileReader";
 import convertToFormData from "../../../utils/global/functions/convertToFormData";
-import { useSocketContext } from "../../../context/SocketContext";
+import uploadFiles from "../../../utils/client/functions/uploadFiles";
 
 
 const CreatePostForm = ({
@@ -40,7 +40,6 @@ const CreatePostForm = ({
   formData,
   setFormData,
 }) => {
-  const socket = useSocketContext();
   const [state, setState] = useGlobalContext();
   const [loading, setLoading] = useState(false);
   const photoRef = useRef(null);
@@ -68,59 +67,6 @@ const CreatePostForm = ({
       setState,
       () => setLoading(false)
     );
-
-  // upload photos
-  const uploadPhotos = (e) =>
-    catchAsync(async () => {
-      const files = Object.values(e.target.files);
-      const photos = [];
-      const videos = [];
-
-      // only allow 10 files
-      if (files.length > 10) {
-        return setState((state) => ({
-          ...state,
-          alert: {
-            show: true,
-            type: "danger",
-            text: "only 10 files are allowed",
-          },
-        }));
-      }
-      const arrayOfPromises = files.map(async (file) => {
-        const type = file.type;
-
-        // only allow images and videos
-        if (!/^(image|video)/.test(type)) {
-          return setState((state) => ({
-            ...state,
-            alert: {
-              show: true,
-              type: "danger",
-              text: "only images and videos are allowed",
-            },
-          }));
-        }
-        const url = await new Reader(file).getUrl();
-
-        const data = { file, url };
-
-        return data;
-      });
-
-      const data = await Promise.all(arrayOfPromises);
-      data.forEach((item) =>
-        item.file.type.startsWith("image")
-          ? photos.push(item)
-          : videos.push(item)
-      );
-
-      setFormData((data) => ({
-        ...data,
-        photos: [...data.photos, ...photos],
-        videos: [...data.videos, ...videos],
-      }));
-    }, setState);
 
   return (
     <div
@@ -240,7 +186,7 @@ const CreatePostForm = ({
                     multiple
                     ref={photoRef}
                     className="hidden"
-                    onChange={uploadPhotos}
+                    onChange={e => uploadFiles({e, setState, setData: setFormData, readUrl: true})}
                   />
                 </button>
                 <button

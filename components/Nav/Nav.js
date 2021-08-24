@@ -22,6 +22,7 @@ import AccountBox from "./Box/AccountBox/AccountBox";
 import Logo from "../Logo";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useChatContext } from "../../context/ChatContext";
 
 // variables
 const MENU = "MENU";
@@ -35,7 +36,7 @@ const Nav = () => {
   const [box, setBox] = useState({ show: false, mode: null });
   const [searchActive, setSearchActive] = useState(false);
   const [state] = useGlobalContext();
-  
+  const [chat] = useChatContext();
 
   return (
     <div
@@ -53,7 +54,7 @@ const Nav = () => {
           {box.mode === MENU ? (
             <MenuBox />
           ) : box.mode === MESSENGER ? (
-            <MessengerBox />
+            <MessengerBox setBox={setBox}/>
           ) : box.mode === NOTIFICATIONS ? (
             <NotificationsBox />
           ) : (
@@ -83,7 +84,7 @@ const Nav = () => {
             />
           </div>
           <button
-            className="md:hidden text-3xl ml-5"
+            className="hidden text-3xl ml-5"
             tabIndex="3"
             tooltip="Menu"
           >
@@ -177,6 +178,7 @@ const Nav = () => {
             box={box}
             setBox={setBox}
             mode={MENU}
+            className="hidden sm:block"
           >
             <Menu className="group-focus:bg-blue-600" />
           </Button>
@@ -186,7 +188,7 @@ const Nav = () => {
             box={box}
             setBox={setBox}
             mode={MESSENGER}
-            notifications={1}
+            notifications={chat.unreadMessages}
           >
             <FaFacebookMessenger />
           </Button>
@@ -217,7 +219,7 @@ const Nav = () => {
 
 export default Nav;
 
-const Button = ({ children, tabIndex, tooltip, box, setBox, mode, notifications = 0 }) => {
+const Button = ({ children, tabIndex, tooltip, box, setBox, mode, notifications = 0, className }) => {
   const changeBox = (e) => {
     e.stopPropagation();
     setBox({
@@ -233,7 +235,7 @@ const Button = ({ children, tabIndex, tooltip, box, setBox, mode, notifications 
         box.mode === mode
           ? "bg-cyan-100 dark:bg-blue-500/30 bg-opacity-60 hover:bg-blue-100 dark:text-blue-400 text-blue-600 scale-95 focus:outline-none"
           : "bg-gray-200 dark:bg-dark-400 hover:bg-gray-300 dark:hover:bg-dark-300 active:outline-none"
-      }`}
+      } ${className}`}
       tabIndex={tabIndex}
       tooltip={tooltip}
       onClick={changeBox}

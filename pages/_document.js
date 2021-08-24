@@ -5,7 +5,7 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+          <link rel="shortcut icon" href="/favicon.png" type="image/x-icon" />
           <link
             rel="preload"
             href="/fonts/Segoe ui historic.ttf"

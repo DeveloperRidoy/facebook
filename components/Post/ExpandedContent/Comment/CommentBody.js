@@ -1,6 +1,6 @@
 import { FaCircle, FaEllipsisH, FaThumbsUp } from "react-icons/fa";
 import Image from "next/image";
-import moment from "moment";
+import moment from "moment-shortformat";
 import catchAsync from "../../../../utils/client/functions/catchAsync";
 import { useGlobalContext } from "../../../../context/GlobalContext";
 import Axios from "../../../../utils/client/axios";

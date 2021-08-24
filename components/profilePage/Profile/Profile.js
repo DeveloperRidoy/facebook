@@ -4,10 +4,12 @@ import ProfilePicButton from "./ProfilePic";
 import Image from 'next/image';
 import CoverPhotoButton from "./CoverPhotoButton";
 import AddFriendBtn from "../../Buttons/AddFriendBtn";
+import { useChatContext } from "../../../context/ChatContext";
+import { v4 as uidv4 } from 'uuid';
 
 const Profile = ({user}) => {
   const [state] = useGlobalContext();
-
+  const [, setChat] = useChatContext();
   const ownProfile = user?._id === state.user?._id;
   
   return (
@@ -22,7 +24,8 @@ const Profile = ({user}) => {
             }`}
             className="object-cover"
             layout="fill"
-            placeholder="blur" blurDataURL="/img/users/default/user.jpg"
+            placeholder="blur"
+            blurDataURL="/img/users/default/user.jpg"
           />
         </div>
         <div className="absolute bottom-0 inset-x-0 py-5 bg-gradient-to-t from-darker rounded-lg">
@@ -30,7 +33,7 @@ const Profile = ({user}) => {
         </div>
       </div>
       <div
-        className={`flex flex-wrap gap-y-3 py-5 px-3 md:px-10 items-end justify-center -mt-24 `}
+        className={`flex flex-col sm:flex-row gap-y-3 py-5 px-3 md:px-10 items-center sm:items-end sm:justify-center -mt-24 `}
       >
         {ownProfile ? (
           <ProfilePicButton />
@@ -41,7 +44,8 @@ const Profile = ({user}) => {
               alt={ownProfile ? state.user?.fullName : user?.fullName}
               layout="fill"
               className="object-cover rounded-full"
-              placeholder="blur" blurDataURL="/img/users/default/user.jpg"
+              placeholder="blur"
+              blurDataURL="/img/users/default/user.jpg"
             />
           </div>
         )}
@@ -65,7 +69,31 @@ const Profile = ({user}) => {
               </>
             ) : (
               <>
-                <button className="flex-1 rounded flex gap-x-1 items-center justify-center bg-blue-600 py-1.5 px-2.5 active:scale-95 transition hover:bg-blue-500 capitalize">
+                <button
+                  className="flex-1 rounded flex gap-x-1 items-center justify-center bg-blue-600 py-1.5 px-2.5 active:scale-95 transition hover:bg-blue-500 capitalize"
+                  onClick={() =>
+                    setChat((chat) => ({
+                      ...chat,
+                      showNewMessageBox: false,
+                      chatBox: {
+                        show: !chat.chatBox.show,
+                        chats: chat.chats.find(
+                          (item) =>
+                            item.docs[0].sender._id === user._id ||
+                            item.docs[0].participants[0]?._id === user._id
+                        )?.docs || [
+                          {
+                            _id: uidv4(),
+                            sender: state.user,
+                            participants: [user],
+                            is_group_message: false,
+                            newChat: true,
+                          },
+                        ],
+                      },
+                    }))
+                  }
+                >
                   <FaFacebookMessenger />
                   <span>message</span>
                 </button>
