@@ -6,7 +6,7 @@ import { useGlobalContext } from "../../context/GlobalContext";
 const CreateStory = ({ className }) => {
   const [state] = useGlobalContext();
   return (
-    <Link href="/stories/create">
+    <Link href="/">
       <a
         href="/stories/create"
         className={`${className} flex-1 flex flex-col justify-between overflow-hidden rounded-lg relative transition group shadow bg-white dark:bg-dark pb-2 group hover:brightness-90`}
