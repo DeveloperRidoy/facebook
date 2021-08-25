@@ -29,7 +29,7 @@ const Container = ({ children }) => {
       <div className="fixed h-screen w-screen bg-secondary dark:bg-darker"></div>
       <div className="min-h-screen">
         {route !== "/login-or-signup" && (
-          <ChatsContainer className="fixed bottom-0 right-0 z-20" />
+          <ChatsContainer className="fixed bottom-0 right-0 z-30" />
         )}
         {state.model?.show && <ModelsContainer />}
         {route !== "/login-or-signup" && <Nav route={route} />}

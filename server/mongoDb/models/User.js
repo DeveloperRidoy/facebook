@@ -92,9 +92,9 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: function () {
         return this.surName
-          ? (this.firstName + " " + this.surName)
+          ? this.firstName + " " + this.surName
           : this.firstName;
-      }
+      },
     },
     bio: String,
 
@@ -154,7 +154,7 @@ const UserSchema = new mongoose.Schema(
         ],
         message: `relationShipStatus must be one of these values ['${SINGLE}', '${IN_A_RELATIONSHIP}', '${ENGAGED}', '${MARRIED}', '${COMPLICATED}', '${SEPARATED}', '${DIVORCED}']`,
       },
-    }
+    },
   },
   { toObject: { virtuals: true }, toJSON: { virtuals: true }, timestamps: true }
 );

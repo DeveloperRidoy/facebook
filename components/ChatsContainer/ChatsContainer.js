@@ -13,7 +13,7 @@ const ChatsContainer = ({ className }) => {
     return (
       <div className={`flex items-end ${className}`}>
         <AnimatePresence>
-          {chat.chatBox?.show && <ChatBox key="chatBox" />}
+          {chat.chatBox?.show && <ChatBox key="chatBox" className="h-screen fixed sm:static left-0 right-0"/>}
           {chat.showNewMessageBox && <NewMessageBox key="newMessage"/>}
         </AnimatePresence>
         <div className="flex flex-col items-center gap-2 mb-5 px-2">
