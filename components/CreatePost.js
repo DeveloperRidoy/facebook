@@ -3,7 +3,8 @@ import { FaImage, FaRegGrinAlt, FaVideo } from "react-icons/fa";
 import { useGlobalContext } from "../context/GlobalContext";
 import { CREATE_POST } from "../utils/client/variables";
 import Spacer from "./Spacer";
-import Image from "next/image";
+
+import NextImage from "./NextImage";
 
 const CreatePost = () => {
   const [state, setState] = useGlobalContext();
@@ -13,13 +14,9 @@ const CreatePost = () => {
       <div className="flex items-center gap-x-3 ">
         <Link href="/profile">
           <a href="/profile" className="h-10 w-10 relative">
-            <Image
-              src={`/img/users/${state.user?.photo || "default/user.jpg"}`}
-              alt="user"
-              layout="fill"
-              className="object-cover rounded-full"
-              placeholder="blur"
-              blurDataURL="/img/users/default/user.jpg"
+            <NextImage
+              className="h-full w-full rounded-full"
+              photo={state.user?.photo}
             />
           </a>
         </Link>

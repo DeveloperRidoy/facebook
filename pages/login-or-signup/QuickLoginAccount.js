@@ -4,7 +4,8 @@ import { BsX } from "react-icons/bs";
 import Spinner from "../../components/Spinners/Spinner/Spinner";
 import { useGlobalContext } from "../../context/GlobalContext";
 import catchAsync from "../../utils/client/functions/catchAsync";
-import Image from "next/image";
+
+import NextImage from "../../components/NextImage";
 
 const QuickLoginAccount = ({ login, setModel }) => {
   const [state, setState] = useGlobalContext();
@@ -76,16 +77,10 @@ const QuickLoginAccount = ({ login, setModel }) => {
         ) : (
           <div className="h-full">
             <div className="flex h-full flex-col justify-stretch">
-              <div className="relative w-full h-[130px] rounded-t-lg">
-                <Image
-                  layout="fill"
-                  src={`/img/users/${login.user?.photo || "default/user.jpg"}`}
-                  alt="user"
-                  className="object-cover object-cover "
-                  placeholder="blur"
-                  blurDataURL="/img/users/default/user.jpg"
-                />
-              </div>
+              <NextImage
+                className=" w-full h-[130px] rounded-t-lg"
+                photo={login?.user.photo}
+              />
               <div className="flex-1 flex text-gray-700 justify-center items-center capitalize">
                 {login.user?.firstName?.split(" ")[0]}
               </div>

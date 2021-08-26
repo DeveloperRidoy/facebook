@@ -1,21 +1,20 @@
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import { useGlobalContext } from "../context/GlobalContext";
 import Axios from "../utils/client/axios";
 import catchAsync from "../utils/client/functions/catchAsync";
+import NextImage from "./NextImage";
 import Spinner from "./Spinners/Spinner/Spinner";
 
 const SearchBar = ({ tabIndex, tooltip, searchActive, setSearchActive }) => {
-  const [, setState] = useGlobalContext();
+  const [state, setState] = useGlobalContext();
   const [searchState, setSearchState] = useState({
     expand: false,
     text: "",
     loading: false,
     results: [],
   });
-  const [showMobileSearchBar, setshowMobileSearchBar] = useState(false)
 
   const submitSearch = (viaForm, e) =>
     catchAsync(
@@ -84,12 +83,14 @@ const SearchBar = ({ tabIndex, tooltip, searchActive, setSearchActive }) => {
     <div className="">
       <form
         className={`flex items-center bg-secondary dark:bg-dark-400 rounded-3xl p-2 text-gray-500 transition ${
-          searchActive ? "absolute lg:relative right-2 left-9 top-2 lg:top-0" : "relative"
+          searchActive
+            ? "absolute lg:relative right-2 left-9 top-2 lg:top-0"
+            : "relative"
         }`}
         onSubmit={() => submitSearch(true)}
       >
         {!searchActive && (
-          <label htmlFor="searchInput" className="cursor-pointer" >
+          <label htmlFor="searchInput" className="cursor-pointer">
             <IoSearch fontSize="1.3em" />
           </label>
         )}
@@ -97,7 +98,9 @@ const SearchBar = ({ tabIndex, tooltip, searchActive, setSearchActive }) => {
         <input
           id="searchInput"
           type="text"
-          className={`${searchActive ? 'block': 'hidden sm:block'} bg-transparent dark:text-white dark:placeholder-gray-400 focus:outline-none ml-2 pr-2 w-full sm:max-w-[180px]`}
+          className={`${
+            searchActive ? "block" : "hidden sm:block"
+          } bg-transparent dark:text-white dark:placeholder-gray-400 focus:outline-none ml-2 pr-2 w-full sm:max-w-[180px]`}
           placeholder="Search Facebook"
           tabIndex={tabIndex}
           onClick={activateSearch}
@@ -131,15 +134,10 @@ const SearchBar = ({ tabIndex, tooltip, searchActive, setSearchActive }) => {
                       className="flex items-center gap-x-1 transition hover:bg-dark-400 p-2 rounded capitalize"
                       onClick={() => setSearchActive(false)}
                     >
-                      <div className="relative h-8 w-8 rounded-full overflow-hidden">
-                        <Image
-                          src={`/img/users/${user.photo || "default/user.jpg"}`}
-                          layout="fill"
-                          className="object-cover"
-                          placeholder="blur"
-                          blurDataURL="/img/users/default/user.jpg"
-                        />
-                      </div>
+                      <NextImage
+                        className="h-8 w-8 rounded-full"
+                        photo={state.user?.photo}
+                      />
                       <p>{user.fullName}</p>
                     </a>
                   </Link>

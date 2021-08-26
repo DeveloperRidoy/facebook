@@ -43,8 +43,16 @@ const UserSchema = new mongoose.Schema(
         message: "{VALUE} is not a valid email address",
       },
     },
-    photo: String,
-    coverPhoto: String,
+    photo: {
+      data: Buffer,
+      contentType: String,
+      name: String,
+    },
+    coverPhoto: {
+      data: Buffer,
+      contentType: String,
+      name: String,
+    },
     phone: {
       type: Number,
       validate: {

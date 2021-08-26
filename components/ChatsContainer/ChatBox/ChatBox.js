@@ -28,8 +28,9 @@ const ChatBox = ({ className }) => {
       ChatsContainerRef.current.scrollHeight;
 
     // make all unseen messages as seen 
-    const unseenMessageIds = chat.chatBox.chats.filter(item => !item.readBy.find(user => user === state.user._id));
-    if (unseenMessageIds.length > 0) {
+    const unseenMessageIds = chat.chatBox.chats.filter(item => item.sender._id !== state.user._id && !item.readBy?.find(user => user === state.user._id) && !item.newChat).map(item => item._id);
+    
+    if (unseenMessageIds && unseenMessageIds?.length > 0) {
       const res = await Axios.patch("chats/seen", { ids: unseenMessageIds });
 
       setChat((chat) => {
@@ -72,7 +73,7 @@ const ChatBox = ({ className }) => {
     }
     // cleanup
     return () => { };
-  }, setState), [chat.chatBox]);
+  }, setState), []);
 
   const isFriend = state.user?.friends.find(
     (item) => item.recepient?._id === otherUser?._id && item.status === FRIENDS

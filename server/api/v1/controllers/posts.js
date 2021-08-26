@@ -56,6 +56,13 @@ exports.getPostsByUserId = () => catchAsync(async (req, res, next) => {
     // @accessibllity   user        
     exports.addPost = () => 
       catchAsync(async (req, res, next) => {
+        try {
+          for (let key in req.body) {
+            if (typeof req.body[key] === "string")
+              req.body[key] = JSON.parse(req.body[key]);
+          }
+        } catch (error) { }
+
         const post = await Post.create({ user: req.user, ...req.body });
         return res.json({
           status: "success",

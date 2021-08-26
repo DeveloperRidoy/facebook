@@ -3,8 +3,8 @@ import { useGlobalContext } from "../../../context/GlobalContext";
 import catchAsync from "../../../utils/client/functions/catchAsync";
 import { FaCamera } from "react-icons/fa";
 import Spinner from "../../Spinners/Spinner/Spinner";
-import Image from "next/image";
 import Axios from "../../../utils/client/axios";
+import NextImage from "../../NextImage";
 
 const ProfilePic = () => {
   const [state, setState] = useGlobalContext();
@@ -36,9 +36,12 @@ const ProfilePic = () => {
           alert: { show: true, text: "profile picture updated" },
         }));
         setLoading(false);
+
+        // reset input 
+        e.target.value = '';
       },
       setState,
-      () => setLoading(false)
+      () => {setLoading(false), e.target.value = ''}
     );
 
   return (
@@ -50,13 +53,9 @@ const ProfilePic = () => {
         <Spinner className="absolute inset-1/2" />
       ) : (
         <>
-          <Image
-            src={`/img/users/${state.user?.photo || "default/user.jpg"}`}
-            alt={state.user?.fullName}
-            layout="fill"
-            className="object-cover rounded-full"
-            placeholder="blur"
-            blurDataURL="/img/users/default/user.jpg"
+          <NextImage
+            className="h-full w-full rounded-full"
+            photo={state.user?.photo}
           />
           <div className="absolute text-gray-300 bg-dark-400 shadow-lg p-1.5 rounded-full text-xl top-[70%] right-1">
             <FaCamera />

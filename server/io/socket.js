@@ -6,7 +6,7 @@ const socket = (io) => {
         const id = socket.handshake.query.id;
         socket.join(id); 
         console.log(`client connected to room ${id}`);
-
+        
         handleFriendEvents(socket, io);
         handleMessageEvents(socket, io);
         socket.on('disconnect', () => console.log('client discnnected'));

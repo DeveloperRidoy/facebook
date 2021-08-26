@@ -1,5 +1,5 @@
 import { FaCircle, FaEllipsisH, FaThumbsUp } from "react-icons/fa";
-import Image from "next/image";
+
 import moment from "moment-shortformat";
 import catchAsync from "../../../../utils/client/functions/catchAsync";
 import { useGlobalContext } from "../../../../context/GlobalContext";
@@ -8,6 +8,7 @@ import Button from "../../../Buttons/Button";
 import { useState } from "react";
 import WriteComment from "../WriteComment";
 import Link from "next/link";
+import NextImage from "../../../NextImage";
 
 // vairables
 const REPLY = "REPLY";
@@ -56,16 +57,7 @@ const CommentBody = ({ type, comment, post }) => {
       }`}
     >
       <div className="flex gap-2">
-        <div className="h-8 w-8 relative">
-          <Image
-            src={`/img/users/${comment.user?.photo || "default/user.jpg"}`}
-            alt="user"
-            layout="fill"
-            className="rounded-full object-cover z-10"
-            placeholder="blur"
-            blurDataURL="/img/users/default/user.jpg"
-          />
-        </div>
+        <NextImage className="h-8 w-8 rounded-full" photo={comment?.user?.photo} />
         <div className="dark:text-gray-300">
           <div className="bg-secondary dark:bg-dark-400 shadow px-3 py-2 rounded-2xl leading-5 max-w-max relative">
             <Link href={`/users/${comment?.user?.slug}`}>

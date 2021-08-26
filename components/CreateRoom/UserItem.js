@@ -1,15 +1,12 @@
-import Image from "next/image";
+
+import NextImage from "../NextImage";
 
 const UserItem = (user) => {
   return (
-    <button className=" h-10 w-10 relative">
-      <Image
-        src={`/img/users/${user.photo || "default/user.jpg"}`}
-        alt={user?.name || "user"}
-        layout="fill"
-        className="object-cover rounded-full"
-        placeholder="blur"
-        blurDataURL="/img/users/default/user.jpg"
+    <button className=" h-10 w-10 rounded-full overflow-hidden">
+      <NextImage
+        photo={user?.photo}
+        className=" h-full w-full"
       />
     </button>
   );

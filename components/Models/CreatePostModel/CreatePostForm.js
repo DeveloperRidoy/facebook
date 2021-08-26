@@ -24,14 +24,13 @@ import {
 } from "../../../utils/client/variables";
 import { useRef, useState } from "react";
 import QADiv, { BackgroundSetter } from "./QADiv";
-import Image from "next/image";
+
 import { useGlobalContext } from "../../../context/GlobalContext";
 import catchAsync from "../../../utils/client/functions/catchAsync";
 import Axios from "../../../utils/client/axios";
-import Reader from "../../../utils/global/functions/fileReader";
 import convertToFormData from "../../../utils/global/functions/convertToFormData";
 import uploadFiles from "../../../utils/client/functions/uploadFiles";
-
+import NextImage from "../../NextImage";
 
 const CreatePostForm = ({
   closeModel,
@@ -89,14 +88,7 @@ const CreatePostForm = ({
               className="capitalize font-semibold h-10 w-10 relative"
               tabIndex="-1"
             >
-              <Image
-                src={`/img/users/${state.user?.photo || "default/user.jpg"}`}
-                alt="user"
-                layout="fill"
-                className="object-cover rounded-full"
-                placeholder="blur"
-                blurDataURL="/img/users/default/user.jpg"
-              />
+              <NextImage photo={state.user?.photo} className=" h-full w-full rounded-full" />
             </a>
           </Link>
           <div className="ml-2">
@@ -175,18 +167,25 @@ const CreatePostForm = ({
               <div className="flex items-center gap-x-2 text-2xl z-10">
                 <button
                   type="button"
-                  tooltiptop="Photo/Video"
+                  tooltiptop="Photo"
                   className="active:outline-none "
                   onClick={() => photoRef?.current?.click()}
                 >
                   <FaImage className="text-emerald-500 transform -rotate-12" />
                   <input
                     type="file"
-                    accept="image/*,video/*"
+                    accept="image/*"
                     multiple
                     ref={photoRef}
                     className="hidden"
-                    onChange={e => uploadFiles({e, setState, setData: setFormData, readUrl: true})}
+                    onChange={(e) =>
+                      uploadFiles({
+                        e,
+                        setState,
+                        setData: setFormData,
+                        readUrl: true,
+                      })
+                    }
                   />
                 </button>
                 <button
@@ -260,7 +259,7 @@ const PhotosAndVideos = ({ formData, setFormData }) => (
           <FaTimes />
         </button>
         {formData.photos.map((photo, i) => (
-          <div
+          <NextImage
             className={` aspect-w-16 aspect-h-9 relative ${
               formData.photos.length === 1
                 ? "col-span-6"
@@ -269,9 +268,8 @@ const PhotosAndVideos = ({ formData, setFormData }) => (
                 : "col-span-2"
             }`}
             key={i}
-          >
-            <Image src={photo.url} layout="fill" className="object-cover" />
-          </div>
+            absoluteUrl={photo?.url}
+          />
         ))}
       </div>
     )}

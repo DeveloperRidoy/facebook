@@ -20,9 +20,10 @@ import MessengerBox from "./Box/MessengerBox";
 import NotificationsBox from "./Box/NotificationsBox";
 import AccountBox from "./Box/AccountBox/AccountBox";
 import Logo from "../Logo";
-import Image from "next/image";
+
 import { useRouter } from "next/router";
 import { useChatContext } from "../../context/ChatContext";
+import NextImage from "../NextImage";
 
 // variables
 const MENU = "MENU";
@@ -54,7 +55,7 @@ const Nav = () => {
           {box.mode === MENU ? (
             <MenuBox />
           ) : box.mode === MESSENGER ? (
-            <MessengerBox setBox={setBox}/>
+            <MessengerBox setBox={setBox} />
           ) : box.mode === NOTIFICATIONS ? (
             <NotificationsBox />
           ) : (
@@ -83,11 +84,7 @@ const Nav = () => {
               searchActive={searchActive}
             />
           </div>
-          <button
-            className="hidden text-3xl ml-5"
-            tabIndex="3"
-            tooltip="Menu"
-          >
+          <button className="hidden text-3xl ml-5" tabIndex="3" tooltip="Menu">
             <FaBars />
           </button>
         </section>
@@ -157,16 +154,10 @@ const Nav = () => {
               }`}
               tabIndex="13"
             >
-              <div className="h-9 w-9 relative">
-                <Image
-                  src={`/img/users/${state.user?.photo || "default/user.jpg"}`}
-                  alt="user"
-                  layout="fill"
-                  className="object-cover rounded-full"
-                  placeholder="blur"
-                  blurDataURL="/img/users/default/user.jpg"
-                />
-              </div>
+              <NextImage
+                className="h-9 w-9 rounded-full"
+                photo={state.user?.photo}
+              />
               <p className="capitalize text-sm font-bold">
                 {state.user?.firstName.split(" ")[0]}
               </p>
@@ -219,7 +210,16 @@ const Nav = () => {
 
 export default Nav;
 
-const Button = ({ children, tabIndex, tooltip, box, setBox, mode, notifications = 0, className }) => {
+const Button = ({
+  children,
+  tabIndex,
+  tooltip,
+  box,
+  setBox,
+  mode,
+  notifications = 0,
+  className,
+}) => {
   const changeBox = (e) => {
     e.stopPropagation();
     setBox({
@@ -242,9 +242,11 @@ const Button = ({ children, tabIndex, tooltip, box, setBox, mode, notifications 
     >
       {notifications > 0 && (
         <span
-          className={`absolute top-0 -right-2 h-4 ${notifications > 9 ? 'w-5': 'w-4'} flex items-center justify-center rounded-full bg-red-500 z-10 text-sm text-white`}
+          className={`absolute top-0 -right-2 h-4 ${
+            notifications > 9 ? "w-5" : "w-4"
+          } flex items-center justify-center rounded-full bg-red-500 z-10 text-sm text-white`}
         >
-          {notifications > 9 ? '9+': notifications}
+          {notifications > 9 ? "9+" : notifications}
         </span>
       )}
       {children}

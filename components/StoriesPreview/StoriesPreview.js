@@ -26,9 +26,9 @@ const StoriesPreview = () => {
 export default StoriesPreview
 
 const SeeAllStories = ({ className }) => (
-  <Link href="/stories">
+  <Link href="/">
     <a
-      href="/stories"
+      href="/"
       className={`${className} absolute top-1/2 transform -translate-y-1/2 right-0 sm:-right-6 bg-white dark:bg-dark-400 rounded-full h-12 w-12 shadow border dark:border-0 hover:bg-secondary dark:hover:bg-dark-300 transition focus:bg-gray-200 focus:scale-95 z-10`}
     >
       <div

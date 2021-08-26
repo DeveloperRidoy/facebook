@@ -21,9 +21,8 @@ Router.route("/")
   .post(
     protect(),
     uploadFiles({
-      types: ['image', 'video'],
+      types: ['image'],
       fields: [
-        { name: "video", maxCount: 10 },
         { name: "photo", maxCount: 10 },
       ],
       fileSize: 100 * 1024 * 1024,

@@ -1,7 +1,5 @@
-const makeDir = require("../../../../../../utils/server/functions/makeDir");
 const sharp = require("sharp");
 const AppError = require("../../AppError");
-const { v4 } = require('uuid');
 
 // edit and save photos via sharp
 const savePhotos = async ({
@@ -19,7 +17,6 @@ const savePhotos = async ({
       if (!req.files) return next();
 
       // make directory if does not exist 
-      await makeDir('public/img/users')
       for (let key in req.files) {
          const fieldItem = fields.find((item) => item.name === key);
         // for multiple files
@@ -27,53 +24,48 @@ const savePhotos = async ({
           req.body.photos = [];
 
           for (let i = 0; i < req.files[key].length; i++) {
-            const name = `${v4()}.jpeg`;
+            const file = req.files[key][i];
+            const editedFile = sharp(file.buffer);
 
-            const file = sharp(req.files[key][i].buffer);
-
-            if (resize) file.resize(width, height);
-            file
+            if (resize) editedFile.resize(width, height);
+            editedFile
               .toFormat("jpeg")
               .jpeg({ quality: 100 })
-              .toFile(`public/img/users/${`${name}`}`, (err) => {
-                if (err) {
-                  error = true;
-                  return next(new AppError(400, err.message));
-                }
-              });
+            const bufferedFile = await editedFile.toBuffer();
+            
             if (error) break;
-            req.body.photos.push(`${name}`);
+            req.body.photos.push({name: file.originalname, contentType: file.mimetype, data: bufferedFile});
           }
         }
 
         // for single file
         if (fieldItem?.maxCount === 1) {
-          const name = `${v4()}${
-            key === "coverPhotoFile" ? "-cover" : ""
-          }.jpeg`;
+          const file = req.files[key][0];
 
-          // set photo
+          // set photo dimensions
           if (key === "photoFile") {
-            req.body.photo = `${name}`;
             height = 100;
             width = 100;
           }
           if (key === "coverPhotoFile") {
-            req.body.coverPhoto = `${name}`;
             height = 312;
             width = 820;
           }
 
-          const file = sharp(req.files[key][0].buffer);
-          if (resize) file.resize(width, height);
-          file
+          const editedFile = sharp(file.buffer);
+          if (resize) editedFile.resize(width, height);
+          editedFile
             .toFormat("jpeg")
             .jpeg({ quality: 100 })
-            .toFile(`public/img/users/${name}`, (err) => {
-              if (err) {
-                return next(new AppError(500, error.message));
-              }
-            });
+          const bufferedFile = await editedFile.toBuffer();
+
+          // add photo to request body 
+          const fileName = key === 'coverPhotoFile' ? 'coverPhoto': 'photo';
+          req.body[fileName] = {
+            name: file.originalname,
+            contentType: file.mimetype,
+            data: bufferedFile
+          };
         }
       }
     } catch (error) {

@@ -22,7 +22,7 @@ const handleMessageEvent = (
           if (existingChat) {
             existingChat.docs.unshift(message);
           } else {
-            chat.chats.unshift({
+            updatedChats.unshift({
               _id: {
                 chatId: message.chatId,
                 is_group_message: message.is_group_message,
@@ -39,9 +39,14 @@ const handleMessageEvent = (
           );
 
           const updatedChatBox = cloneDeep(chat.chatBox);
-          if (updatedChatBox.chats[0]?.chatId === message.chatId) {
-            updatedChatBox.chats.unshift(message);
+          if (chat.chatBox.show && chat.chatBox.chats[0]?.participants[0]?._id === message.sender?._id) {
+            updatedChatBox.chats.unshift(message)
+          } else {
+              if (updatedChatBox.chats[0]?.chatId === message.chatId) {
+                updatedChatBox.chats.unshift(message);
+              }
           }
+          
 
           // increment unreadMessages if chatBox is closed
           const unreadMessages = !chat.chatBox?.show

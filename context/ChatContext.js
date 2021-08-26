@@ -2,8 +2,10 @@ import { createContext, useContext, useEffect, useState } from "react";
 import Axios from "../utils/client/axios";
 import catchAsync from "../utils/client/functions/catchAsync";
 import { useGlobalContext } from "./GlobalContext";
+import handleFriendEvent from "../utils/client/functions/socketEvents/handleFriendEvent";
+import handleMessageEvent from "../utils/client/functions/socketEvents/handleMessageEvent";
+import { ChatsContainerRef } from "../components/ChatsContainer/ChatBox/ChatBox";
 import { useSocketContext } from "./SocketContext";
-
 
 const Context = createContext();
 
@@ -49,7 +51,12 @@ const ChatContext = ({ children }) => {
     []
   );
   
-  
+   useEffect(() => {
+    if (!socket) return;
+    handleFriendEvent(socket, state, setState, "friend_event_received");
+    handleFriendEvent(socket, state, setState, "reverse_friend_event_received");
+    handleMessageEvent(socket, state, setState, setChat, ChatsContainerRef, "message_received");
+    }, [socket])
 
   return (
     <Context.Provider value={[chat, setChat]}>{children}</Context.Provider>

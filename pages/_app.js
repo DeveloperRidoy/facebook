@@ -7,13 +7,13 @@ import ChatContext from '../context/ChatContext';
 function MyApp ({ Component, pageProps }) {
   return (
     <GlobalContext>
-      <ChatContext>
-        <SocketContext>
+      <SocketContext>
+        <ChatContext>
           <Container>
             <Component {...pageProps} />
           </Container>
-        </SocketContext>
-      </ChatContext>
+        </ChatContext>
+      </SocketContext>
     </GlobalContext>
   );
 }

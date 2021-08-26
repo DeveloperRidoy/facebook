@@ -104,16 +104,16 @@ const ChatFooter = ({ otherUser, isGroupMessage = false }) => {
   useEffect(() => {TextRef.current.focus()}, [])
   
   return (
-    <div className="px-2 py-2 flex gap-2 items-end">
+    <div className="px-2 py-2 flex  gap-2 items-end">
       <button
         className="text-blue-500 text-xl rounded-full transition dark:hover:bg-dark-300 dark:active:bg-dark-300 active:scale-75 p-1 mb-1"
         onClick={() => fileRef.current.click()}
-        tooltiptop="photo | video"
+        tooltiptop="photo"
       >
         <FaImage className="rotate-[95deg]" />
         <input
           type="file"
-          accept="image/*,video/*"
+          accept="image/*"
           multiple
           ref={fileRef}
           className="hidden"
@@ -176,7 +176,7 @@ const ChatFooter = ({ otherUser, isGroupMessage = false }) => {
         </div>
       </div>
       <button
-        className="flex items-center justify-center text-xl text-blue-500 rounded-full transition dark:hover:bg-dark-300 dark:active:bg-dark-300 active:scale-75 p-1 mb-1"
+        className="flex items-center justify-center text-xl text-blue-500 rounded-full transition dark:hover:bg-dark-300 dark:active:bg-dark-300 active:scale-75 p-2 mb-1"
         onClick={() => sendMessage({ thumbsUp: !data.text && data.photos.length === 0 && data.videos.length === 0 })}
       >
         {data.text || data.photos.length > 0 || data.videos.length > 0 ? (

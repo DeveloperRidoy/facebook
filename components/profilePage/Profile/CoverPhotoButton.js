@@ -37,9 +37,10 @@ const CoverPhotoButton = () => {
             alert: { show: true, text: "Cover photo updated" },
           }));
           setLoading(false);
+          e.target.value = '';
         },
         setState,
-        () => setLoading(false)
+        () => {setLoading(false);e.target.value = ''}
       ); 
   return (
     <Button loading={loading} className="py-1.5 px-2.5 capitalize bg-white text-black font-semibold rounded-lg flex items-center justify-center sm:gap-x-2  ml-auto mr-3 active:scale-95 transition filter hover:brightness-75" onClick={() => fileRef.current.click()}>

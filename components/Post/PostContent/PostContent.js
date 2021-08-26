@@ -6,7 +6,7 @@ import {
   FaGlobeEurope,
 } from "react-icons/fa";
 import Spacer from "../../Spacer";
-import Image from "next/image";
+
 import moment from "moment-shortformat";
 import { usePostContext } from "../Post";
 import LikeButton from "./LikeButton";
@@ -17,6 +17,8 @@ import catchAsync from "../../../utils/client/functions/catchAsync";
 import Axios from "../../../utils/client/axios";
 import { POST, QA } from "../../../utils/global/variables";
 import Link from "next/link";
+import NextImage from "../../NextImage";
+import { bytesToBase64 } from 'byte-base64';
 
 const PostContent = () => {
   const [globalState, setGlobalState] = useGlobalContext();
@@ -39,8 +41,8 @@ const PostContent = () => {
     createdAt_ms,
   } = state.post;
   const medias = [];
-  photos.forEach((photo) => medias.push({ type: "image", src: photo }));
-  videos.forEach((video) => medias.push({ type: "video", src: video }));
+  photos.forEach((photo) => medias.push({ type: "image", photo }));
+  videos.forEach((video) => medias.push({ type: "video", src: bytesToBase64(video.data.data) }));
   const [showMedias, setShowMedias] = useState(3);
 
   const filteredComments = comments.filter((comment) => comment.user);
@@ -80,16 +82,10 @@ const PostContent = () => {
         <div className="flex gap-x-2">
           <Link href={`/users/${user.slug}`}>
             <a href={`/users/${user.slug}`}>
-              <div className="h-10 w-10 relative">
-                <Image
-                  src={`/img/users/${user?.photo || "default/user.jpg"}`}
-                  alt={user?.name || "user"}
-                  layout="fill"
-                  className="h-10 w-10 object-cover rounded-full border-blue-500"
-                  placeholder="blur"
-                  blurDataURL="/img/users/default/user.jpg"
-                />
-              </div>
+              <NextImage
+                className="h-10 w-10 rounded-full"
+                photo={user?.photo}
+              />
             </a>
           </Link>
           <div>
@@ -140,25 +136,17 @@ const PostContent = () => {
             medias.map(
               (media, i) =>
                 i < showMedias && (
-                  <div
-                    className={`relative aspect-w-16 aspect-h-9 hover:cursor-pointer`}
-                    key={i}
-                    tabIndex="0"
-                  >
+                  <div key={i} tabIndex="0">
                     {media.type === "image" ? (
-                      <Image
-                        layout="fill"
-                        src={`/img/users/${media.src}`}
-                        alt="post-photo"
-                        className="object-cover"
+                      <NextImage
+                        photo={media.photo}
+                        className={`relative aspect-w-16 aspect-h-9 hover:cursor-pointer`}
                         onClick={(e) => showCarouselModel(e, i)}
-                        placeholder="blur"
-                        blurDataURL="/img/users/default/user.jpg"
                       />
                     ) : (
                       media.type === "video" && (
                         <video
-                          src={`/video/users/${media.src}`}
+                          src={`${media.src}`}
                           controls={true}
                           onClick={(e) => showCarouselModel(e, i)}
                         ></video>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useGlobalContext } from '../../context/GlobalContext';
 import RequestBtn from './RequestBtn';
 import { BsPersonPlusFill } from "react-icons/bs";
@@ -11,7 +11,7 @@ const request_pending = 'request pending';
 const request_sent = 'request sent';
 const friends = 'friends';
 
-const AddFriendBtn = ({user}) => {
+const AddFriendBtn = ({ user }) => {
   const [state] = useGlobalContext();
   const [showOptions, setShowOptions] = useState(false);
 
@@ -58,7 +58,7 @@ const AddFriendBtn = ({user}) => {
           {status}
         </button>
       )}
-      {showOptions && (
+      {showOptions && status !== add_friend && (
         <div className="absolute dark:bg-dark-400 dark:border-[1px] dark:border-gray-600 p-2 rounded top-[calc(100%+5px)] right-0 min-w-full flex flex-col gap-2 shadow-lg">
           {status === friends && (
             <RequestBtn

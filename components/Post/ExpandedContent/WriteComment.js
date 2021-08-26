@@ -1,4 +1,3 @@
-import Image from "next/image";
 import catchAsync from "../../../utils/client/functions/catchAsync";
 import { useEffect, useRef, useState } from "react";
 import Axios from "../../../utils/client/axios";
@@ -8,6 +7,7 @@ import { COMMENT, DARK, QA } from "../../../utils/global/variables";
 import "emoji-mart/css/emoji-mart.css";
 import { RiSendPlaneFill } from "react-icons/ri";
 import EmojiBtn from "../../EmojiBtn";
+import NextImage from "../../NextImage";
 
 const WriteComment = ({
   hidePic,
@@ -75,18 +75,7 @@ const WriteComment = ({
 
   return (
     <div className="flex items-center gap-x-2 mb-2 relative">
-      {!hidePic && (
-        <div className="h-9 w-9 relative">
-          <Image
-            src={`/img/users/${state.user?.photo || "default/user.jpg"}`}
-            alt="user"
-            layout="fill"
-            className="object-cover rounded-full"
-            placeholder="blur"
-            blurDataURL="/img/users/default/user.jpg"
-          />
-        </div>
-      )}
+      {!hidePic && <NextImage className="h-9 w-9 rounded-full" photo={state.user?.photo} />}
       <div className="flex flex-wrap flex-1 rounded-lg bg-secondary shadow dark:bg-dark-400 pr-2 py-1">
         <form onSubmit={addComment} className="flex-1 flex items-center">
           {type === COMMENT ? (

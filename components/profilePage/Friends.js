@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useGlobalContext } from "../../context/GlobalContext";
-import Image from "next/image";
+
+import NextImage from "../NextImage";
 
 const Friends = ({ user, ownProfile }) => {
   const [state] = useGlobalContext();
@@ -37,19 +38,10 @@ const Friends = ({ user, ownProfile }) => {
 
 export default Friends;
 
-const Friend = ({ link = "#", name = "user", img = "default/user.jpg" }) => (
+const Friend = ({ link = "#", name = "user", photo }) => (
   <Link href={link}>
     <a href={link} className="">
-      <div className="w-full h-20 relative">
-        <Image
-          src={`/img/users/${img}`}
-          alt={name}
-          layout="fill"
-          className="object-cover rounded-lg"
-          placeholder="blur"
-          blurDataURL="/img/users/default/user.jpg"
-        />
-      </div>
+      <NextImage className="w-full h-20" photo={photo} />
       <p>{name}</p>
     </a>
   </Link>

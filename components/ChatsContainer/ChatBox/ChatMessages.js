@@ -24,7 +24,7 @@ const MessageItem = ({ messageItem,state, setState }) => {
    
     const fromOtherUser = state.user?._id !== messageItem.sender._id;
   const medias = [];
-  messageItem.photos?.forEach(photo => medias.push({ type: 'image', src: photo }));
+  messageItem.photos?.forEach(photo => medias.push({ type: 'image',  photo }));
   messageItem.videos?.forEach(video => medias.push({ type: 'video', src: video }));
 
   const showCarouselModel = (e, i) => {
@@ -72,7 +72,7 @@ const MessageItem = ({ messageItem,state, setState }) => {
                   file.type === "image" ? (
                     <div key={i} className="cursor-pointer w-20">
                       <NextImage
-                        url={file.src}
+                        photo={file.photo}
                         className="w-full h-20"
                         onClick={(e) => showCarouselModel(e, i)}
                       />

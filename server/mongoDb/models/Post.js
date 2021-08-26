@@ -39,9 +39,13 @@ const PostSchema = new mongoose.Schema(
     qaText: String,
     postBackground: String,
     qaBackground: String,
-    photos: [String],
-    videos: [String],
-    audios: [String],
+    photos: [
+      {
+        data: Buffer,
+        contentType: String,
+        name: String,
+      },
+    ],
     likes: [userRefSchema],
     comments: [
       {
@@ -60,7 +64,7 @@ const PostSchema = new mongoose.Schema(
         replyCommentId: mongoose.Schema.Types.ObjectId,
         mension: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "user"
+          ref: "user",
         },
         user: {
           type: mongoose.Schema.Types.ObjectId,
@@ -73,12 +77,12 @@ const PostSchema = new mongoose.Schema(
         },
         createdAt: {
           type: Date,
-          default: Date.now
+          default: Date.now,
         },
         createdAt_ms: {
           type: String,
           default: function () {
-           return this.createdAt.getTime()
+            return this.createdAt.getTime();
           },
         },
         likes: [userRefSchema],

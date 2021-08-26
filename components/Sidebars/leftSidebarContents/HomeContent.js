@@ -4,6 +4,7 @@ import { FaAd, FaBusinessTime, FaCalendarAlt, FaClock, FaCreditCard, FaFacebookM
 import { IoTv } from "react-icons/io5";
 import Image from 'next/image';
 import { useGlobalContext } from '../../../context/GlobalContext';
+import NextImage from '../../NextImage';
 
 
 const HomeContent = () => {
@@ -25,15 +26,10 @@ const HomeContent = () => {
     return (
       <div className="grid gap-y-1  font-semibold capitalize">
         <Item link={`/users/${state.user?.slug}`}>
-          <div className="h-7 w-7 relative rounded-full">
-            <Image
-              layout="fill"
-              src={`/img/users/${state.user?.photo || "default/user.jpg"}`}
-              alt="user"
-              className="object-cover rounded-full"
-              placeholder="blur" blurDataURL="/img/users/default/user.jpg"
-            />
-          </div>
+          <NextImage
+            className="h-7 w-7 rounded-full"
+            photo={state.user?.photo}
+          />
           <p className="ml-2">{state.user?.fullName}</p>
         </Item>
         <Item link="/covid-19-information-center">

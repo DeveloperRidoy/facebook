@@ -25,7 +25,15 @@ const EmojiBtn = ({ children, onSelect, className}) => {
     
     return (
       <div className="relative z-20">
-        <button className={`transition rounded-full ${emojis.show ? 'bg-dark-300': ''} ${className}`} onClick={toggleEmojis}>{children || <FaSmile />}</button>
+        <button
+          className={`transition rounded-full ${
+            emojis.show ? "bg-dark-300" : ""
+          } ${className}`}
+          onClick={toggleEmojis}
+          type="button"
+        >
+          {children || <FaSmile />}
+        </button>
         {emojis.show && (
           <div
             className={`absolute right-0 z-10 ${

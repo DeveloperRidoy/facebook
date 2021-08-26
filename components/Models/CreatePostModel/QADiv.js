@@ -1,64 +1,63 @@
 import { useState } from "react";
 import { QA } from "../../../utils//client/variables";
 import { BsChevronLeft, BsX } from "react-icons/bs";
-import Image from "next/image";
 
-const QADiv = ({ formData, setFormData, setToggleModel, locked, closeQA }) => (
-  <div className="py-3 md:px-10">
-    <div className={`rounded-xl p-3 relative ${formData.qaBackground}`}>
-      <div className="h-10 w-10 relative">
-        <Image
-          src="/img/users/default/user.jpg"
-          alt="user"
-          layout="fill"
-          className="object-cover rounded-full"
-          placeholder="blur"
-          blurDataURL="/img/users/default/user.jpg"
+import { useGlobalContext } from "../../../context/GlobalContext";
+import NextImage from "../../NextImage";
+
+const QADiv = ({ formData, setFormData, setToggleModel, locked, closeQA }) => {
+  const [state] = useGlobalContext();
+  return (
+    <div className="py-3 md:px-10">
+      <div className={`rounded-xl p-3 relative ${formData.qaBackground}`}>
+        <NextImage
+          className="h-10 w-10 rounded-full"
+          photo={state.user?.photo}
         />
-      </div>
-      <textarea
-        name="text"
-        cols="30"
-        rows="5"
-        className="mt-3 bg-black bg-opacity-0 text-white outline-none text-center w-full text-4xl font-bold resize-none placeholder-gray-200 overflow-auto"
-        value={formData.qaText}
-        placeholder="Hi, I am answering questions. Ask me about..."
-        onChange={(e) => {
-          if (e.target.value.length > 30) {
-            e.target.style.fontWeight = "600";
-            e.target.style.fontSize = "2rem";
-          } else {
-            e.target.style.fontWeight = "600";
-            e.target.style.fontSize = "2.5rem";
-          }
-          setFormData({ ...formData, qaText: e.target.value });
-        }}
-      ></textarea>
-      {locked ? (
-        <button
-          className="absolute -top-5 -right-5 bg-white dark:bg-dark-400 rounded-full border dark:border-0 p-1 text-3xl transition active:outline-none active:scale-95 dark:hover:bg-dark-300"
-          onClick={closeQA}
-        >
-          <BsX />
-        </button>
-      ) : (
-        <div>
-          <BackgroundSetter formData={formData} setFormData={setFormData} />
+        <textarea
+          name="text"
+          cols="30"
+          rows="5"
+          className="mt-3 bg-black bg-opacity-0 text-white outline-none text-center w-full text-4xl font-bold resize-none placeholder-gray-200 overflow-auto"
+          value={formData.qaText}
+          placeholder="Hi, I am answering questions. Ask me about..."
+          onChange={(e) => {
+            if (e.target.value.length > 30) {
+              e.target.style.fontWeight = "600";
+              e.target.style.fontSize = "2rem";
+            } else {
+              e.target.style.fontWeight = "600";
+              e.target.style.fontSize = "2.5rem";
+            }
+            setFormData({ ...formData, qaText: e.target.value });
+          }}
+        ></textarea>
+        {locked ? (
           <button
-            className="w-full mt-3 py-2 capitalize rounded-lg bg-white dark:bg-dark text-gray-700 dark:text-white  disabled:text-gray-300 dark:disabled:text-gray-500 font-semibold hover:bg-gray-200 active:bg-gray-300 transform active:scale-[99%] active:outline-none transition disabled:pointer-events-none"
-            disabled={!formData.qaText}
-            onClick={() => {
-              setToggleModel(null);
-              setFormData({ ...formData, type: QA });
-            }}
+            className="absolute -top-5 -right-5 bg-white dark:bg-dark-400 rounded-full border dark:border-0 p-1 text-3xl transition active:outline-none active:scale-95 dark:hover:bg-dark-300"
+            onClick={closeQA}
           >
-            next
+            <BsX />
           </button>
-        </div>
-      )}
+        ) : (
+          <div>
+            <BackgroundSetter formData={formData} setFormData={setFormData} />
+            <button
+              className="w-full mt-3 py-2 capitalize rounded-lg bg-white dark:bg-dark text-gray-700 dark:text-white  disabled:text-gray-300 dark:disabled:text-gray-500 font-semibold hover:bg-gray-200 active:bg-gray-300 transform active:scale-[99%] active:outline-none transition disabled:pointer-events-none"
+              disabled={!formData.qaText}
+              onClick={() => {
+                setToggleModel(null);
+                setFormData({ ...formData, type: QA });
+              }}
+            >
+              next
+            </button>
+          </div>
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export const BackgroundSetter = ({ formData, setFormData, postBackground }) => {
   const [expand, setExpand] = useState(false);

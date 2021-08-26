@@ -6,6 +6,7 @@ import CoverPhotoButton from "./CoverPhotoButton";
 import AddFriendBtn from "../../Buttons/AddFriendBtn";
 import { useChatContext } from "../../../context/ChatContext";
 import { v4 as uidv4 } from 'uuid';
+import NextImage from "../../NextImage";
 
 const Profile = ({user}) => {
   const [state] = useGlobalContext();
@@ -15,19 +16,11 @@ const Profile = ({user}) => {
   return (
     <div>
       <div className="rounded-b-xl relative overflow-hidden">
-        <div className="aspect-w-16 aspect-h-6">
-          <Image
-            src={`/img/users/${
-              ownProfile
-                ? state.user?.coverPhoto || "default/cover.jpeg"
-                : user?.coverPhoto || "default/cover.jpeg"
-            }`}
-            className="object-cover"
-            layout="fill"
-            placeholder="blur"
-            blurDataURL="/img/users/default/user.jpg"
-          />
-        </div>
+        <NextImage
+          className="aspect-w-2 aspect-h-1"
+          photo={ownProfile ? state.user?.coverPhoto: user?.coverPhoto}
+        />
+
         <div className="absolute bottom-0 inset-x-0 py-5 bg-gradient-to-t from-darker rounded-lg">
           {ownProfile && <CoverPhotoButton />}
         </div>
@@ -38,16 +31,7 @@ const Profile = ({user}) => {
         {ownProfile ? (
           <ProfilePicButton />
         ) : (
-          <div className="h-40 w-40 relative transition hover:brightness-75 border-dark-500 border-4 dark:bg-dark-400 rounded-full">
-            <Image
-              src={`/img/users/${user?.photo || "default/user.jpg"}`}
-              alt={ownProfile ? state.user?.fullName : user?.fullName}
-              layout="fill"
-              className="object-cover rounded-full"
-              placeholder="blur"
-              blurDataURL="/img/users/default/user.jpg"
-            />
-          </div>
+          <NextImage className="h-40 w-40 relative transition hover:brightness-75 border-dark-500 border-4 dark:bg-dark-400 rounded-full" photo={user?.photo}/>
         )}
 
         <div className="flex xl:flex-1 flex-wrap sm:flex-nowrap gap-y-5 items-center justify-center mb-5 gap-x-10 ">

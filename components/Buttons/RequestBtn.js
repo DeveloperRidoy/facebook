@@ -18,14 +18,19 @@ const RequestBtn = ({
   const [loading, setLoading] = useState(false);
   const [, setState] = useGlobalContext()
   const socket = useSocketContext();
-    const cancelRequest = () =>
+    const makeRequest = () =>
     catchAsync(
       async () => {
         setLoading(true);
-        const res = await Axios[request.type](request.url, request.data)
-            
+        const res = await Axios[request.type](request.url, request.data);
+
         setState((state) => {
-          const notifications = updatedNotifications({notifications: state.notifications, recepient: userAsRequester ? res.data.data?.requester : res.data.data?.recepient})
+          const notifications = updatedNotifications({
+            notifications: state.notifications,
+            recepient: userAsRequester
+              ? res.data.data?.requester
+              : res.data.data?.recepient,
+          });
           return {
             ...state,
             user: userAsRequester
@@ -34,19 +39,22 @@ const RequestBtn = ({
                 : state.user
               : res.data.data?.recepient._id === state.user?._id
               ? res.data.data?.recepient
-                : state.user,
+              : state.user,
             notifications,
             alert: { show: true, text: res.data?.message },
           };
         });
         setLoading(false);
         setShowOptions(false);
-        
-        // socket event 
+
+        // emit socket event
         if (emitEvent) {
-          socket.emit(emitEvent, {requester: res.data.data?.requester, recepient: res.data.data?.recepient})
+          socket.emit(emitEvent, {
+            requester: res.data.data?.requester,
+            recepient: res.data.data?.recepient,
+          });
         }
-      },
+      }, 
       setState,
       () => setLoading(false)
     );
@@ -58,7 +66,7 @@ const RequestBtn = ({
     <Button
       loading={loading}
       className={`w-full flex gap-2 items-center capitalize py-1.5 px-2.5 rounded transition dark:hover:bg-dark-300 relative ${className}`}
-      onClick={cancelRequest}
+      onClick={makeRequest}
     >
       {!loading && (
         <>

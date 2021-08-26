@@ -1,10 +1,10 @@
 import moment from "moment-shortformat";
-import Image from "next/image";
 import { FaCircle } from "react-icons/fa";
 import { useChatContext } from "../../../context/ChatContext";
 import { useGlobalContext } from "../../../context/GlobalContext";
 import { ThumbsUp } from "../../icons/ThumbsUp";
 import MessengerSearchbar from "../../MessengerSearchbar";
+import NextImage from "../../NextImage";
 import Spinner from "../../Spinners/Spinner/Spinner";
 
 const MessengerBox = ({ setBox }) => {
@@ -73,19 +73,13 @@ const ChatItem = ({ chatItem, user, setChat, setBox }) => {
         setChat((chat) => ({
           ...chat,
           chatBox: { show: true, chats: chatItem.docs },
-          minimizedChats: chat.minimizedChats?.filter(item => item.chatId !== chatItem._id?.chatId)
+          minimizedChats: chat.minimizedChats?.filter(
+            (item) => item.chatId !== chatItem._id?.chatId
+          ),
         }));
       }}
     >
-      <div className="relative h-12 w-12 rounded-full overflow-hidden">
-        <Image
-          src={`/img/users/${otherUser?.photo || "default/user.jpg"}`}
-          layout="fill"
-          className="object-cover"
-          placeholder="blur"
-          blurDataURL="/img/users/default/user.jpg"
-        />
-      </div>
+      <NextImage className="h-12 w-12 rounded-full" photo={otherUser?.photo} />
       <div className="flex flex-col items-start">
         <p className="text-xl capitalize">{otherUser.fullName}</p>
         <div className="flex text-sm gap-1">

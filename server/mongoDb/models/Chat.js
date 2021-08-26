@@ -13,8 +13,11 @@ var ChatSchema = new mongoose.Schema(
     },
     is_group_message: { type: Boolean, default: false },
     message: String,
-    photos: [String],
-    videos: [String],
+    photos: [{
+      data: Buffer,
+      contentType: String,
+      name: String
+    }],
     readBy: [
       {
         type: mongoose.Schema.Types.ObjectId,

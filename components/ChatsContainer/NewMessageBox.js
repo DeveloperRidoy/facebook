@@ -105,7 +105,7 @@ const NewMessageBox = ({ className }) => {
                       >
                         <NextImage
                           className="h-10 w-10 rounded-full"
-                          url={user.photo}
+                          photo={user.photo}
                         />
                         <p className="capitalize text-lg">{user.fullName}</p>
                       </button>
