@@ -143,7 +143,9 @@ const Nav = () => {
             <div className="absolute inset-0 bg-white/70 dark:bg-darker-600/70 z-10 "></div>
           )}
         </section>
-        <section className="flex-1 grid grid-flow-col justify-end gap-x-2 items-center text-lg">
+        <section
+          className={`flex-1 grid-flow-col justify-end gap-x-2 items-center text-lg ${searchActive ? 'hidden sm:grid': 'grid'}`}
+        >
           <Link href={`/users/${state.user?.slug}`}>
             <a
               href={`/users/${state.user?.slug}`}

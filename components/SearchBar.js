@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import { useGlobalContext } from "../context/GlobalContext";
 import Axios from "../utils/client/axios";
@@ -9,6 +9,7 @@ import Spinner from "./Spinners/Spinner/Spinner";
 
 const SearchBar = ({ tabIndex, tooltip, searchActive, setSearchActive }) => {
   const [state, setState] = useGlobalContext();
+  const inputRef = useRef();
   const [searchState, setSearchState] = useState({
     expand: false,
     text: "",
@@ -78,7 +79,7 @@ const SearchBar = ({ tabIndex, tooltip, searchActive, setSearchActive }) => {
     },
     []
   );
-
+  useEffect(() => { if (searchActive) inputRef.current.focus() }, [searchActive]);
   return (
     <div className="">
       <form
@@ -90,7 +91,7 @@ const SearchBar = ({ tabIndex, tooltip, searchActive, setSearchActive }) => {
         onSubmit={() => submitSearch(true)}
       >
         {!searchActive && (
-          <label htmlFor="searchInput" className="cursor-pointer">
+          <label htmlFor="searchInput" className="cursor-pointer" >
             <IoSearch fontSize="1.3em" />
           </label>
         )}
@@ -98,6 +99,7 @@ const SearchBar = ({ tabIndex, tooltip, searchActive, setSearchActive }) => {
         <input
           id="searchInput"
           type="text"
+          ref={inputRef}
           className={`${
             searchActive ? "block" : "hidden sm:block"
           } bg-transparent dark:text-white dark:placeholder-gray-400 focus:outline-none ml-2 pr-2 w-full sm:max-w-[180px]`}
@@ -114,7 +116,7 @@ const SearchBar = ({ tabIndex, tooltip, searchActive, setSearchActive }) => {
       </form>
       {searchActive && (
         <div
-          className="absolute dark:bg-dark left-0 top-full dark:border-[1px] dark:border-gray-700 rounded-b-lg lg:min-w-[400px] overflow-hidden"
+          className="absolute dark:bg-dark left-0 right-0 sm:right-auto top-full dark:border-[1px] dark:border-gray-700 rounded-b-lg sm:min-w-[300px] lg:min-w-[400px]  overflow-hidden"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="relative max-h-[calc(100vh-70px)] overflow-auto p-2">

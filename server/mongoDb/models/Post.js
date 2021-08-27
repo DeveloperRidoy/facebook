@@ -41,7 +41,7 @@ const PostSchema = new mongoose.Schema(
     qaBackground: String,
     photos: [
       {
-        data: Buffer,
+        dataUrl: String,
         contentType: String,
         name: String,
       },

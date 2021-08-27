@@ -1,6 +1,6 @@
 const sharp = require("sharp");
 const AppError = require("../../AppError");
-
+const { bytesToBase64 } = require('byte-base64');
 // edit and save photos via sharp
 const savePhotos = async ({
   resize = false,
@@ -34,7 +34,13 @@ const savePhotos = async ({
             const bufferedFile = await editedFile.toBuffer();
             
             if (error) break;
-            req.body.photos.push({name: file.originalname, contentType: file.mimetype, data: bufferedFile});
+            req.body.photos.push({
+              name: file.originalname,
+              contentType: file.mimetype,
+              dataUrl: `data:${file.mimetype};base64,${bytesToBase64(
+                bufferedFile
+              )}`,
+            });
           }
         }
 
@@ -64,7 +70,7 @@ const savePhotos = async ({
           req.body[fileName] = {
             name: file.originalname,
             contentType: file.mimetype,
-            data: bufferedFile
+            dataUrl: `data:${file.mimetype};base64,${bytesToBase64(bufferedFile)}`
           };
         }
       }

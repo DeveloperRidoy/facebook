@@ -3,6 +3,7 @@ const AppError = require("../middlewares/AppError");
 const mongoose = require('mongoose');
 const User = require("../../../mongoDb/models/User");
 const Chat = require("../../../mongoDb/models/Chat");
+const { getDocById } = require("./handlerFactory");
 
 // @route           POST api/v1/chats
 // @description     Send private chat message
@@ -182,3 +183,9 @@ exports.seeMessages = () => catchAsync(async (req, res, next) => {
     data: {chats: updatedChats}
   })
 })
+
+
+// @route           GET api/v1/chats/:id
+// @description     Get message by id  
+// @accessibllity   user 
+exports.getMessageById = () => getDocById(Chat)

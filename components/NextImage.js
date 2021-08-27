@@ -1,4 +1,3 @@
-import { bytesToBase64 } from "byte-base64";
 import Image from "next/image";
 
 const NextImage = ({
@@ -12,9 +11,7 @@ const NextImage = ({
     <div className={`relative overflow-hidden ${className}`}>
       {photo ? (
         <Image
-          src={`data:${photo.contentType};base64,${ typeof(photo.data) === 'string' ? photo.data : bytesToBase64(
-            photo.data.data
-          )}`}
+          src={photo.dataUrl || '/img/users/default/user.jpg'}
           layout="fill"
           className="object-cover"
           onClick={onClick}

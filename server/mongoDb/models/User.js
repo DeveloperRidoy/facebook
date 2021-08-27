@@ -44,12 +44,12 @@ const UserSchema = new mongoose.Schema(
       },
     },
     photo: {
-      data: Buffer,
+      dataUrl: String,
       contentType: String,
       name: String,
     },
     coverPhoto: {
-      data: Buffer,
+      dataUrl: String,
       contentType: String,
       name: String,
     },

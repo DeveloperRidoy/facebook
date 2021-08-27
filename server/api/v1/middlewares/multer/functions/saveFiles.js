@@ -8,7 +8,7 @@ const saveFiles = (req) => {
             req.body.photos.push({
               name: file.originalname,
               contentType: file.mimetype,
-              data: file.buffer,
+              dataUrl: `data:${file.mimetype};base64,${file.buffer.toString('base64')}`,
             })
           );
         }

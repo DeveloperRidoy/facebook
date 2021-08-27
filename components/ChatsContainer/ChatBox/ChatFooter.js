@@ -92,7 +92,7 @@ const ChatFooter = ({ otherUser, isGroupMessage = false }) => {
         ChatsContainerRef.current.scrollHeight;
 
       // emit messageSent event
-      socket.emit("message_sent", res.data.data?.chat);
+      socket.emit("message_sent", {_id: res.data.data?.chat?._id, chatId: res.data.data?.chat?.chatId, participants: res.data.data?.chat?.participants.map(item => item._id)});
 
       // focus textarea again
       if (data.text) TextRef.current.focus();

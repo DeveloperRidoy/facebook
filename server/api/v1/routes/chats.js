@@ -3,7 +3,9 @@ const {
   sendPrivateChatMessage,
   getUserChats,
   seeMessages,
+  getMessageById,
 } = require("../controllers/chats");
+const checkId = require('../middlewares/checkId');
 const { uploadFiles } = require('../middlewares/multer/multer');
 const protect = require('../middlewares/protect');
 
@@ -22,11 +24,15 @@ Router.route("/").post(
   sendPrivateChatMessage()
 )
 
-Router.route('/seen')
-  .patch(seeMessages());
+Router.route("/seen").patch(seeMessages());
 
-Router.route('/my-chats')
-    .get(getUserChats())
+Router.route("/my-chats").get(getUserChats());
+
+Router.route('/:id')
+  .all(checkId())
+  .get(getMessageById())
+
+
 
 
 

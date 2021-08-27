@@ -1,7 +1,6 @@
 import { FaFacebookMessenger, FaPen, FaPlusCircle } from "react-icons/fa";
 import { useGlobalContext } from "../../../context/GlobalContext";
 import ProfilePicButton from "./ProfilePic";
-import Image from 'next/image';
 import CoverPhotoButton from "./CoverPhotoButton";
 import AddFriendBtn from "../../Buttons/AddFriendBtn";
 import { useChatContext } from "../../../context/ChatContext";
@@ -18,7 +17,7 @@ const Profile = ({user}) => {
       <div className="rounded-b-xl relative overflow-hidden">
         <NextImage
           className="aspect-w-2 aspect-h-1"
-          photo={ownProfile ? state.user?.coverPhoto: user?.coverPhoto}
+          photo={ownProfile ? state.user?.coverPhoto : user?.coverPhoto}
         />
 
         <div className="absolute bottom-0 inset-x-0 py-5 bg-gradient-to-t from-darker rounded-lg">
@@ -31,7 +30,10 @@ const Profile = ({user}) => {
         {ownProfile ? (
           <ProfilePicButton />
         ) : (
-          <NextImage className="h-40 w-40 relative transition hover:brightness-75 border-dark-500 border-4 dark:bg-dark-400 rounded-full" photo={user?.photo}/>
+          <NextImage
+            className="h-40 w-40 relative transition hover:brightness-75 border-dark-500 border-4 dark:bg-dark-400 rounded-full"
+            photo={user?.photo}
+          />
         )}
 
         <div className="flex xl:flex-1 flex-wrap sm:flex-nowrap gap-y-5 items-center justify-center mb-5 gap-x-10 ">

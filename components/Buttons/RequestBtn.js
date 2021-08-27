@@ -46,13 +46,9 @@ const RequestBtn = ({
         });
         setLoading(false);
         setShowOptions(false);
-
         // emit socket event
         if (emitEvent) {
-          socket.emit(emitEvent, {
-            requester: res.data.data?.requester,
-            recepient: res.data.data?.recepient,
-          });
+          socket.emit(emitEvent, {  recepientId: res.data.data.recepient._id, requesterId: res.data.data?.requester?._id });
         }
       }, 
       setState,

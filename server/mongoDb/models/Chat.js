@@ -14,7 +14,7 @@ var ChatSchema = new mongoose.Schema(
     is_group_message: { type: Boolean, default: false },
     message: String,
     photos: [{
-      data: Buffer,
+      dataUrl: String,
       contentType: String,
       name: String
     }],
