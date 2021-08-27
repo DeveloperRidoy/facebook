@@ -13,6 +13,8 @@ class MyDocument extends Document {
             type="font/ttf"
             crossOrigin="anonymous"
           />
+          <meta httpEquiv="Content-Security-Policy" content="font-src 'self' data:; img-src 'self' data:; default-src 'self' "/>
+
         </Head>
         <body style={{ minHeight: "100vh", position: "relative" }}>
           <Main />
