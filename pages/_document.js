@@ -13,8 +13,6 @@ class MyDocument extends Document {
             type="font/ttf"
             crossOrigin="anonymous"
           />
-          <meta httpEquiv="Content-Security-Policy" content="unsafe-inline; font-src 'self' data:; img-src 'self' data:; default-src 'self' https://facebook-5130.herokuapp.com"/>
-
         </Head>
         <body style={{ minHeight: "100vh", position: "relative" }}>
           <Main />
