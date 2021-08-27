@@ -31,7 +31,7 @@ exports.getUsersByName = () => catchAsync(async (req, res, next) => {
   const name = req.params.name.toLowerCase().trim().replace(/\s+/g, " ");
 
   const users = await User.find({
-    fullName: new RegExp(`^(${name})`, "i"),
+    fullName: new RegExp(`(${name})`, "i"),
   }).select("fullName photo slug");
 
   return res.json({
@@ -79,7 +79,7 @@ exports.updateMe = () => catchAsync(async (req, res, next) => {
 // @accessibllity   public
 exports.getUserBySlug = () =>
   catchAsync(async (req, res, next) => {
-    const slug = req.params.slug.toLowerCase().trim();
+    const slug = req.params.slug
 
     // get user
     const user = await User.findOne({ slug }).populate('friends posts');

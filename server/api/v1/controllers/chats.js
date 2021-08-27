@@ -189,3 +189,13 @@ exports.seeMessages = () => catchAsync(async (req, res, next) => {
 // @description     Get message by id  
 // @accessibllity   user 
 exports.getMessageById = () => getDocById(Chat)
+
+
+// free hole eta dekhien...
+
+// https://facebook-5130.herokuapp.com 
+
+// photo shoho post kora jay..video upload option o disilam..but heroku free tier e possible na
+// facebook er moto friend request patano jay..
+// realtime notifications and messaging with socket.io
+
