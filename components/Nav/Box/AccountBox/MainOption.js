@@ -43,13 +43,16 @@ const MainOption = ({ setMode, setBox }) => {
 
   return (
     <div className={`w-full transition`}>
-      <Link href="/profile">
+      <Link legacyBehavior href="/profile">
         <a
           href="/profile"
           className="flex gap-x-3 items-center p-2 rounded-lg hover:bg-secondary dark:hover:bg-dark-400 transition"
           onClick={() => setBox({ show: false, mode: null })}
         >
-          <NextImage className="h-16 w-16 rounded-full" photo={state.user?.photo} />
+          <NextImage
+            className="h-16 w-16 rounded-full"
+            photo={state.user?.photo}
+          />
           <div className="leading-5">
             <p className="font-semibold text-lg capitalize">
               {state.user?.fullName}
@@ -59,7 +62,7 @@ const MainOption = ({ setMode, setBox }) => {
         </a>
       </Link>
       <Spacer />
-      <Link href="/feedback">
+      <Link legacyBehavior href="/feedback">
         <a
           href="/feedback"
           className="flex gap-x-3 items-center p-2 rounded-lg hover:bg-secondary dark:hover:bg-dark-400 transition group"

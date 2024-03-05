@@ -18,7 +18,7 @@ import Axios from "../../../utils/client/axios";
 import { POST, QA } from "../../../utils/global/variables";
 import Link from "next/link";
 import NextImage from "../../NextImage";
-import { bytesToBase64 } from 'byte-base64';
+import { bytesToBase64 } from "byte-base64";
 
 const PostContent = () => {
   const [globalState, setGlobalState] = useGlobalContext();
@@ -42,7 +42,9 @@ const PostContent = () => {
   } = state.post;
   const medias = [];
   photos.forEach((photo) => medias.push({ type: "image", photo }));
-  videos.forEach((video) => medias.push({ type: "video", src: bytesToBase64(video.data.data) }));
+  videos.forEach((video) =>
+    medias.push({ type: "video", src: bytesToBase64(video.data.data) })
+  );
   const [showMedias, setShowMedias] = useState(3);
 
   const filteredComments = comments.filter((comment) => comment.user);
@@ -80,7 +82,7 @@ const PostContent = () => {
     <div>
       <div className="flex items-start justify-between px-3">
         <div className="flex gap-x-2">
-          <Link href={`/users/${user.slug}`}>
+          <Link legacyBehavior href={`/users/${user.slug}`}>
             <a href={`/users/${user.slug}`}>
               <NextImage
                 className="h-10 w-10 rounded-full"
@@ -90,7 +92,7 @@ const PostContent = () => {
           </Link>
           <div>
             <p className="mt-[-5px]">
-              <Link href={`/users/${user.slug}`}>
+              <Link legacyBehavior href={`/users/${user.slug}`}>
                 <a
                   href={`/users/${user.slug}`}
                   className="capitalize font-semibold"

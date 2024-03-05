@@ -47,7 +47,11 @@ const FriendRequests = ({ requests, setState }) => {
   return (
     <div className="flex flex-col gap-2 p-1">
       {requests.map((request) => (
-        <Link href={`/users/${request.recepient.slug}`} key={request._id}>
+        <Link
+          legacyBehavior
+          href={`/users/${request.recepient.slug}`}
+          key={request._id}
+        >
           <a
             href={`/users/${request.recepient.slug}`}
             className="flex gap-1 items-center rounded transition hover:bg-dark-300 py-1 px-2"

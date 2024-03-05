@@ -12,7 +12,7 @@ const CreatePost = () => {
   return (
     <div className="bg-white dark:bg-dark rounded-xl shadow p-3">
       <div className="flex items-center gap-x-3 ">
-        <Link href="/profile">
+        <Link legacyBehavior href="/profile">
           <a href="/profile" className="h-10 w-10 relative">
             <NextImage
               className="h-full w-full rounded-full"
@@ -31,7 +31,7 @@ const CreatePost = () => {
       </div>
       <Spacer className="mt-3" />
       <div className="flex flex-wrap whitespace-nowrap justify-around pt-3 text-gray-600 dark:text-gray-300 font-semibold">
-        <Link href="/">
+        <Link legacyBehavior href="/">
           <a
             href="/"
             className="flex-1 flex items-center justify-center py-2 rounded-lg hover:bg-secondary dark:hover:bg-dark-400  transition"
@@ -40,7 +40,7 @@ const CreatePost = () => {
             <span className="capitalize">live video</span>
           </a>
         </Link>
-        <Link href="/">
+        <Link legacyBehavior href="/">
           <a
             href="/"
             className="flex-1 flex items-center justify-center py-2 rounded-lg hover:bg-secondary dark:hover:bg-dark-400  transition"
@@ -49,7 +49,7 @@ const CreatePost = () => {
             <span className="capitalize">photo/video</span>
           </a>
         </Link>
-        <Link href="/">
+        <Link legacyBehavior href="/">
           <a
             href="/"
             className="flex-1 flex items-center justify-center py-2 rounded-lg hover:bg-secondary dark:hover:bg-dark-400  transition"

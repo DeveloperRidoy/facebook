@@ -10,7 +10,7 @@ const StoryItem = ({
   link = "/",
 }) => {
   return (
-    <Link href={link}>
+    <Link legacyBehavior href={link}>
       <a
         href={link}
         className={`${className} flex-1 rounded-lg overflow-hidden group relative bg-blue-300 flex items-end relative hover:brightness-90 transition`}

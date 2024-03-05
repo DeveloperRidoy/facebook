@@ -79,7 +79,7 @@ const expressApp = (app, server, dev) => {
     if (err) throw err;
     console.log(`app running on PORT ${PORT}`);
   });
-
+ 
   // close server on unhandled rejection
   process.on("unhandledRejection", (err) => {
     console.log(err);

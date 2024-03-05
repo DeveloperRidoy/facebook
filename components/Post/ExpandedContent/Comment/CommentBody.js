@@ -57,10 +57,13 @@ const CommentBody = ({ type, comment, post }) => {
       }`}
     >
       <div className="flex gap-2">
-        <NextImage className="h-8 w-8 rounded-full" photo={comment?.user?.photo} />
+        <NextImage
+          className="h-8 w-8 rounded-full"
+          photo={comment?.user?.photo}
+        />
         <div className="dark:text-gray-300">
           <div className="bg-secondary dark:bg-dark-400 shadow px-3 py-2 rounded-2xl leading-5 max-w-max relative">
-            <Link href={`/users/${comment?.user?.slug}`}>
+            <Link legacyBehavior href={`/users/${comment?.user?.slug}`}>
               <a
                 href={`/users/${comment?.user?.slug}`}
                 className="font-semibold hover:underline"
@@ -70,7 +73,7 @@ const CommentBody = ({ type, comment, post }) => {
             </Link>
             <p>
               {type === REPLY_TO_REPLY && (
-                <Link href={`/users/${comment?.mension?.slug}`}>
+                <Link legacyBehavior href={`/users/${comment?.mension?.slug}`}>
                   <a
                     href={`/users/${comment?.mension?.slug}`}
                     className="font-semibold hover:underline"

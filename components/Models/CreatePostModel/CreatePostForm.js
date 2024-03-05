@@ -82,13 +82,16 @@ const CreatePostForm = ({
       </div>
       <div className="flex-1 flex flex-col p-4">
         <div className="flex">
-          <Link href="/user">
+          <Link legacyBehavior href="/user">
             <a
               href="/user"
               className="capitalize font-semibold h-10 w-10 relative"
               tabIndex="-1"
             >
-              <NextImage photo={state.user?.photo} className=" h-full w-full rounded-full" />
+              <NextImage
+                photo={state.user?.photo}
+                className=" h-full w-full rounded-full"
+              />
             </a>
           </Link>
           <div className="ml-2">

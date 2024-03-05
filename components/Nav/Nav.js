@@ -71,7 +71,7 @@ const Nav = () => {
                 <FaArrowLeft />
               </button>
             ) : (
-              <Link href="/">
+              <Link legacyBehavior href="/">
                 <a href="/" tabIndex="1">
                   <Logo />
                 </a>
@@ -144,9 +144,11 @@ const Nav = () => {
           )}
         </section>
         <section
-          className={`flex-1 grid-flow-col justify-end gap-x-2 items-center text-lg ${searchActive ? 'hidden sm:grid': 'grid'}`}
+          className={`flex-1 grid-flow-col justify-end gap-x-2 items-center text-lg ${
+            searchActive ? "hidden sm:grid" : "grid"
+          }`}
         >
-          <Link href={`/users/${state.user?.slug}`}>
+          <Link legacyBehavior href={`/users/${state.user?.slug}`}>
             <a
               href={`/users/${state.user?.slug}`}
               className={`hidden xl:flex items-center pr-2 gap-2 rounded-xl rounded transition active:scale-95 ${

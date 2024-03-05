@@ -79,7 +79,9 @@ const SearchBar = ({ tabIndex, tooltip, searchActive, setSearchActive }) => {
     },
     []
   );
-  useEffect(() => { if (searchActive) inputRef.current.focus() }, [searchActive]);
+  useEffect(() => {
+    if (searchActive) inputRef.current.focus();
+  }, [searchActive]);
   return (
     <div className="">
       <form
@@ -91,7 +93,7 @@ const SearchBar = ({ tabIndex, tooltip, searchActive, setSearchActive }) => {
         onSubmit={() => submitSearch(true)}
       >
         {!searchActive && (
-          <label htmlFor="searchInput" className="cursor-pointer" >
+          <label htmlFor="searchInput" className="cursor-pointer">
             <IoSearch fontSize="1.3em" />
           </label>
         )}
@@ -130,7 +132,11 @@ const SearchBar = ({ tabIndex, tooltip, searchActive, setSearchActive }) => {
             <div className="flex flex-col gap-y-2 mt-2">
               {searchState.results?.length > 0 &&
                 searchState.results.map((user) => (
-                  <Link key={user._id} href={`/users/${user.slug}`}>
+                  <Link
+                    legacyBehavior
+                    key={user._id}
+                    href={`/users/${user.slug}`}
+                  >
                     <a
                       href={`/users/${user.slug}`}
                       className="flex items-center gap-x-1 transition hover:bg-dark-400 p-2 rounded capitalize"

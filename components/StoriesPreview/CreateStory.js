@@ -7,7 +7,7 @@ import NextImage from "../NextImage";
 const CreateStory = ({ className }) => {
   const [state] = useGlobalContext();
   return (
-    <Link href="/">
+    <Link legacyBehavior href="/">
       <a
         href="/"
         className={`${className} flex-1 flex flex-col justify-between overflow-hidden rounded-lg relative transition group shadow bg-white dark:bg-dark pb-2 group hover:brightness-90`}

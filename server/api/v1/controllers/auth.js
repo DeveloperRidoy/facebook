@@ -68,11 +68,11 @@ exports.authenticate = () =>
 // @route           POST api/v1/users/auth/signup
 // @description     signup user
 // @accessibllity   public
-exports.registerUser = () =>
+exports.registerUser = () => 
   catchAsync(async (req, res, next) => {
     const data = req.body;
     const user = await User.create(data);
-    
+   
     // return quick-logins-token 
     const {quickLogins, quickLoginsToken} = await addOrUpdateQuickLogins(req, res, next, user);
 
@@ -97,7 +97,7 @@ exports.loginUser = () =>
   catchAsync(async (req, res, next) => {
     // inputData
     const { email, password, rememberPassword } = req.body;
-
+    console.log('fired')
     // check if email is provided
     if (!email) return next(new AppError(400, "Please provide your email"));
 
