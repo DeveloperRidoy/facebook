@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useGlobalContext } from "../../../context/GlobalContext";
 import Axios from "../../../utils/client/axios";
-import catchAsync from "../../../utils/client/functions/catchAsync";
+import catchAsync from "../../../utils/client/catchAsync";
 import NextImage from "../../NextImage";
 
 const NotificationsBox = () => {

@@ -1,15 +1,14 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import Axios from "../utils/client/axios";
-import catchAsync from "../utils/client/functions/catchAsync";
+import catchAsync from "../utils/client/catchAsync";
 import { useGlobalContext } from "./GlobalContext";
-
 
 const Context = createContext();
 
 export const useChatContext = () => useContext(Context);
 
 const ChatContext = ({ children }) => {
-  const [state, setState] = useGlobalContext()
+  const [state, setState] = useGlobalContext();
   const [chat, setChat] = useState({
     chats: [],
     loading: true,
@@ -30,8 +29,11 @@ const ChatContext = ({ children }) => {
           let unreadMessages = 0;
           res.data.data?.chats?.forEach((item) => {
             item.docs.forEach((doc) => {
-               if (doc.participants.find(user => user._id === state.user._id) && !doc.readBy.find((user) => user === state.user._id))
-                 unreadMessages += 1;
+              if (
+                doc.participants.find((user) => user._id === state.user._id) &&
+                !doc.readBy.find((user) => user === state.user._id)
+              )
+                unreadMessages += 1;
             });
           });
           setChat((chat) => ({
@@ -46,8 +48,7 @@ const ChatContext = ({ children }) => {
       ),
     []
   );
-  
-   
+
   return (
     <Context.Provider value={[chat, setChat]}>{children}</Context.Provider>
   );

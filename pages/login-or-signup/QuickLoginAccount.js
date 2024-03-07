@@ -3,7 +3,7 @@ import { useState } from "react";
 import { BsX } from "react-icons/bs";
 import Spinner from "../../components/Spinners/Spinner/Spinner";
 import { useGlobalContext } from "../../context/GlobalContext";
-import catchAsync from "../../utils/client/functions/catchAsync";
+import catchAsync from "../../utils/client/catchAsync";
 
 import NextImage from "../../components/NextImage";
 
@@ -17,7 +17,7 @@ const QuickLoginAccount = ({ login, setModel }) => {
       async () => {
         setLoading(true);
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_API || "api"}/v1/users/auth/quick-login/${
+          `${process.env.NEXT_PUBLIC_API || "api"}/users/auth/quick-login/${
             login.user._id
           }`,
           { withCredentials: true }
@@ -40,7 +40,7 @@ const QuickLoginAccount = ({ login, setModel }) => {
       async () => {
         setLoading(true);
         const res = await axios.delete(
-          `${process.env.NEXT_PUBLIC_API || "api"}/v1/quick-logins/${
+          `${process.env.NEXT_PUBLIC_API || "api"}/quick-logins/${
             login.user._id
           }`,
           { withCredentials: true }
@@ -82,7 +82,7 @@ const QuickLoginAccount = ({ login, setModel }) => {
                 photo={login?.user.photo}
               />
               <div className="flex-1 flex text-gray-700 justify-center items-center capitalize">
-                {login.user?.firstName?.split(" ")[0]}
+                {login.user?.firstName?.split(" ")?.[0]}
               </div>
             </div>
           </div>

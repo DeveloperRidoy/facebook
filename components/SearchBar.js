@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import { useGlobalContext } from "../context/GlobalContext";
 import Axios from "../utils/client/axios";
-import catchAsync from "../utils/client/functions/catchAsync";
+import catchAsync from "../utils/client/catchAsync";
 import NextImage from "./NextImage";
 import Spinner from "./Spinners/Spinner/Spinner";
 

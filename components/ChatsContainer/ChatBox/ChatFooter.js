@@ -1,23 +1,23 @@
 import { cloneDeep } from "lodash";
 import { useEffect, useRef, useState } from "react";
 import { FaImage, FaThumbsUp, FaTimes } from "react-icons/fa";
-import { RiSendPlaneFill } from 'react-icons/ri'
+import { RiSendPlaneFill } from "react-icons/ri";
 import { useChatContext } from "../../../context/ChatContext";
 import { useGlobalContext } from "../../../context/GlobalContext";
 import { useSocketContext } from "../../../context/SocketContext";
 import Axios from "../../../utils/client/axios";
-import catchAsync from "../../../utils/client/functions/catchAsync";
-import uploadFiles from "../../../utils/client/functions/uploadFiles";
+import catchAsync from "../../../utils/client/catchAsync";
+import uploadFiles from "../../../utils/client/uploadFiles";
 import EmojiBtn from "../../EmojiBtn";
 import { ChatsContainerRef } from "./ChatBox";
-import convertToFormData from "../../../utils/global/functions/convertToFormData";
+import convertToFormData from "../../../utils/global/convertToFormData";
 import NextImage from "../../NextImage";
 
 const ChatFooter = ({ otherUser, isGroupMessage = false }) => {
   const [data, setData] = useState({
     text: "",
     photos: [],
-    videos: []
+    videos: [],
   });
   const [, setState] = useGlobalContext();
   const [chat, setChat] = useChatContext();
@@ -25,8 +25,8 @@ const ChatFooter = ({ otherUser, isGroupMessage = false }) => {
   const TextRef = useRef();
   const fileRef = useRef();
   const files = [];
-  data.photos?.forEach(photo => files.push({ photo }));
-  data.videos?.forEach(video => files.push({ video }));
+  data.photos?.forEach((photo) => files.push({ photo }));
+  data.videos?.forEach((video) => files.push({ video }));
 
   const inputChange = (e) => {
     // resize textarea height
@@ -36,7 +36,7 @@ const ChatFooter = ({ otherUser, isGroupMessage = false }) => {
   };
 
   // function to send message
-  const sendMessage = ({thumbsUp = false}) =>
+  const sendMessage = ({ thumbsUp = false }) =>
     catchAsync(async () => {
       const cloneData = cloneDeep(data);
       cloneData.recepient = otherUser;
@@ -44,16 +44,15 @@ const ChatFooter = ({ otherUser, isGroupMessage = false }) => {
       cloneData.message = thumbsUp ? "&#x1f44d;" : data.text;
 
       const formData = convertToFormData(cloneData);
-       
-      // const formData = convertToFormData(cloneData);
+
       const res = await Axios.post("chats", formData);
       const newChat = {
-                _id: {
-                  chatId: res.data.data?.chat?.chatId,
-                  ig_group_message: res.data.data?.chat?.is_group_message,
-                },
-                docs: [res.data.data?.chat],
-              };
+        _id: {
+          chatId: res.data.data?.chat?.chatId,
+          ig_group_message: res.data.data?.chat?.is_group_message,
+        },
+        docs: [res.data.data?.chat],
+      };
       const updatedChats = cloneDeep(chat.chats);
       updatedChats.forEach(
         (item) =>
@@ -76,14 +75,9 @@ const ChatFooter = ({ otherUser, isGroupMessage = false }) => {
       // update state
       setChat((chat) => ({
         ...chat,
-        chats: chat.chatBox.newChat
-          ? [
-              newChat,
-              ...chat.chats,
-            ]
-          : updatedChats,
+        chats: chat.chatBox.newChat ? [newChat, ...chat.chats] : updatedChats,
         filteredChats: updatedFilteredChats,
-        chatBox: updatedChatBox
+        chatBox: updatedChatBox,
       }));
 
       // smooth scroll to bottom message
@@ -92,7 +86,11 @@ const ChatFooter = ({ otherUser, isGroupMessage = false }) => {
         ChatsContainerRef.current.scrollHeight;
 
       // emit messageSent event
-      socket.emit("message_sent", {_id: res.data.data?.chat?._id, chatId: res.data.data?.chat?.chatId, participants: res.data.data?.chat?.participants.map(item => item._id)});
+      socket.emit("message_sent", {
+        _id: res.data.data?.chat?._id,
+        chatId: res.data.data?.chat?.chatId,
+        participants: res.data.data?.chat?.participants.map((item) => item._id),
+      });
 
       // focus textarea again
       if (data.text) TextRef.current.focus();
@@ -100,9 +98,11 @@ const ChatFooter = ({ otherUser, isGroupMessage = false }) => {
       // clear data
       setData({ text: "", photos: [], videos: [] });
     }, setState);
-  
-  useEffect(() => {TextRef.current.focus()}, [])
-  
+
+  useEffect(() => {
+    TextRef.current.focus();
+  }, []);
+
   return (
     <div className="px-2 py-2 flex  gap-2 items-end">
       <button
@@ -144,7 +144,7 @@ const ChatFooter = ({ otherUser, isGroupMessage = false }) => {
                     file.video && (
                       <video
                         src={file.video.url}
-                          className="object-cover"
+                        className="object-cover"
                       ></video>
                     )
                   )
@@ -177,7 +177,14 @@ const ChatFooter = ({ otherUser, isGroupMessage = false }) => {
       </div>
       <button
         className="flex items-center justify-center text-xl text-blue-500 rounded-full transition dark:hover:bg-dark-300 dark:active:bg-dark-300 active:scale-75 p-2 mb-1"
-        onClick={() => sendMessage({ thumbsUp: !data.text && data.photos.length === 0 && data.videos.length === 0 })}
+        onClick={() =>
+          sendMessage({
+            thumbsUp:
+              !data.text &&
+              data.photos.length === 0 &&
+              data.videos.length === 0,
+          })
+        }
       >
         {data.text || data.photos.length > 0 || data.videos.length > 0 ? (
           <RiSendPlaneFill className="rotate-[45deg]" />

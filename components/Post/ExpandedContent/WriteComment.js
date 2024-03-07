@@ -1,4 +1,4 @@
-import catchAsync from "../../../utils/client/functions/catchAsync";
+import catchAsync from "../../../utils/client/catchAsync";
 import { useEffect, useRef, useState } from "react";
 import Axios from "../../../utils/client/axios";
 import { useGlobalContext } from "../../../context/GlobalContext";
@@ -75,7 +75,9 @@ const WriteComment = ({
 
   return (
     <div className="flex items-center gap-x-2 mb-2 relative">
-      {!hidePic && <NextImage className="h-9 w-9 rounded-full" photo={state.user?.photo} />}
+      {!hidePic && (
+        <NextImage className="h-9 w-9 rounded-full" photo={state.user?.photo} />
+      )}
       <div className="flex flex-wrap flex-1 rounded-lg bg-secondary shadow dark:bg-dark-400 pr-2 py-1">
         <form onSubmit={addComment} className="flex-1 flex items-center">
           {type === COMMENT ? (

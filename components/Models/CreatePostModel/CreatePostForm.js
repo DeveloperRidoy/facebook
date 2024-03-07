@@ -26,10 +26,10 @@ import { useRef, useState } from "react";
 import QADiv, { BackgroundSetter } from "./QADiv";
 
 import { useGlobalContext } from "../../../context/GlobalContext";
-import catchAsync from "../../../utils/client/functions/catchAsync";
+import catchAsync from "../../../utils/client/catchAsync";
 import Axios from "../../../utils/client/axios";
-import convertToFormData from "../../../utils/global/functions/convertToFormData";
-import uploadFiles from "../../../utils/client/functions/uploadFiles";
+import convertToFormData from "../../../utils/global/convertToFormData";
+import uploadFiles from "../../../utils/client/uploadFiles";
 import NextImage from "../../NextImage";
 
 const CreatePostForm = ({

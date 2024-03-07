@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useGlobalContext } from "../../context/GlobalContext";
 import { useSocketContext } from "../../context/SocketContext";
 import Axios from "../../utils/client/axios";
-import catchAsync from "../../utils/client/functions/catchAsync";
-import updatedNotifications from "../../utils/client/functions/updatedNotifications";
+import catchAsync from "../../utils/client/catchAsync";
+import updatedNotifications from "../../utils/client/updatedNotifications";
 import Button from "./Button";
 
 const RequestBtn = ({
@@ -13,12 +13,12 @@ const RequestBtn = ({
   userAsRequester = true,
   children,
   className,
-  emitEvent
+  emitEvent,
 }) => {
   const [loading, setLoading] = useState(false);
-  const [, setState] = useGlobalContext()
+  const [, setState] = useGlobalContext();
   const socket = useSocketContext();
-    const makeRequest = () =>
+  const makeRequest = () =>
     catchAsync(
       async () => {
         setLoading(true);
@@ -48,16 +48,19 @@ const RequestBtn = ({
         setShowOptions(false);
         // emit socket event
         if (emitEvent) {
-          socket.emit(emitEvent, {  recepientId: res.data.data.recepient._id, requesterId: res.data.data?.requester?._id });
+          socket.emit(emitEvent, {
+            recepientId: res.data.data.recepient._id,
+            requesterId: res.data.data?.requester?._id,
+          });
         }
-      }, 
+      },
       setState,
       () => setLoading(false)
     );
 
   // cleanup
-  useEffect(() => () => {}, [])
-  
+  useEffect(() => () => {}, []);
+
   return (
     <Button
       loading={loading}

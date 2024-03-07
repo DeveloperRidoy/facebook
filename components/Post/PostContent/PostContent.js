@@ -13,7 +13,7 @@ import LikeButton from "./LikeButton";
 import { CAROUSEL } from "../../../utils/client/variables";
 import { useGlobalContext } from "../../../context/GlobalContext";
 import { useState } from "react";
-import catchAsync from "../../../utils/client/functions/catchAsync";
+import catchAsync from "../../../utils/client/catchAsync";
 import Axios from "../../../utils/client/axios";
 import { POST, QA } from "../../../utils/global/variables";
 import Link from "next/link";

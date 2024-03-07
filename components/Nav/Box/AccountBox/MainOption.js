@@ -13,7 +13,7 @@ import {
   HELP_SUPPORT,
   SETTINGS_PRIVACY,
 } from "./AccountBox";
-import catchAsync from "../../../../utils/client/functions/catchAsync";
+import catchAsync from "../../../../utils/client/catchAsync";
 import { useGlobalContext } from "../../../../context/GlobalContext";
 import axios from "axios";
 import { useEffect } from "react";
@@ -26,7 +26,7 @@ const MainOption = ({ setMode, setBox }) => {
     catchAsync(async () => {
       setState({ ...state, loading: true });
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API || "api"}/v1/users/auth/logout`,
+        `${process.env.NEXT_PUBLIC_API || "api"}/users/auth/logout`,
         { withCredentials: true }
       );
       setState({

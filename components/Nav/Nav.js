@@ -163,7 +163,7 @@ const Nav = () => {
                 photo={state.user?.photo}
               />
               <p className="capitalize text-sm font-bold">
-                {state.user?.firstName.split(" ")[0]}
+                {state.user?.firstName?.split(" ")?.[0]}
               </p>
             </a>
           </Link>

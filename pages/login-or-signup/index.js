@@ -1,11 +1,11 @@
 import Link from "next/link";
 import Button from "../../components/Buttons/Button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import LoginModel from "../../components/Models/LoginModel";
 import CreateAccountModel from "../../components/Models/CreateAccountModel";
 import Head from "next/head";
 import { useGlobalContext } from "../../context/GlobalContext";
-import catchAsync from "../../utils/client/functions/catchAsync";
+import catchAsync from "../../utils/client/catchAsync";
 import axios from "axios";
 import AddAccount from "./AddAccount";
 import QuickLoginAccount from "./QuickLoginAccount";
@@ -28,7 +28,7 @@ const LoginOrSignup = () => {
         e.preventDefault();
         setLoading(true);
         const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_API || "api"}/v1/users/auth/login`,
+          `${process.env.NEXT_PUBLIC_API || "api"}/users/auth/login`,
           {
             ...loginData,
             rememberPassword:

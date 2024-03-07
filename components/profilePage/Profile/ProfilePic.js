@@ -1,6 +1,6 @@
 import { createRef, useState } from "react";
 import { useGlobalContext } from "../../../context/GlobalContext";
-import catchAsync from "../../../utils/client/functions/catchAsync";
+import catchAsync from "../../../utils/client/catchAsync";
 import { FaCamera } from "react-icons/fa";
 import Spinner from "../../Spinners/Spinner/Spinner";
 import Axios from "../../../utils/client/axios";
@@ -37,11 +37,13 @@ const ProfilePic = () => {
         }));
         setLoading(false);
 
-        // reset input 
-        e.target.value = '';
+        // reset input
+        e.target.value = "";
       },
       setState,
-      () => {setLoading(false), e.target.value = ''}
+      () => {
+        setLoading(false), (e.target.value = "");
+      }
     );
 
   return (

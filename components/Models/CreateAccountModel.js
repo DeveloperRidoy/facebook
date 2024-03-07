@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import Model from "./Model";
 import Link from "next/link";
-import catchAsync from "../../utils/client/functions/catchAsync";
+import catchAsync from "../../utils/client/catchAsync";
 import { useGlobalContext } from "../../context/GlobalContext";
 import Button from "../Buttons/Button";
 import axios from "axios";
 import { CUSTOM, FEMALE, MALE } from "../../utils/client/variables";
-import februaryDays from "../../utils/client/functions/februaryDays";
+import februaryDays from "../../utils/client/februaryDays";
 import { cloneDeep } from "lodash";
 
 const birthDates = [];
@@ -76,7 +76,7 @@ const CreateAccountModel = ({ closeModel, backdropClass }) => {
         );
 
         const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_API || "api"}/v1/users/auth/signup`,
+          `${process.env.NEXT_PUBLIC_API || "api"}/users/auth/signup`,
           data,
           { withCredentials: true }
         );
@@ -99,6 +99,7 @@ const CreateAccountModel = ({ closeModel, backdropClass }) => {
       className="rounded-sm w-[90vw] sm:w-[450px] dark:bg-white"
       disableCloseByBackDrop
       backdropClass={backdropClass}
+      closeModel={closeModel}
     >
       <div className="p-3 border-b-2 flex justify-between items-start text-gray-600">
         <div>

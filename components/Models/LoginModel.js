@@ -1,7 +1,7 @@
 import Model from "./Model";
 import Link from "next/link";
 import { createRef, useEffect, useState } from "react";
-import catchAsync from "../../utils/client/functions/catchAsync";
+import catchAsync from "../../utils/client/catchAsync";
 import { useGlobalContext } from "../../context/GlobalContext";
 import Button from "../Buttons/Button";
 import axios from "axios";
@@ -44,7 +44,7 @@ const LoginModel = ({
         e.preventDefault();
         setLoading(true);
         const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_API || "api"}/v1/users/auth/login`,
+          `${process.env.NEXT_PUBLIC_API || "api"}/users/auth/login`,
           loginData,
           { withCredentials: true }
         );

@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
-import { createContext, useContext, useEffect, useState } from "react"
+import { createContext, useContext, useEffect, useState } from "react";
 import RoundSpinner from "../components/Spinners/RoundSpinner";
-import initialRequests from "../utils/client/functions/initialRequests";
-import toggleTheme from "../utils/client/functions/toggleTheme";
-import Alert from '../components/Alert';
+import initialRequests from "../utils/client/initialRequests";
+import toggleTheme from "../utils/client/toggleTheme";
+import Alert from "../components/Alert";
 import { DARK } from "../utils/global/variables";
 
 export const useGlobalContext = () => useContext(Context);
@@ -11,11 +11,11 @@ export const useGlobalContext = () => useContext(Context);
 const Context = createContext();
 
 const GlobalContext = ({ children }) => {
-  const Router = useRouter(); 
+  const Router = useRouter();
   const route = Router.route;
   const [state, setState] = useState({
     showCreatePostModel: false,
-    model: { show: false, type: null, data: {}},
+    model: { show: false, type: null, data: {} },
     theme: (typeof document !== "undefined" && localStorage.theme) || DARK,
     themeUpdated: false,
     user: null,
@@ -24,14 +24,21 @@ const GlobalContext = ({ children }) => {
     loading: true,
     alert: { show: false, text: null, type: "", time: null },
     renderChildren: false,
-    notifications: {newPosts: [], newFriendRequests: [], newMessages: [], totalNotifications: 0}
+    notifications: {
+      newPosts: [],
+      newFriendRequests: [],
+      newMessages: [],
+      totalNotifications: 0,
+    },
   });
-  
+
   useEffect(() => toggleTheme(state.theme, setState), [state.theme]);
-  
+
   // make initial requests on first load
-  useEffect(() => initialRequests(setState), [])
-  
+  useEffect(() => {
+    initialRequests(setState);
+  }, []);
+
   useEffect(() => {
     // decide wehether to redirect user
     !state.loading
@@ -41,15 +48,20 @@ const GlobalContext = ({ children }) => {
         ? Router.replace("/login-or-signup")
         : ""
       : "";
-    
+
     // decide whether to render children
     const renderChildren =
-      (!state.loading && state.user && route !== "/login-or-signup" && state.themeUpdated) ||
-      (!state.loading && !state.user && route === "/login-or-signup"); 
-     
-    if (renderChildren && !state.renderChildren) setState({ ...state, renderChildren });
-    if (!renderChildren && state.renderChildren) setState({ ...state, renderChildren: false });
-  }, [state.user, state.loading, route, state.themeUpdated])
+      (!state.loading &&
+        state.user &&
+        route !== "/login-or-signup" &&
+        state.themeUpdated) ||
+      (!state.loading && !state.user && route === "/login-or-signup");
+
+    if (renderChildren && !state.renderChildren)
+      setState({ ...state, renderChildren });
+    if (!renderChildren && state.renderChildren)
+      setState({ ...state, renderChildren: false });
+  }, [state.user, state.loading, route, state.themeUpdated]);
 
   return (
     <Context.Provider value={[state, setState]}>
@@ -60,8 +72,6 @@ const GlobalContext = ({ children }) => {
       </div>
     </Context.Provider>
   );
-}
+};
 
-
-export default GlobalContext
-
+export default GlobalContext;
