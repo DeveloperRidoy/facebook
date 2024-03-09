@@ -67,7 +67,7 @@ const SocketContext = ({ children }) => {
           setSocket(null);
         }
       };
-    }, setState);
+    }, setState); 
     return () => {};
   };
   useEffect(socketInitializer, [socket, state.user?.id]);
