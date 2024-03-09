@@ -1,0 +1,48 @@
+{
+  "name": "facebook-2.0",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --port=3000",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@tailwindcss/aspect-ratio": "^0.3.0",
+    "axios": "^0.20.0",
+    "bcrypt": "^5.1.1",
+    "byte-base64": "^1.1.0",
+    "cookie": "^0.4.1",
+    "emoji-mart": "^3.0.1",
+    "express": "^4.17.1",
+    "farmhash": "^3.3.0",
+    "framer-motion": "^4.1.17",
+    "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
+    "moment-shortformat": "^2.1.0",
+    "mongoose": "^6.0.0",
+    "mongoose-unique-validator": "^3.0.0",
+    "multer": "^1.4.5-lts.1",
+    "next": "^12.0.7",
+    "next-connect": "^0.11.1",
+    "npm": "^8.3.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1",
+    "react-responsive-carousel": "^3.2.20",
+    "sharp": "^0.33.2",
+    "socket.io": "^4.7.4",
+    "socket.io-client": "^4.7.4",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.0.4",
+    "cors": "^2.8.5",
+    "nodemon": "^2.0.7",
+    "postcss": "^8.1.10",
+    "tailwindcss": "^2.2.2"
+  },
+  "engines": {
+    "node": "18.0.0"
+  }
+}
