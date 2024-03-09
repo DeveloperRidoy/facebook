@@ -60,7 +60,7 @@ const ProfilePage = ({ user }) => {
 export default ProfilePage;
 
 export const getServerSideProps = async (ctx) => {
-  try {
+  try { 
     const user = await getUserBySlug(ctx.query.slug);
     return { 
       props: { user },
