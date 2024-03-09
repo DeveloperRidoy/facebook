@@ -8,8 +8,8 @@ import Photos from "../../../components/profilePage/Photos";
 import Friends from "../../../components/profilePage/Friends";
 import Links from "../../../components/profilePage/Links";
 import Post from "../../../components/Post/Post";
-import Axios from "../../../utils/client/axios";
 import { useGlobalContext } from "../../../context/GlobalContext";
+import getUserBySlug from "../../../utils/server/getUserBySlug";
 
 const ProfilePage = ({ user }) => {
   const [state] = useGlobalContext();
@@ -61,13 +61,11 @@ export default ProfilePage;
 
 export const getServerSideProps = async (ctx) => {
   try {
-    const { slug } = ctx.query;
-    const user = (await Axios.get(`users/slug/${slug}`)).data.data?.user;
-    return {
+    const user = await getUserBySlug(ctx.query.slug);
+    return { 
       props: { user },
     };
   } catch (error) {
-    console.log(error);
     return {
       props: {},
       notFound: true,
