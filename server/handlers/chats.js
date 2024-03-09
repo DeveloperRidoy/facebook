@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 const { getDocById } = require("./handlerFactory");
 const catchAsync = require("../../utils/server/catchAsync");
 const AppError = require("../../utils/server/AppError");
-import User from "../models/user";
-const Chat = require("../models/chat");
+import User from "../models/User";
+import Chat from "../models/Chat";
 
 // @route           POST api/chats
 // @description     Send private chat message

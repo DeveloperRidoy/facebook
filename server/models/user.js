@@ -3,7 +3,7 @@ import uniqueValidator from "mongoose-unique-validator";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 const { ADMIN, USER } = roles;
-const { 
+const {
   SINGLE,
   IN_A_RELATIONSHIP,
   ENGAGED,
@@ -20,10 +20,10 @@ const setSlug = function (doc) {
     : doc.firstName?.split(" ")?.join("-");
 };
 
-const UserSchema = new mongoose.Schema( 
+const UserSchema = new mongoose.Schema(
   {
     firstName: {
-      type: String, 
+      type: String,
       required: [true, "Please provide your firstName"],
       unique: true,
       uniqueCaseInsensitive: true,
@@ -149,6 +149,7 @@ const UserSchema = new mongoose.Schema(
     homeTown: String,
     relationShipStatus: {
       type: String,
+      default: SINGLE,
       enum: {
         values: [
           SINGLE,
@@ -213,6 +214,6 @@ UserSchema.methods.comparePassword = async function (password) {
   return passwordsMatch;
 };
 
-const User = mongoose.models.User || mongoose.model("User", UserSchema);
+const User = mongoose.models.user || mongoose.model("user", UserSchema);
 
 export default User;

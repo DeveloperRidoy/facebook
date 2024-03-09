@@ -44,11 +44,11 @@ const Profile = ({user}) => {
           <div className="flex items-center gap-x-3 font-semibold w-full md:w-auto whitespace-nowrap">
             {ownProfile ? (
               <>
-                <button className="flex-1 rounded-md flex gap-x-1 items-center justify-center bg-blue-600 py-1.5 px-2.5 active:scale-95 transition hover:bg-blue-500 capitalize">
+                <button className="flex-1 rounded-md flex gap-x-1 items-center justify-center bg-blue-600 py-1.5 px-2.5 text-white active:scale-95 transition hover:bg-blue-500 capitalize">
                   <FaPlusCircle />
                   <span>Add to Story</span>
                 </button>
-                <button className="flex-1 rounded-md flex gap-x-1 items-center justify-center bg-dark-400 py-1.5 px-2.5 active:scale-95 transition hover:bg-dark-300 capitalize">
+                <button className="flex-1 rounded-md flex gap-x-1 items-center justify-center bg-dark-400 py-1.5 px-2.5 text-white active:scale-95 transition hover:bg-dark-300 capitalize">
                   <FaPen />
                   <span>Edit Profile</span>
                 </button>

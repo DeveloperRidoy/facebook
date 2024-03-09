@@ -19,7 +19,7 @@ const handleMessageEvent = (
       setChat((chat) => {
         const updatedChats = cloneDeep(chat.chats);
         const existingChat = updatedChats.find(
-          (item) => item._id.chatId === message.chatId
+          (item) => item._id?.chatId === message.chatId
         );
         if (existingChat) {
           existingChat.docs.unshift(message);
@@ -37,7 +37,7 @@ const handleMessageEvent = (
 
         updatedFilteredChats.forEach(
           (item) =>
-            item._id.chatId === message?.chatId && item.docs?.unshift(message)
+            item._id?.chatId === message?.chatId && item.docs?.unshift(message)
         );
 
         const updatedChatBox = cloneDeep(chat.chatBox);

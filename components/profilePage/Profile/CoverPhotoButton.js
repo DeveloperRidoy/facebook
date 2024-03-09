@@ -4,6 +4,7 @@ import { useGlobalContext } from "../../../context/GlobalContext";
 import catchAsync from "../../../utils/client/catchAsync";
 import Button from "../../Buttons/Button";
 import axios from "axios";
+import Axios from "../../../utils/client/axios";
 
 const CoverPhotoButton = () => {
   const [state, setState] = useGlobalContext();
@@ -26,11 +27,9 @@ const CoverPhotoButton = () => {
         setLoading(true);
         const formData = new FormData();
         formData.append("coverPhotoFile", e.target.files[0]);
-        const res = await axios.patch(
-          `${process.env.NEXT_PUBLIC_API || "api"}/users`,
-          formData,
-          { withCredentials: true }
-        );
+        const res = await Axios.patch("users", formData, {
+          withCredentials: true,
+        });
         setState((state) => ({
           ...state,
           user: res.data.data?.user,

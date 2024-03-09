@@ -12,8 +12,8 @@ const CreatePost = () => {
   return (
     <div className="bg-white dark:bg-dark rounded-xl shadow p-3">
       <div className="flex items-center gap-x-3 ">
-        <Link legacyBehavior href="/profile">
-          <a href="/profile" className="h-10 w-10 relative">
+        <Link legacyBehavior href={`/users/${state.user?.slug}`}>
+          <a href={`/users/${state.user?.slug}`} className="h-10 w-10 relative">
             <NextImage
               className="h-full w-full rounded-full"
               photo={state.user?.photo}

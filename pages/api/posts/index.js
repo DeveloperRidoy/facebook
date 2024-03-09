@@ -13,7 +13,7 @@ const handler = nc(ncConfig)
   .use(dbConnection)
   .get(getAllPosts)
   .post(
-    protect,
+    protect(),
     uploadFiles({
       types: ["image"],
       fields: [{ name: "photo", maxCount: 10 }],
@@ -21,6 +21,13 @@ const handler = nc(ncConfig)
     }),
     addPost
   )
-  .delete(protect, deleteAllPosts);
+  .delete(protect(), deleteAllPosts);
 
 export default handler;
+
+// set bodyparser
+export const config = {
+  api: {
+    bodyParser: false
+  }
+}

@@ -59,8 +59,8 @@ const MessageItem = ({ messageItem,state, setState }) => {
                       ? "self-start"
                       : "self-end"
                     : fromOtherUser
-                    ? "dark:bg-dark-300 self-start"
-                    : "bg-blue-500 self-end"
+                    ? "dark:bg-dark-300 bg-gray-200 self-start"
+                    : "bg-blue-500 self-end text-white"
                 }`}
               >
                 {messageItem.message}

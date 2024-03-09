@@ -6,7 +6,7 @@ import protect from "../../../../server/middlewares/protect";
 import ncConfig from "../../../../utils/server/ncConfig";
 
 const handler = nc(ncConfig)
-  .use(dbConnection, protect(), checkId)
+  .use(dbConnection, protect(), checkId())
   .get(getPostById)
   .delete(deletePostById);
 

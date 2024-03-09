@@ -38,7 +38,7 @@ export const getDocs = (Model, query, populate, select) =>
 // get doc by id
 export const getDocById = (Model, populate) =>
   catchAsync(async (req, res, next) => {
-    const data = await Model.findById(req.params.id).populate(populate);
+    const data = await Model.findById(req.query.id).populate(populate);
     return res.json({
       status: "success",
       data: { [docName(Model)]: data },
@@ -49,7 +49,7 @@ export const getDocById = (Model, populate) =>
 export const updateDoc = (Model) =>
   catchAsync(async (req, res, next) => {
     const updatedData = await Model.findOneAndUpdate(
-      { _id: req.params.id },
+      { _id: req.query.id },
       { $set: req.body },
       { new: true, validateModifiedOnly: true, context: "query" }
     );
@@ -77,7 +77,7 @@ export const deleteDocs = (Model) =>
 // delete doc by id
 export const deleteDocById = (Model) =>
   catchAsync(async (req, res, next) => {
-    const response = await Model.findByIdAndDelete(req.params.id);
+    const response = await Model.findByIdAndDelete(req.query.id);
     if (response === null) return next(new AppError(400, "user not found"));
 
     // remove cookies for user

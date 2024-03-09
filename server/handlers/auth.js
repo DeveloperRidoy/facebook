@@ -1,8 +1,9 @@
 const jwt = require("jsonwebtoken");
-const { USER_AUTH_TOKEN } = require("../../utils/server/variables");
+const { USER_AUTH_TOKEN, QUICK_LOGINS_TOKEN } = require("../../utils/server/variables");
 const addOrUpdateQuickLoginsToken = require("../../utils/server/addOrUpdateQuickLoginsToken");
-import User from "../models/user";
+import User from "../models/User";
 import AppError from "../../utils/server/AppError";
+
 const {
   setCookie,
   removeCookie,
@@ -26,15 +27,16 @@ export const authenticate = catchAsync(async (req, res, next) => {
       data: { quickLogins },
     });
 
-  // check if userAuthToken is valid
-  const validUserAuthToken = jwt.verify(userAuthToken, process.env.JWT_SECRET);
-  if (!validUserAuthToken)
-    return res.json({
-      status: "fail",
-      message: "not logged in",
-      data: { quickLogins },
-    });
 
+  // check if token is valid
+  let validUserAuthToken = "";
+  try {
+    validUserAuthToken = jwt.verify(userAuthToken, process.env.JWT_SECRET);
+    if (!validUserAuthToken) return next(new AppError(400, "not logged in"));
+  } catch (error) {
+    return next(new AppError(400, "not logged in"));
+  }
+ 
   // check if user still exits from the id in validUserAuthToken;
   const user = await User.findById(validUserAuthToken.id)
     .select("+passwordChangedAt")
@@ -105,7 +107,6 @@ export const loginUser = catchAsync(async (req, res, next) => {
 
   // check if password is provided
   if (!password) return next(new AppError(400, "Please provide your password"));
-
   // check if user exists
   const user = await User.findOne({ email })
     .select("+password")
@@ -155,7 +156,7 @@ export const logoutUser = catchAsync(async (req, res, next) => {
 // @description     quick login user
 // @accessibllity   public
 export const quickLogin = catchAsync(async (req, res, next) => {
-  const id = req.params.id;
+  const id = req.query.id;
 
   // check if token exists
   const quickLoginsToken = req.cookies[QUICK_LOGINS_TOKEN];
@@ -189,3 +190,18 @@ export const quickLogin = catchAsync(async (req, res, next) => {
     data: { user, quickLogins: tokenData },
   });
 });
+
+
+// @route           DELETE api/users/auth/quick-login/:id
+// @description     remove quick login
+// @accessibllity   public
+export const removeQuickLogin = catchAsync(async (req, res, next) => {
+  removeCookie(QUICK_LOGINS_TOKEN, req, res);
+
+  // return response
+  return res.json({
+    status: "success",
+    message: "quick login removed",
+    data: {},
+  });
+}) 

@@ -104,7 +104,7 @@ const MinimizedItem = ({ item, setChat, state }) => {
         <div
           className={`transition ${
             notSeen
-              ? "dark:bg-dark-400"
+              ? "dark:bg-dark-400 bg-gray-200"
               : "scale-0 group-hover:scale-100 dark:bg-dark-400/50"
           }  absolute top-1/2 -translate-y-1/2 right-[calc(100%+10px)]  py-1 px-2 rounded-md`}
         >
@@ -139,7 +139,7 @@ const MinimizedItem = ({ item, setChat, state }) => {
           </span>
           <FaCaretRight
             className={`absolute top-1/2 -translate-y-1/2 right-[-14px] z-50 text-2xl  ${
-              notSeen ? "dark:text-dark-400" : "dark:text-dark-400/50"
+              notSeen ? "dark:text-dark-400 text-gray-200" : "dark:text-dark-400/50"
             }`}
           />
         </div>

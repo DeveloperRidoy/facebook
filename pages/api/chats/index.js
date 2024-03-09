@@ -16,4 +16,11 @@ const handler = nc(ncConfig)
     sendPrivateChatMessage
   );
 
-export default handler;
+export default handler; 
+
+//set bodyparser 
+export const config = { 
+  api: {
+    bodyParser: false
+  }
+}

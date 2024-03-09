@@ -6,10 +6,10 @@ import CreateAccountModel from "../../components/Models/CreateAccountModel";
 import Head from "next/head";
 import { useGlobalContext } from "../../context/GlobalContext";
 import catchAsync from "../../utils/client/catchAsync";
-import axios from "axios";
 import AddAccount from "./AddAccount";
 import QuickLoginAccount from "./QuickLoginAccount";
 import QuickLoginModel from "../../components/Models/CreatePostModel/QuickLoginModel";
+import Axios from "../../utils/client/axios";
 
 const LoginOrSignup = () => {
   const [state, setState] = useGlobalContext();
@@ -27,8 +27,8 @@ const LoginOrSignup = () => {
       async () => {
         e.preventDefault();
         setLoading(true);
-        const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_API || "api"}/users/auth/login`,
+        const res = await Axios.post(
+          `users/auth/login`,
           {
             ...loginData,
             rememberPassword:

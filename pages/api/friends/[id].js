@@ -10,7 +10,7 @@ import ncConfig from "../../../utils/server/ncConfig";
 import dbConnection from "../../../server/middlewares/dbConnection";
 
 const handler = nc(ncConfig)
-  .use(dbConnection, protect(), checkId)
+  .use(dbConnection, protect(), checkId())
   .post(sendFriendRequest)
   .patch(acceptFriendRequest)
   .delete(cancelFriendRequest);

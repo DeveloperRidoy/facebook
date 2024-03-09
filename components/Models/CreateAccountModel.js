@@ -5,10 +5,10 @@ import Link from "next/link";
 import catchAsync from "../../utils/client/catchAsync";
 import { useGlobalContext } from "../../context/GlobalContext";
 import Button from "../Buttons/Button";
-import axios from "axios";
 import { CUSTOM, FEMALE, MALE } from "../../utils/client/variables";
 import februaryDays from "../../utils/client/februaryDays";
 import { cloneDeep } from "lodash";
+import Axios from "../../utils/client/axios";
 
 const birthDates = [];
 const birthMonths = [
@@ -75,11 +75,9 @@ const CreateAccountModel = ({ closeModel, backdropClass }) => {
           (key) => data[key] === "" && delete data[key]
         );
 
-        const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_API || "api"}/users/auth/signup`,
-          data,
-          { withCredentials: true }
-        );
+        const res = await Axios.post(`users/auth/signup`, data, {
+          withCredentials: true,
+        });
 
         // update state
         setState({

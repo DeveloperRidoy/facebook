@@ -4,8 +4,8 @@ import { createRef, useEffect, useState } from "react";
 import catchAsync from "../../utils/client/catchAsync";
 import { useGlobalContext } from "../../context/GlobalContext";
 import Button from "../Buttons/Button";
-import axios from "axios";
 import { FaEye } from "react-icons/fa";
+import Axios from "../../utils/client/axios";
 
 const LoginModel = ({
   closeModel,
@@ -43,11 +43,9 @@ const LoginModel = ({
       async () => {
         e.preventDefault();
         setLoading(true);
-        const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_API || "api"}/users/auth/login`,
-          loginData,
-          { withCredentials: true }
-        );
+        const res = await Axios.post(`users/auth/login`, loginData, {
+          withCredentials: true,
+        });
         setState({
           ...state,
           user: res.data.data?.user,

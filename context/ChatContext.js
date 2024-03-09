@@ -22,7 +22,7 @@ const ChatContext = ({ children }) => {
 
   // get chats on first render
   useEffect(
-    () =>
+    () => {
       catchAsync(
         async () => {
           const res = await Axios.get("chats/my-chats");
@@ -30,8 +30,8 @@ const ChatContext = ({ children }) => {
           res.data.data?.chats?.forEach((item) => {
             item.docs.forEach((doc) => {
               if (
-                doc.participants.find((user) => user._id === state.user._id) &&
-                !doc.readBy.find((user) => user === state.user._id)
+                doc.participants.find((user) => user._id === state.user?._id) &&
+                !doc.readBy.find((user) => user === state.user?._id)
               )
                 unreadMessages += 1;
             });
@@ -45,7 +45,11 @@ const ChatContext = ({ children }) => {
         },
         setState,
         () => setChat((chat) => ({ ...chat, loading: false }))
-      ),
+      );
+
+      return () => { };
+    }
+      ,
     []
   );
 

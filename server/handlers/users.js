@@ -1,4 +1,4 @@
-import User from "../models/user";
+import User from "../models/User";
 import catchAsync from "../../utils/server/catchAsync";
 import AppError from "../../utils/server/AppError";
 const {
@@ -9,7 +9,7 @@ const {
 } = require("./handlerFactory");
 
 // @route           GET api/users
-// @description     get all users
+// @description     get all users 
 // @accessibllity   public
 export const getAllUsers = getDocs(User);
 
@@ -32,8 +32,7 @@ export const deleteUserById = deleteDocById(User);
 // @description     get user by name
 // @accessibllity   public
 export const getUsersByName = catchAsync(async (req, res, next) => {
-  const name = req.params.name.toLowerCase().trim().replace(/\s+/g, " ");
-
+  const name = req.query.name.toLowerCase().trim().replace(/\s+/g, " ");
   const users = await User.find({
     fullName: new RegExp(`(${name})`, "i"),
   }).select("fullName photo slug");
@@ -63,6 +62,11 @@ export const updateMe = catchAsync(async (req, res, next) => {
         new AppError(401, `you do not have permission to update ${key}`)
       );
     }
+
+    // parse all necessary FormData pair values
+    try {
+      req.body[key] = JSON.parse(req.body[key]);
+    } catch {}
   });
 
   // do not proceed if error
@@ -82,12 +86,12 @@ export const updateMe = catchAsync(async (req, res, next) => {
     data: { user: updatedUser },
   });
 });
-
+ 
 // @route           GET api/users/slug/:slug
 // @description     get user by slug
 // @accessibllity   public
 export const getUserBySlug = catchAsync(async (req, res, next) => {
-  const slug = req.params.slug;
+  const slug = req.query.slug;
 
   // get user
   const user = await User.findOne({ slug }).populate("friends posts");

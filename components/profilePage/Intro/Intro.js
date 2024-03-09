@@ -21,7 +21,7 @@ const Intro = ({user, ownProfile}) => {
 export default Intro
 
 const Button = ({ children }) => (
-  <button className="capitalize font-semibold bg-dark-400 rounded-md p-1.5 hover:brightness-125 transition active:scale-95">
+  <button className="capitalize font-semibold bg-gray-200 hover:bg-gray-300 dark:bg-dark-400 rounded-md p-1.5 dark:hover:brightness-125 transition active:scale-95">
     {children}
   </button>
 );

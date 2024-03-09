@@ -9,6 +9,7 @@ class MyDocument extends Document {
             rel="shortcut icon"
             href="/favicon.png"
             type="image/x-icon"
+            as="favicon"
           />
           <link
             rel="preload"
@@ -24,7 +25,7 @@ class MyDocument extends Document {
         <NextScript />
       </Html>
     );
-  }
+  } 
 }
 
 export default MyDocument;

@@ -8,7 +8,7 @@ const initialRequests = (setState) =>
   catchAsync(async () => {
     // authenticate user
     const authRes = await Axios.get("users/auth");
-
+  
     // get first 20 posts
     const postRes = await Axios.get("posts?limit=20");
 

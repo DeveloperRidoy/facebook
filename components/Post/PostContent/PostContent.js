@@ -48,7 +48,7 @@ const PostContent = () => {
   const [showMedias, setShowMedias] = useState(3);
 
   const filteredComments = comments.filter((comment) => comment.user);
-
+ 
   const deletePost = () =>
     catchAsync(async () => {
       await Axios.delete(`posts/${_id}`);
@@ -97,7 +97,7 @@ const PostContent = () => {
                   href={`/users/${user.slug}`}
                   className="capitalize font-semibold"
                 >
-                  {user?.name || "user"}{" "}
+                  {user?.firstName || "user"}{" "}
                 </a>
               </Link>
               <span className="text-gray-400">

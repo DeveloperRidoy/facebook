@@ -29,7 +29,8 @@ const FriendsSchema = new mongoose.Schema(
     createdAt_ms: {
       type: String,
       default: function () {
-        return this.createdAt.getTime();
+        if (this?.createdAt) return this.createdAt.getTime();
+        return "";
       },
     },
     seen: {
@@ -54,6 +55,6 @@ FriendsSchema.pre(/^find/, function (next) {
 });
 
 const Friend =
-  mongoose.models.Friend || mongoose.model("Friend", FriendsSchema);
+  mongoose.models.friend || mongoose.model("friend", FriendsSchema);
 
 export default Friend;

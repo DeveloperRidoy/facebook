@@ -54,6 +54,6 @@ ChatSchema.pre(/^find/, function (next) {
   next();
 });
 
-const Chat = mongoose.models.Chat || mongoose.model("Chat", ChatSchema);
+const Chat = mongoose.models.chat || mongoose.model("chat", ChatSchema);
 
 export default Chat;

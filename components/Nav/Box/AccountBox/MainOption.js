@@ -15,20 +15,19 @@ import {
 } from "./AccountBox";
 import catchAsync from "../../../../utils/client/catchAsync";
 import { useGlobalContext } from "../../../../context/GlobalContext";
-import axios from "axios";
 import { useEffect } from "react";
 
 import NextImage from "../../../NextImage";
+import Axios from "../../../../utils/client/axios";
 
 const MainOption = ({ setMode, setBox }) => {
   const [state, setState] = useGlobalContext();
   const logOut = () =>
     catchAsync(async () => {
       setState({ ...state, loading: true });
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API || "api"}/users/auth/logout`,
-        { withCredentials: true }
-      );
+      const res = await Axios.get(`users/auth/logout`, {
+        withCredentials: true,
+      });
       setState({
         ...state,
         user: null,
@@ -43,9 +42,12 @@ const MainOption = ({ setMode, setBox }) => {
 
   return (
     <div className={`w-full transition`}>
-      <Link legacyBehavior href="/profile">
+      <Link
+        legacyBehavior
+        href={`${window.location.origin}/users/${state.user?.slug}`}
+      >
         <a
-          href="/profile"
+          href={`${window.location.origin}/users/${state.user?.slug}`}
           className="flex gap-x-3 items-center p-2 rounded-lg hover:bg-secondary dark:hover:bg-dark-400 transition"
           onClick={() => setBox({ show: false, mode: null })}
         >

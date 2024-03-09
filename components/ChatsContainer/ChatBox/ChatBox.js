@@ -94,7 +94,7 @@ const ChatBox = ({ className }) => {
       initial={{ scale: 0.5, opacity: 0 }}
       animate={{ scale: 1, opacity: 1, transition: { duration: 0.2 } }}
       exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
-      className={`sm:h-[400px] sm:w-[320px] flex flex-col justify-between shadow-2xl dark:bg-dark sm:rounded-t-xl ${className}`}
+      className={`sm:h-[400px] sm:w-[320px] flex flex-col justify-between shadow-2xl bg-white dark:bg-dark sm:rounded-t-xl ${className}`}
     >
       <ChatHeader otherUser={otherUser} setChat={setChat} chatId={chatId} />
       <div

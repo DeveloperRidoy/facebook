@@ -1,3 +1,4 @@
+import NextImage from "../../NextImage";
 import LoginModel from "../LoginModel";
 import { BsX } from "react-icons/bs";
 

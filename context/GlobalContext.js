@@ -35,7 +35,7 @@ const GlobalContext = ({ children }) => {
   useEffect(() => toggleTheme(state.theme, setState), [state.theme]);
 
   // make initial requests on first load
-  useEffect(() => {
+  useEffect(() => {   
     initialRequests(setState);
   }, []);
 

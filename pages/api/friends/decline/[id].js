@@ -6,7 +6,7 @@ import { declineFriendRequest } from "../../../../server/handlers/friends";
 import ncConfig from "../../../../utils/server/ncConfig";
 
 const handler = nc(ncConfig)
-  .use(dbConnection, protect(), checkId)
+  .use(dbConnection, protect(), checkId())
   .post(declineFriendRequest);
 
 export default handler;

@@ -56,7 +56,7 @@ const ChatFooter = ({ otherUser, isGroupMessage = false }) => {
       const updatedChats = cloneDeep(chat.chats);
       updatedChats.forEach(
         (item) =>
-          item._id.chatId === res.data.data?.chat?.chatId &&
+          item._id?.chatId === res.data.data?.chat?.chatId &&
           item.docs?.unshift(res.data.data?.chat)
       );
 
@@ -64,7 +64,7 @@ const ChatFooter = ({ otherUser, isGroupMessage = false }) => {
 
       updatedFilteredChats.forEach(
         (item) =>
-          item._id.chatId === res.data.data?.chat?.chatId &&
+          item._id?.chatId === res.data.data?.chat?.chatId &&
           item.docs?.unshift(res.data.data?.chat)
       );
 
@@ -86,11 +86,15 @@ const ChatFooter = ({ otherUser, isGroupMessage = false }) => {
         ChatsContainerRef.current.scrollHeight;
 
       // emit messageSent event
-      socket.emit("message_sent", {
-        _id: res.data.data?.chat?._id,
-        chatId: res.data.data?.chat?.chatId,
-        participants: res.data.data?.chat?.participants.map((item) => item._id),
-      });
+      if (socket) {
+        socket.emit("message_sent", {
+          _id: res.data.data?.chat?._id,
+          chatId: res.data.data?.chat?.chatId,
+          participants: res.data.data?.chat?.participants.map(
+            (item) => item._id
+          ),
+        });
+      }
 
       // focus textarea again
       if (data.text) TextRef.current.focus();
@@ -154,7 +158,7 @@ const ChatFooter = ({ otherUser, isGroupMessage = false }) => {
           </div>
         )}
 
-        <div className="flex-1 flex items-center gap-3 dark:bg-dark-400 rounded-2xl pl-3">
+        <div className="flex-1 flex items-center gap-3 bg-gray-100 dark:bg-dark-400 rounded-2xl pl-3">
           <textarea
             ref={TextRef}
             rows="1"

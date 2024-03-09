@@ -1,10 +1,10 @@
-import axios from "axios";
 import { useState } from "react";
 import { FaGlobeAsia } from "react-icons/fa";
 import { useGlobalContext } from "../../../context/GlobalContext";
 import catchAsync from "../../../utils/client/catchAsync";
 import Button from "../../Buttons/Button";
 import Spacer from "../../Spacer";
+import Axios from "../../../utils/client/axios";
 
 const limit = 101;
 const Bio = ({ user, ownProfile }) => {
@@ -21,11 +21,11 @@ const Bio = ({ user, ownProfile }) => {
       async () => {
         e.preventDefault();
         setLoading(true);
-        const res = await axios.patch(
-          `${process.env.NEXT_PUBLIC_API || "api"}/users`,
-          { bio: data.text },
-          { withCredentials: true }
-        );
+        const payload = new FormData();
+        payload.append("bio", JSON.stringify(data.text));
+        const res = await Axios.patch(`users`, payload, {
+          withCredentials: true,
+        });
 
         setState({
           ...state,
@@ -99,7 +99,7 @@ const Bio = ({ user, ownProfile }) => {
           )}
           {ownProfile && (
             <button
-              className="w-full capitalize font-semibold bg-dark-400 rounded-md p-1.5 hover:brightness-125 transition active:scale-95"
+              className="w-full capitalize font-semibold bg-gray-200 hover:bg-gray-300 dark:bg-dark-400 rounded-md p-1.5 dark:hover:brightness-125 transition active:scale-95"
               onClick={() => setExpand(true)}
             >
               {state.user?.bio ? "edit" : "add"} bio

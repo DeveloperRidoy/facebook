@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const AppError = require("../../utils/server/AppError");
-const User = require("../../server/models/user");
+import User from "../../server/models/User";
 const { setCookie } = require("./jwtCookieToken");
 const { QUICK_LOGINS_TOKEN } = require("./variables");
 

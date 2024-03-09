@@ -7,8 +7,8 @@ const {
 const catchAsync = require("../../utils/server/catchAsync");
 const AppError = require("../../utils/server/AppError");
 const { COMMENT, REPLY } = require("../../utils/global/variables");
-import User from "../models/user";
-import Post from "../models/post";
+import User from "../models/User";
+import Post from "../models/Post";
 
 // @route           GET api/posts
 // @description     get all posts
@@ -25,7 +25,7 @@ export const getPostById = getDocById(Post);
 // @accessibllity   user
 export const deletePostById = catchAsync(async (req, res, next) => {
   // check if post exists
-  const post = await Post.findById(req.params.id);
+  const post = await Post.findById(req.query.id);
   if (!post) return next(new AppError(400, "post not found"));
 
   // check if user posted the post
@@ -44,7 +44,7 @@ export const deletePostById = catchAsync(async (req, res, next) => {
 // @description     get posts by user id
 // @accessibllity   user
 export const getPostsByUserId = catchAsync(async (req, res, next) => {
-  const posts = await Post.find({ user: { _id: req.params.id } });
+  const posts = await Post.find({ user: { _id: req.query.id } });
   return res.json({
     status: "success",
     results: posts.length,
@@ -96,7 +96,7 @@ export const addComment = catchAsync(async (req, res, next) => {
     );
 
   // check if post exists;
-  const post = await Post.findById(req.params.id);
+  const post = await Post.findById(req.query.id);
   if (!post) return next(new AppError(404, "post not found"));
 
   // for comment
@@ -175,7 +175,7 @@ export const addComment = catchAsync(async (req, res, next) => {
 // @accessibllity   user
 export const addLike = catchAsync(async (req, res, next) => {
   // check if post exists;
-  const post = await Post.findById(req.params.id);
+  const post = await Post.findById(req.query.id);
   if (!post) return next(new AppError(404, "post not found"));
 
   // check if user previously liked the post
@@ -200,7 +200,7 @@ export const addLike = catchAsync(async (req, res, next) => {
 // @accessibllity   user
 export const removeLike = catchAsync(async (req, res, next) => {
   // check if post exists;
-  const post = await Post.findById(req.params.id);
+  const post = await Post.findById(req.query.id);
   if (!post) return next(new AppError(404, "post not found"));
 
   // check if user previously liked the post
@@ -227,16 +227,16 @@ export const removeLike = catchAsync(async (req, res, next) => {
 // @accessibllity   user
 export const likeComment = catchAsync(async (req, res, next) => {
   // check if commentId is valid
-  if (req.params.commentId.length !== 24)
+  if (req.query.commentId.length !== 24)
     return next(new AppError(400, "invalid commendId"));
 
   // check if post exists;
-  const post = await Post.findById(req.params.id);
+  const post = await Post.findById(req.query.id);
   if (!post) return next(new AppError(404, "post not found"));
 
   // check if comment exist
   const commentIndex = post.comments.findIndex(
-    (comment) => String(comment._id) === String(req.params.commentId)
+    (comment) => String(comment._id) === String(req.query.commentId)
   );
   if (commentIndex === -1) return next(new AppError(404, "comment not found"));
 
@@ -262,16 +262,16 @@ export const likeComment = catchAsync(async (req, res, next) => {
 // @accessibllity   user
 export const unlikeComment = catchAsync(async (req, res, next) => {
   // check if commentId is valid
-  if (req.params.commentId.length !== 24)
+  if (req.query.commentId.length !== 24)
     return next(new AppError(400, "invalid commendId"));
 
   // check if post exists;
-  const post = await Post.findById(req.params.id);
+  const post = await Post.findById(req.query.id);
   if (!post) return next(new AppError(404, "post not found"));
 
   // check if comment exist
   const commentIndex = post.comments.findIndex(
-    (comment) => String(comment._id) === String(req.params.commentId)
+    (comment) => String(comment._id) === String(req.query.commentId)
   );
   if (commentIndex === -1) return next(new AppError(404, "comment not found"));
 

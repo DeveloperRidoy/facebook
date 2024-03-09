@@ -1,19 +1,11 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useGlobalContext } from "../../../context/GlobalContext";
 import catchAsync from "../../../utils/client/catchAsync";
 import {
-  COMPLICATED,
   CURRENT_CITY,
-  DIVORCED,
   EDUCATION,
-  ENGAGED,
   HOME_TOWN,
-  IN_A_RELATIONSHIP,
-  MARRIED,
   RELATIONSHIP_STATUS,
-  SEPARATED,
-  SINGLE,
   WORK,
 } from "../../../utils/global/variables";
 import Button from "../../Buttons/Button";
@@ -23,6 +15,7 @@ import ArrayItem from "./ArrayItem";
 import RelationShipItem from "./RelationShipItem";
 import { cloneDeep } from "lodash";
 import StringItem from "./StringItem";
+import Axios from "../../../utils/client/axios";
 
 const DetailsModel = ({ closeModel }) => {
   const [state, setState] = useGlobalContext();
@@ -49,12 +42,14 @@ const DetailsModel = ({ closeModel }) => {
           }
         });
 
+        const payload = new FormData();
+        for (let key in updatedData) 
+          payload.append(key, JSON.stringify(updatedData[key]));
+
         // send request
-        const res = await axios.patch(
-          `${process.env.NEXT_PUBLIC_API || "api"}/users`,
-          updatedData,
-          { withCredentials: true }
-        );
+        const res = await Axios.patch(`users`, payload, {
+          withCredentials: true,
+        });
 
         // update state
         setState({

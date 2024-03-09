@@ -127,6 +127,6 @@ PostSchema.pre(/^find/, function (next) {
   next();
 });
 
-const Post = mongoose.models.Post || mongoose.model("Post", PostSchema);
+const Post = mongoose.models.post || mongoose.model("post", PostSchema);
 
 export default Post;

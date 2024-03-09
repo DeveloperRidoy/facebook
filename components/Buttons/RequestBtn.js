@@ -47,7 +47,7 @@ const RequestBtn = ({
         setLoading(false);
         setShowOptions(false);
         // emit socket event
-        if (emitEvent) {
+        if (socket && emitEvent) {
           socket.emit(emitEvent, {
             recepientId: res.data.data.recepient._id,
             requesterId: res.data.data?.requester?._id,

@@ -11,7 +11,7 @@ const catchAsync = (fn) => (req, res, next) =>
       const message = err.errors[Object.keys(err.errors)[0]].message;
       return next( new AppError(400, message));
      
-    }
+    } 
 
     if (err && err.code === 11000)
       return next(new AppError(400,"document with same name already exists" ));

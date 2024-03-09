@@ -1,6 +1,6 @@
 const catchAsync = require("../../utils/server/catchAsync");
 const jwt = require("jsonwebtoken");
-import User from "../models/user";
+import User from "../models/User";
 const AppError = require("../../utils/server/AppError");
 const { USER_AUTH_TOKEN } = require("../../utils/server/variables");
 
@@ -9,7 +9,7 @@ const protect = (...roles) =>
     const authToken =
       req.cookies[USER_AUTH_TOKEN] ||
       req.headers?.authorization?.split(" ")?.[1] ||
-      null; 
+      null;
 
     // check if authToken is provided
     if (!authToken) return next(new AppError(400, "not logged in"));
@@ -49,4 +49,4 @@ const protect = (...roles) =>
     return next();
   });
 
-module.exports = protect;
+export default protect;

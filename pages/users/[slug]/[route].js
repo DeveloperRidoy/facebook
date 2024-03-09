@@ -30,7 +30,7 @@ export default Route;
 export const getServerSideProps = async (ctx) => {
   try {
     const { slug } = ctx.query;
-    const user = await (await Axios.get(`users/slug/${slug}`)).data.data?.user;
+    const user = (await Axios.get(`users/slug/${slug}`)).data.data?.user;
     return {
       props: { user },
     };

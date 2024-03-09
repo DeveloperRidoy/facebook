@@ -34,7 +34,7 @@ const MessengerBox = ({ setBox }) => {
                 !chat.filtered &&
                 chat.chats.map((chatItem) => (
                   <ChatItem
-                    key={chatItem._id.chatId}
+                    key={chatItem._id?.chatId}
                     chatItem={chatItem}
                     user={state.user}
                     setChat={setChat}

@@ -36,5 +36,5 @@ export default async function connectDb() {
     });
   }
   cached.conn = await cached.promise;
-  return cached.conn;
+  return cached.conn;          
 }

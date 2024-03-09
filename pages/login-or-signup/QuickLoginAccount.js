@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState } from "react";
 import { BsX } from "react-icons/bs";
 import Spinner from "../../components/Spinners/Spinner/Spinner";
@@ -6,6 +5,7 @@ import { useGlobalContext } from "../../context/GlobalContext";
 import catchAsync from "../../utils/client/catchAsync";
 
 import NextImage from "../../components/NextImage";
+import Axios from "../../utils/client/axios";
 
 const QuickLoginAccount = ({ login, setModel }) => {
   const [state, setState] = useGlobalContext();
@@ -16,10 +16,8 @@ const QuickLoginAccount = ({ login, setModel }) => {
     catchAsync(
       async () => {
         setLoading(true);
-        const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_API || "api"}/users/auth/quick-login/${
-            login.user._id
-          }`,
+        const res = await Axios.get(
+          `users/auth/quick-login/${login.user._id}`,
           { withCredentials: true }
         );
         setState({
@@ -39,15 +37,13 @@ const QuickLoginAccount = ({ login, setModel }) => {
     catchAsync(
       async () => {
         setLoading(true);
-        const res = await axios.delete(
-          `${process.env.NEXT_PUBLIC_API || "api"}/quick-logins/${
-            login.user._id
-          }`,
-          { withCredentials: true }
-        );
+        await Axios.delete(`users/auth/quick-login/${login.user._id}`, {
+          withCredentials: true,
+        });
+
         setState({
           ...state,
-          quickLogins: res.data.data?.quickLogins?.logins || null,
+          quickLogins: null,
         });
       },
       setState,

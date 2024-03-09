@@ -1,7 +1,7 @@
 import catchAsync from "../../utils/server/catchAsync";
 import AppError from "../../utils/server/AppError";
-import User from "../models/user";
-import Friend from "../models/friend";
+import User from "../models/User";
+import Friend from "../models/Friend";
 const {
   REQUESTED,
   PENDING,
@@ -9,6 +9,101 @@ const {
   ADD_FRIEND,
 } = require("../../utils/global/variables");
 const { getDocs } = require("../handlers/handlerFactory");
+
+
+// request handler for all request
+const handleFriendRequest = ({
+  findStatus,
+  handleStatus,
+  isRequester = true,
+  notFoundMsg,
+  preventRequestLogicArr = [],
+  successMsg,
+  seen = true,
+}) =>
+  catchAsync(async (req, res, next) => {
+    // check if sending request to own self
+    if (String(req.query.id) === String(req.user._id))
+      return next(new AppError(403, "not allowed"));
+
+    // prevent duplicate request
+    if (preventRequestLogicArr.length > 0) {
+      const logicArr = [];
+      preventRequestLogicArr.forEach((logic) =>
+        logicArr.push({
+          requester: logic.reverse ? req.query.id : req.user._id,
+          recepient: logic.reverse ? req.user._id : req.query.id,
+          status: logic.status,
+        })
+      );
+      const alreadySent = await Friend.findOne({ $or: logicArr });
+      if (alreadySent) return next(new AppError(403, "not authorized"));
+    }
+
+    // check if the recepient exists
+    const recepientUser = await User.findById(req.query.id);
+    if (!recepientUser) {
+      // delete all friend docs containing this non-existence recepient
+      await Friend.deleteMany({ requester: req.query.id });
+      await Friend.deleteMany({ recepient: req.query.id });
+      return next(new AppError(404, "user not found"));
+    }
+
+    //  check if request exists
+    if (findStatus) {
+      const friendRequest = await Friend.findOne({
+        requester: req.user._id,
+        recepient: req.query.id,
+        status: findStatus,
+      });
+      if (!friendRequest) return next(new AppError(404, notFoundMsg));
+    }
+
+    // handle request
+    await Friend.findOneAndUpdate(
+      { requester: req.user._id, recepient: req.query.id },
+      { $set: { status: handleStatus, seen } },
+      { upsert: true, new: true }
+    );
+
+    await Friend.findOneAndUpdate(
+      { requester: req.query.id, recepient: req.user._id },
+      {
+        $set: {
+          status:
+            handleStatus === REQUESTED
+              ? PENDING
+              : handleStatus === PENDING
+              ? REQUESTED
+              : handleStatus,
+          seen,
+        },
+      },
+      { upsert: true, new: true }
+    );
+
+    // return updated users
+    const updatedUsers = await User.find({
+      $or: [{ _id: req.user._id }, { _id: req.query.id }],
+    }).populate({ path: "friends posts" });
+
+    const requester = updatedUsers.find(
+      (user) =>
+        String(user._id) === String(isRequester ? req.user._id : req.query.id)
+    );
+    const recepient = updatedUsers.find(
+      (user) =>
+        String(user._id) === String(isRequester ? req.query.id : req.user._id)
+    );
+
+    return res.json({
+      status: "success",
+      message: successMsg,
+      data: { requester, recepient },
+    });
+  });
+
+
 
 // @route           GET api/friends
 // @description     Get all friends
@@ -96,6 +191,8 @@ export const declineFriendRequest = handleFriendRequest({
   successMsg: "friend request declined",
 });
 
+
+
 // @route           POST api/friends/unfriend/:id
 // @description     unfriend a friend
 // @accessibllity   user
@@ -107,94 +204,3 @@ export const unfriend = handleFriendRequest({
   successMsg: "unfriended user",
 });
 
-// request handler for all request
-const handleFriendRequest = ({
-  findStatus,
-  handleStatus,
-  isRequester = true,
-  notFoundMsg,
-  preventRequestLogicArr = [],
-  successMsg,
-  seen = true,
-}) =>
-  catchAsync(async (req, res, next) => {
-    // check if sending request to own self
-    if (String(req.params.id) === String(req.user._id))
-      return next(new AppError(403, "not allowed"));
-
-    // prevent duplicate request
-    if (preventRequestLogicArr.length > 0) {
-      const logicArr = [];
-      preventRequestLogicArr.forEach((logic) =>
-        logicArr.push({
-          requester: logic.reverse ? req.params.id : req.user._id,
-          recepient: logic.reverse ? req.user._id : req.params.id,
-          status: logic.status,
-        })
-      );
-      const alreadySent = await Friend.findOne({ $or: logicArr });
-      if (alreadySent) return next(new AppError(403, "not authorized"));
-    }
-
-    // check if the recepient exists
-    const recepientUser = await User.findById(req.params.id);
-    if (!recepientUser) {
-      // delete all friend docs containing this non-existence recepient
-      await Friend.deleteMany({ requester: req.params.id });
-      await Friend.deleteMany({ recepient: req.params.id });
-      return next(new AppError(404, "user not found"));
-    }
-
-    //  check if request exists
-    if (findStatus) {
-      const friendRequest = await Friend.findOne({
-        requester: req.user._id,
-        recepient: req.params.id,
-        status: findStatus,
-      });
-      if (!friendRequest) return next(new AppError(404, notFoundMsg));
-    }
-
-    // handle request
-    await Friend.findOneAndUpdate(
-      { requester: req.user._id, recepient: req.params.id },
-      { $set: { status: handleStatus, seen } },
-      { upsert: true, new: true }
-    );
-
-    await Friend.findOneAndUpdate(
-      { requester: req.params.id, recepient: req.user._id },
-      {
-        $set: {
-          status:
-            handleStatus === REQUESTED
-              ? PENDING
-              : handleStatus === PENDING
-              ? REQUESTED
-              : handleStatus,
-          seen,
-        },
-      },
-      { upsert: true, new: true }
-    );
-
-    // return updated users
-    const updatedUsers = await User.find({
-      $or: [{ _id: req.user._id }, { _id: req.params.id }],
-    }).populate({ path: "friends posts" });
-
-    const requester = updatedUsers.find(
-      (user) =>
-        String(user._id) === String(isRequester ? req.user._id : req.params.id)
-    );
-    const recepient = updatedUsers.find(
-      (user) =>
-        String(user._id) === String(isRequester ? req.params.id : req.user._id)
-    );
-
-    return res.json({
-      status: "success",
-      message: successMsg,
-      data: { requester, recepient },
-    });
-  });
