@@ -1,7 +1,7 @@
 import { roles } from "../../utils/server/variables";
 import uniqueValidator from "mongoose-unique-validator";
 import mongoose from "mongoose";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 const { ADMIN, USER } = roles;
 const {
   SINGLE,
