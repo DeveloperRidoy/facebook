@@ -25,6 +25,7 @@ const ChatContext = ({ children }) => {
     () => {
       catchAsync(
         async () => {
+          if (!state.user?.id) return;
           const res = await Axios.get("chats/my-chats");
           let unreadMessages = 0;
           res.data.data?.chats?.forEach((item) => {

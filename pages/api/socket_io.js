@@ -19,7 +19,7 @@ handler.all((req, res) => {
   const io = new Server(res.socket.server, {
     path: "/api/socket_io",
     addTrailingSlash: false,
-    transports: ["xhr-polling"], 
+    transports: ["websocket", "polling"], 
     serveClient: true
   });
 

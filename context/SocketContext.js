@@ -7,7 +7,7 @@ import handleFriendEvent from "../utils/client/socketEvents/handleFriendEvent";
 import handleMessageEvent from "../utils/client/socketEvents/handleMessageEvent";
 import { ChatsContainerRef } from "../components/ChatsContainer/ChatBox/ChatBox";
 import { useChatContext } from "./ChatContext";
-import Axios from "../utils/client/axios";
+import axios from "axios";
 import catchAsync from "../utils/client/catchAsync";
 
 const Context = createContext();
@@ -25,15 +25,20 @@ const SocketContext = ({ children }) => {
 
       // only keep socket connection if the user is logged in
       if (!socket && userId) {
-        await Axios.get("socket_io");
-        const newSocket = io(
-          process.env.NEXT_PUBLIC_SITE || window.location.origin,
-          {
-            query: { id: userId },
-            path: "/api/socket_io",
-            transports: ["xhr-polling"],
-          }
-        );
+        try {
+          await axios.get(process.env.NEXT_PUBLIC_SOCKET_API, {
+          withCredentials: true,
+        });
+        } catch (err) {
+          await axios.get(process.env.NEXT_PUBLIC_SOCKET_API, {
+          withCredentials: true, 
+        });
+        }
+        const newSocket = io(process.env.NEXT_PUBLIC_SOCKET_API, {
+          query: { id: userId },
+          path: process.env.NEXT_PUBLIC_SOCKET_PATH,
+          transports: ["websocket", "polling"],
+        });
         setSocket(newSocket);
       } else if (socket && !userId) {
         socket.disconnect();
@@ -59,18 +64,17 @@ const SocketContext = ({ children }) => {
           "message_received"
         );
       }
+    }, setState);
 
-      // cleanup
-      return () => {
-        if (socket) {
-          socket.disconnect();
-          setSocket(null);
-        }
-      };
-    }, setState); 
-    return () => {};
+    // cleanup
+    return () => {
+      if (socket) {
+        socket.disconnect();
+        setSocket(null);
+      }
+    };
   };
-  useEffect(socketInitializer, [socket, state.user?.id]);
+  useEffect(socketInitializer, [state.user?.id]);
 
   return <Context.Provider value={socket}>{children}</Context.Provider>;
 };

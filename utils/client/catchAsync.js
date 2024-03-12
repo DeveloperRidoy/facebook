@@ -1,6 +1,5 @@
 const catchAsync = (fn, setState, cb) => {
   fn().catch((err) => {
-    console.log("Client error: ", err)
     setState((state) => ({
       ...state,
       loading: false,

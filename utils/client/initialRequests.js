@@ -1,5 +1,3 @@
-
-
 import Axios from "./axios";
 import catchAsync from "./catchAsync";
 import updatedNotifications from "./updatedNotifications";
@@ -7,8 +5,11 @@ import updatedNotifications from "./updatedNotifications";
 const initialRequests = (setState) =>
   catchAsync(async () => {
     // authenticate user
-    const authRes = await Axios.get("users/auth");
-  
+    let authRes;
+    try {
+      authRes = await Axios.get("users/auth");
+    } catch (error) {}  
+
     // get first 20 posts
     const postRes = await Axios.get("posts?limit=20");
 

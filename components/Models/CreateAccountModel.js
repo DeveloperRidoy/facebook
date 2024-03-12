@@ -75,14 +75,15 @@ const CreateAccountModel = ({ closeModel, backdropClass }) => {
           (key) => data[key] === "" && delete data[key]
         );
 
-        const res = await Axios.post(`users/auth/signup`, data, {
-          withCredentials: true,
-        });
+        const res = await Axios.post(`users/auth/signup`, data);
 
-        // update state
+        const postRes = await Axios.get("posts?limit=20");
+
+        // update state 
         setState({
           ...state,
           user: res.data.data?.user,
+          posts: postRes.data.data?.posts,
           quickLogins: res.data.data?.quickLogins,
           alert: { show: true, text: res.data.message },
         });

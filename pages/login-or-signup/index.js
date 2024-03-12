@@ -27,20 +27,24 @@ const LoginOrSignup = () => {
       async () => {
         e.preventDefault();
         setLoading(true);
-        const res = await Axios.post(
-          `users/auth/login`,
-          {
-            ...loginData,
-            rememberPassword:
-              state.quickLogins?.find(
-                (login) => login.user.email === loginData.email
-              )?.rememberPassword || false,
-          },
-          { withCredentials: true }
-        );
+
+        // authenticate user
+        const res = await Axios.post(`users/auth/login`, {
+          ...loginData,
+          rememberPassword:
+            state.quickLogins?.find(
+              (login) => login.user.email === loginData.email
+            )?.rememberPassword || false,
+        });
+
+        // get posts
+        const postRes = await Axios.get("posts?limit=20");
+
+        // update state
         setState({
           ...state,
           user: res.data.data?.user,
+          posts: postRes.data.data?.posts,
           quickLogins: res.data.data?.quickLogins,
           alert: { show: true, text: res.data.message, type: "success" },
         });
