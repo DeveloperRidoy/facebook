@@ -9,6 +9,8 @@ const handler = nextConnect(ncConfig);
 
 handler.use(cors({ origin: "*" }));
 
+const userSocketMap = {};
+
 handler.all((req, res) => {
   if (res.socket.server.io) {
     console.log("Already set up");
@@ -19,19 +21,32 @@ handler.all((req, res) => {
   const io = new Server(res.socket.server, {
     path: "/api/socket_io",
     addTrailingSlash: false,
-    transports: ["websocket", "polling"], 
-    serveClient: true
+    transports: [
+      "polling",
+      "websocket",
+      "flashsocket",
+      "htmlfile",
+      "xhr-polling",
+      "jsonp-polling",
+    ],
+    serveClient: true,
   });
 
   // Event handler for client connections
   io.on("connect", (socket) => {
     const id = socket.handshake.query.id;
-    socket.join(id);
-    console.log(`client connected to room ${id}`);
+    userSocketMap[id] = socket.id;
+    // socket.join(id);
+    // console.log(`client connected to room ${id}`);
+    console.log(`client connect to socket id ${socket.id}`)
+    console.log(userSocketMap);
 
-    handleFriendEvents(socket, io);
-    handleMessageEvents(socket, io);
-    socket.on("disconnect", () => console.log("client discnnected"));
+    handleFriendEvents(socket, userSocketMap);
+    handleMessageEvents(socket, userSocketMap);
+    socket.on("disconnect", () => {
+      console.log(`client discnnected for socket id ${socket.id}`);
+      console.log(userSocketMap)
+    });
   });
 
   res.socket.server.io = io;

@@ -86,7 +86,8 @@ const ChatFooter = ({ otherUser, isGroupMessage = false }) => {
         ChatsContainerRef.current.scrollHeight;
 
       // emit messageSent event
-      if (socket) {
+      if (socket?.connected) {
+        console.log("emitted")
         socket.emit("message_sent", {
           _id: res.data.data?.chat?._id,
           chatId: res.data.data?.chat?.chatId,
