@@ -11,7 +11,7 @@ import dbConnection from "../../../server/middlewares/dbConnection";
 
 const handler = nc(ncConfig)
   .use(dbConnection)
-  .get(getAllPosts)
+  .get(getAllPosts) 
   .post(
     protect(),
     uploadFiles({
@@ -30,4 +30,4 @@ export const config = {
   api: {
     bodyParser: false
   }
-}
+} 

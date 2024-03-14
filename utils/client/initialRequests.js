@@ -9,7 +9,9 @@ const initialRequests = (setState) =>
     try {
       authRes = await Axios.get("users/auth");
       postRes = await Axios.get("posts?limit=20");
-    } catch (error) {}  
+    } catch (error) {
+      console.log(error)
+    }  
 
     //  update globalContext
     if (setState)

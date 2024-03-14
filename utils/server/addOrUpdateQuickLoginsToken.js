@@ -45,10 +45,10 @@ const addOrUpdateQuickLoginsToken = (
         }
 
         const quickLoginsToken = setCookie(
-          { data: JSON.stringify(tokenData) },
+          { data: tokenData },
           QUICK_LOGINS_TOKEN,
           req,
-          res
+          res 
         );
 
         resolve({ quickLogins: responseData, quickLoginsToken });

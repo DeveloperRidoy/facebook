@@ -19,11 +19,16 @@ import { POST, QA } from "../../../utils/global/variables";
 import Link from "next/link";
 import NextImage from "../../NextImage";
 import { bytesToBase64 } from "byte-base64";
+import RoundSpinner from "../../Spinners/RoundSpinner";
+import Spinner from "../../Spinners/Spinner/Spinner";
 
 const PostContent = () => {
   const [globalState, setGlobalState] = useGlobalContext();
   const [state, setState] = usePostContext();
-  const [showOptions, setShowOptions] = useState(false);
+  const [options, setOptions] = useState({
+    show: false,
+    deletingPost: false,
+  });
   const {
     _id,
     user,
@@ -48,10 +53,13 @@ const PostContent = () => {
   const [showMedias, setShowMedias] = useState(3);
 
   const filteredComments = comments.filter((comment) => comment.user);
- 
+
   const deletePost = () =>
     catchAsync(async () => {
+      setOptions(state => ({ ...state, deletingPost: true }))
+      
       await Axios.delete(`posts/${_id}`);
+      
       setGlobalState((state) => ({
         ...state,
         user: {
@@ -61,6 +69,8 @@ const PostContent = () => {
         posts: state.posts?.filter((post) => post._id !== _id),
         alert: { show: true, text: "post deleted" },
       }));
+      
+      setOptions((state) => ({ ...state, deletingPost: false }));
     }, setState);
 
   const showCarouselModel = (e, i) => {
@@ -116,13 +126,18 @@ const PostContent = () => {
         <div className="relative">
           <button
             className="p-3 rounded-full shadow dark:bg-dark text-lg text-gray-400 transition dark:hover:bg-dark-400 dark:active:scale-95"
-            onClick={() => setShowOptions((show) => !show)}
+            onClick={() =>
+              setOptions((state) => ({ ...state, show: !state.show }))
+            }
           >
             <BsThreeDots />
           </button>
-          {showOptions && globalState.user?._id === user._id && (
+          {options.show && globalState.user?._id === user._id && (
             <div className="absolute p-2 dark:bg-dark min-w-max right-0 shadow-lg dark:border-[1px] dark:border-white/10 rounded z-10">
-              <button onClick={deletePost}>delete post</button>
+              <button onClick={deletePost} className="flex items-center gap-1">
+                <span>delete post</span>
+                {options.deletingPost && <Spinner/>}
+              </button>
             </div>
           )}
         </div>
