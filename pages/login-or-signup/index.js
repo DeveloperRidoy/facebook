@@ -44,7 +44,7 @@ const LoginOrSignup = () => {
         setState({
           ...state,
           user: res.data.data?.user,
-          posts: postRes.data.data?.posts,
+          posts: postRes.data.data?.posts || [],
           quickLogins: res.data.data?.quickLogins,
           alert: { show: true, text: res.data.message, type: "success" },
         });

@@ -43,12 +43,12 @@ const ProfilePage = ({ user }) => {
           {ownProfile
             ? state.user?.posts?.length > 0 &&
               state.user.posts
-                .slice(0)
+                ?.slice(0)
                 .reverse()
                 .map((post) => <Post post={post} key={post._id} />)
             : user.posts?.length > 0 &&
               user.posts
-                .slice(0)
+                ?.slice(0)
                 .reverse()
                 .map((post) => <Post post={post} key={post._id} />)}
         </div>

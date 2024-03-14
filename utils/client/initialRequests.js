@@ -25,7 +25,7 @@ const initialRequests = (setState) =>
           ...state,
           user: authRes?.data?.data?.user || null,
           quickLogins: authRes?.data?.data?.quickLogins,
-          posts: postRes?.data?.data?.posts,
+          posts: postRes?.data?.data?.posts || [],
           notifications,
           loading: false,
         };
