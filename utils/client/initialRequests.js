@@ -18,14 +18,14 @@ const initialRequests = (setState) =>
       setState((state) => {
         const notifications = updatedNotifications({
           notifications: state.notifications,
-          recepient: authRes.data.data?.user,
+          recepient: authRes?.data?.data?.user,
         });
 
         return {
           ...state,
-          user: authRes.data.data?.user || null,
-          quickLogins: authRes.data.data?.quickLogins,
-          posts: postRes.data.data?.posts,
+          user: authRes?.data?.data?.user || null,
+          quickLogins: authRes?.data?.data?.quickLogins,
+          posts: postRes?.data?.data?.posts,
           notifications,
           loading: false,
         };
