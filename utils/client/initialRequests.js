@@ -4,14 +4,12 @@ import updatedNotifications from "./updatedNotifications";
 
 const initialRequests = (setState) =>
   catchAsync(async () => {
-    // authenticate user
     let authRes;
+    let postRes;
     try {
       authRes = await Axios.get("users/auth");
+      postRes = await Axios.get("posts?limit=20");
     } catch (error) {}  
-
-    // get first 20 posts
-    const postRes = await Axios.get("posts?limit=20");
 
     //  update globalContext
     if (setState)
