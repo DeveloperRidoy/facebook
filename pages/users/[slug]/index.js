@@ -12,6 +12,7 @@ import { useGlobalContext } from "../../../context/GlobalContext";
 import getUserBySlug from "../../../utils/server/getUserBySlug";
 
 const ProfilePage = ({ user }) => {
+
   const [state] = useGlobalContext();
   const ownProfile = state.user?._id === user?._id;
   return (
