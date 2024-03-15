@@ -28,7 +28,7 @@ const LikeButton = () => {
               post._id === postState.post?._id ? res.data.data?.post : post
             ),
           },
-          posts: state.posts.map((post) =>
+          posts: state.posts?.map((post) =>
             post._id === postState.post._id ? res.data.data?.post : post
           ),
         }));

@@ -40,7 +40,7 @@ const CommentBody = ({ type, comment, post }) => {
               item._id === post?._id ? res.data.data?.post : post
             ),
           },
-          posts: state.posts.map((item) =>
+          posts: state.posts?.map((item) =>
             item._id === post._id ? res.data.data?.post : item
           ),
         }));

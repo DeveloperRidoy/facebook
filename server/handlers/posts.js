@@ -47,7 +47,7 @@ export const getPostsByUserId = catchAsync(async (req, res, next) => {
   const posts = await Post.find({ user: { _id: req.query.id } });
   return res.json({
     status: "success",
-    results: posts.length,
+    results: posts?.length,
     data: { posts },
   });
 });

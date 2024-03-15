@@ -50,7 +50,7 @@ const WriteComment = ({
             post._id === postState.post?._id ? res.data.data?.post : post
           ),
         },
-        posts: state.posts.map((item) =>
+        posts: state.posts?.map((item) =>
           item._id === post._id ? res.data.data?.post : item
         ),
       }));
