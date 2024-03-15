@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import io from "socket.io-client"; 
 import { useGlobalContext } from "./GlobalContext";
 import handleFriendEvent from "../utils/client/socketEvents/handleFriendEvent";
@@ -69,7 +69,7 @@ const SocketContext = ({ children }) => {
       }
     };
   };
-  useEffect(socketInitializer, [state.user?.id]);
+  // useEffect(socketInitializer, [state.user?.id]); 
 
   return <Context.Provider value={socket}>{children}</Context.Provider>;
 };
