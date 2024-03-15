@@ -15,6 +15,7 @@ const ProfilePage = ({ user }) => {
 
   const [state] = useGlobalContext();
   const ownProfile = state.user?._id === user?._id;
+  console.log(state.user, user)
   return (
     <div>
       <Head>
@@ -39,7 +40,7 @@ const ProfilePage = ({ user }) => {
           <Friends user={user} ownProfile={ownProfile} />
           <Links />
         </div>
-        <div className="sm:col-span-7 grid gap-3 content-start">
+        {/* <div className="sm:col-span-7 grid gap-3 content-start">
           {ownProfile && <CreatePost />}
           {ownProfile
             ? state.user?.posts?.length > 0 &&
@@ -52,7 +53,7 @@ const ProfilePage = ({ user }) => {
                 ?.slice(0)
                 .reverse()
                 .map((post) => <Post post={post} key={post._id} />)}
-        </div>
+        </div> */}
       </div>
     </div>
   );
