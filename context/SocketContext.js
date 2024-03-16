@@ -1,13 +1,14 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
-import io from "socket.io-client"; 
+import { createContext, useContext, useEffect, useState } from "react";
+import io from "socket.io-client";
 import { useGlobalContext } from "./GlobalContext";
 import handleFriendEvent from "../utils/client/socketEvents/handleFriendEvent";
 import handleMessageEvent from "../utils/client/socketEvents/handleMessageEvent";
 import { ChatsContainerRef } from "../components/ChatsContainer/ChatBox/ChatBox";
 import { useChatContext } from "./ChatContext";
 import catchAsync from "../utils/client/catchAsync";
+import Axios from "axios";
 
 const Context = createContext();
 
@@ -24,10 +25,10 @@ const SocketContext = ({ children }) => {
 
       // only keep socket connection if the user is logged in
       if (!socket?.connected && userId) {
-        const newSocket = io(window.location.origin, {
+        await Axios.get(process.env.NEXT_PUBLIC_SOCKET_IO_SERVER, { withCredentials: true });
+        const newSocket = io(process.env.NEXT_PUBLIC_SOCKET_IO_SERVER, {
           query: { id: userId },
-          path: "/api/socket_io", 
-          transports: [   
+          transports: [
             "polling",
             "websocket",
             "flashsocket",
@@ -35,7 +36,7 @@ const SocketContext = ({ children }) => {
             "xhr-polling",
             "jsonp-polling",
           ],
-        }); 
+        });
 
         // handle socket events
         handleFriendEvent(newSocket, state, setState, "friend_event_received");
@@ -64,12 +65,12 @@ const SocketContext = ({ children }) => {
     // cleanup
     return () => {
       if (socket?.connected) {
-        socket.disconnect(); 
-        setSocket(null); 
+        socket.disconnect();
+        setSocket(null);
       }
     };
   };
-  // useEffect(socketInitializer, [state.user?.id]); 
+  useEffect(socketInitializer, [state.user?.id]);
 
   return <Context.Provider value={socket}>{children}</Context.Provider>;
 };
