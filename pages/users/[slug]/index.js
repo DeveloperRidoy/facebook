@@ -12,11 +12,12 @@ import { useGlobalContext } from "../../../context/GlobalContext";
 import getUserBySlug from "../../../utils/server/getUserBySlug";
 
 const ProfilePage = ({ user }) => {
+  console.log(user)
   const [state] = useGlobalContext();
-  const ownProfile = state.user?._id === user?._id;
+  // const ownProfile = state.user?._id === user?._id;
   return (
     <div>
-      <Head>
+      {/* <Head>
         <title>
           {user?.fullName.replace(/(^|\s)\S/g, (l) => l.toUpperCase())} |
           Facebook
@@ -52,7 +53,7 @@ const ProfilePage = ({ user }) => {
                 .reverse()
                 .map((post) => <Post post={post} key={post._id} />)}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
@@ -62,21 +63,20 @@ export default ProfilePage;
 export const getServerSideProps = async (ctx) => {
   try {
     const user = await getUserBySlug(ctx.query.slug);
-    if (!user) {
-      return {
-        props: {},
-        notFound: true,
-      };
-    }
+    // if (!user) {
+    //   return {
+    //     props: {},
+    //     notFound: true,
+    //   };
+    // }
 
     return {
       props: { user },
     };
   } catch (error) {
-    console.log(error)
     return {
-      props: {},
-      notFound: true,
+      props: {error},
+      // notFound: true,
     };
   }
 };

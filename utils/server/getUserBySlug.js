@@ -9,8 +9,7 @@ const getUserBySlug = async (slug) => {
     if (!user) return null;
     return JSON.parse(JSON.stringify(user));
   } catch (error) {
-    console.log(error)
-    return null;
+    return JSON.parse(JSON.stringify(error));
   }
 };
 
