@@ -2,7 +2,6 @@ import Head from "next/head";
 import Spacer from "../../../components/Spacer";
 import Navigator from "../../../components/profilePage/Navigator";
 import Profile from "../../../components/profilePage/Profile/Profile";
-import getUserBySlug from "../../../utils/server/getUserBySlug";
 import reqHostUrl from "../../../utils/server/reqHostUrl";
 
 const Route = ({ user }) => {
