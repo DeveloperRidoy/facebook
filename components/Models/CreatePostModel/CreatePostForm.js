@@ -132,7 +132,7 @@ const CreatePostForm = ({
                 name="text"
                 cols="30"
                 rows="4"
-                placeholder="What's on your mind, Mubarak?"
+                placeholder={`What's on your mind, ${state.user?.firstName}`}
                 className={`focus:outline-none mt-2 dark:bg-dark text-xl w-full rounded-lg p-1 mb-3 ${formData.postBackground}`}
                 onChange={(e) =>
                   setFormData({ ...formData, text: e.target.value })

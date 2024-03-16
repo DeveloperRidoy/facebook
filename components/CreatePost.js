@@ -26,7 +26,7 @@ const CreatePost = () => {
             setState({ ...state, model: { show: true, type: CREATE_POST } })
           }
         >
-          What's on your mind, <span className="capitalize">mubarak</span>?
+          What's on your mind, <span className="capitalize">{state.user?.firstName}</span>?
         </button>
       </div>
       <Spacer className="mt-3" />
