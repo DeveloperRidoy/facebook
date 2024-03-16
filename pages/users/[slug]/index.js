@@ -75,7 +75,7 @@ export const getServerSideProps = async (ctx) => {
     };
   } catch (error) {
     return {
-      props: {error},
+      props: {user: error},
       // notFound: true,
     };
   }
