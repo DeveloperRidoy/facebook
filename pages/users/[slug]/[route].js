@@ -3,6 +3,7 @@ import Spacer from "../../../components/Spacer";
 import Navigator from "../../../components/profilePage/Navigator";
 import Profile from "../../../components/profilePage/Profile/Profile";
 import getUserBySlug from "../../../utils/server/getUserBySlug";
+import reqHostUrl from "../../../utils/server/reqHostUrl";
 
 const Route = ({ user }) => {
   return (
@@ -26,9 +27,22 @@ const Route = ({ user }) => {
 
 export default Route;
 
-export const getServerSideProps = async (ctx) => {
+export const getServerSideProps = async ({ req, query }) => {
   try {
-    const user = await getUserBySlug(ctx.query.slug);
+    const userRes = await axios.get(
+      `${reqHostUrl(req)}/api/users/slug/${query.slug}`,
+      {
+        withCredentials: true,
+      }
+    );
+    const user = userRes.data.data?.user;
+    if (!user) {
+      return {
+        props: {},
+        notFound: true,
+      };
+    }
+
     return {
       props: { user },
     };
